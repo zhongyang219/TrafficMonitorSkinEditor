@@ -14,7 +14,8 @@
 // CTrafficMonitorSkinEditorApp
 
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorApp, CWinApp)
-	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+	//ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+	ON_COMMAND(ID_HELP, &CTrafficMonitorSkinEditorApp::OnHelp)
 END_MESSAGE_MAP()
 
 
@@ -112,3 +113,10 @@ BOOL CTrafficMonitorSkinEditorApp::InitInstance()
 	return FALSE;
 }
 
+
+
+void CTrafficMonitorSkinEditorApp::OnHelp()
+{
+	// TODO: 在此添加命令处理程序代码
+	ShellExecute(NULL, _T("open"), L"https://github.com/zhongyang219/TrafficMonitorSkinEditor/blob/master/README.md", NULL, NULL, SW_SHOW);
+}

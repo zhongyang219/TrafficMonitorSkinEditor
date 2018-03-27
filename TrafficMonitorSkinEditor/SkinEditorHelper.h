@@ -71,7 +71,7 @@ public:
 
 	//载入和保存皮肤，参数为皮肤文件夹的路径
 	SkinData LoadSkin();
-	void SaveSkin(const SkinData& data);
+	void SaveSkin(const SkinData& data, bool asign_item_text = false);
 
 	void SetSkinPath(const wstring& skin_path);
 	//void SetDPI(int dpi) { m_dpi = dpi; }

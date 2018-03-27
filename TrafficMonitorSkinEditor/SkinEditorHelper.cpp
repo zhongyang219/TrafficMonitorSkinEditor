@@ -77,7 +77,7 @@ SkinData CSkinEditorHelper::LoadSkin()
 	return data;
 }
 
-void CSkinEditorHelper::SaveSkin(const SkinData& data)
+void CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text)
 {
 	CIniHelper ini_helper;
 	if (m_ini_path.empty())
@@ -85,10 +85,13 @@ void CSkinEditorHelper::SaveSkin(const SkinData& data)
 	ini_helper.SetPath(m_ini_path);
 	ini_helper.WriteInt(L"skin", L"text_color", data.text_color);
 	ini_helper.WriteString(L"skin", L"skin_author", data.skin_author);
-	ini_helper.WriteString(L"skin", L"up_string", data.up_string);
-	ini_helper.WriteString(L"skin", L"down_string", data.down_string);
-	ini_helper.WriteString(L"skin", L"cpu_string", data.cpu_string);
-	ini_helper.WriteString(L"skin", L"memory_string", data.memory_string);
+	if (asign_item_text)
+	{
+		ini_helper.WriteString(L"skin", L"up_string", data.up_string);
+		ini_helper.WriteString(L"skin", L"down_string", data.down_string);
+		ini_helper.WriteString(L"skin", L"cpu_string", data.cpu_string);
+		ini_helper.WriteString(L"skin", L"memory_string", data.memory_string);
+	}
 
 	ini_helper.WriteInt(L"layout", L"text_height", data.text_height);
 	ini_helper.WriteBool(L"layout", L"no_text", data.no_text);

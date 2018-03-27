@@ -32,6 +32,8 @@ protected:
 
 	SkinData m_skin_data;
 	wstring m_path;
+	bool m_edit_small_window{ false };
+	bool m_asign_item_text{ false };
 
 	//控件变量
 	CColorStatic m_text_color_static;
@@ -62,8 +64,16 @@ protected:
 	CSpinEdit m_memory_width_edit;
 	CButton m_no_memory_chk;
 
+	CSpinEdit m_preview_width_edit;
+	CSpinEdit m_preview_height_edit;
+	CSpinEdit m_preview_x_s_edit;
+	CSpinEdit m_preview_y_s_edit;
+	CSpinEdit m_preview_x_l_edit;
+	CSpinEdit m_preview_y_l_edit;
+
 	void DrawPreview();
 	void LayoutDataToUI(bool small_window);
+	void AllToUI();
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
@@ -75,5 +85,8 @@ protected:
 public:
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileOpen();
-	afx_msg void OnBnClickedButton1();
+	//afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedLargeWindowRadio();
+	afx_msg void OnBnClickedSmallWindowRadio();
+	afx_msg void OnBnClickedAssignTextCheck();
 };

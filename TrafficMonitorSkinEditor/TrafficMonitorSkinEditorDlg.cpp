@@ -83,6 +83,12 @@ void CTrafficMonitorSkinEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MEMORY_Y_EDIT, m_memory_y_edit);
 	DDX_Control(pDX, IDC_MEMORY_WIDTH_EDIT, m_memory_width_edit);
 	DDX_Control(pDX, IDC_NO_MEMORY_CHECK, m_no_memory_chk);
+	DDX_Control(pDX, IDC_PREVIEW_WIDTH_EDIT, m_preview_width_edit);
+	DDX_Control(pDX, IDC_PREVIEW_HEIGHT_EDIT, m_preview_height_edit);
+	DDX_Control(pDX, IDC_PREVIEW_X_S_EDIT, m_preview_x_s_edit);
+	DDX_Control(pDX, IDC_PREVIEW_Y_S_EDIT, m_preview_y_s_edit);
+	DDX_Control(pDX, IDC_PREVIEW_X_L_EDIT, m_preview_x_l_edit);
+	DDX_Control(pDX, IDC_PREVIEW_Y_L_EDIT, m_preview_y_l_edit);
 }
 
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
@@ -92,7 +98,10 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_MESSAGE(WM_STATIC_CLICKED, &CTrafficMonitorSkinEditorDlg::OnStaticClicked)
 	ON_COMMAND(ID_APP_ABOUT, &CTrafficMonitorSkinEditorDlg::OnAppAbout)
 	ON_COMMAND(ID_FILE_OPEN, &CTrafficMonitorSkinEditorDlg::OnFileOpen)
-	ON_BN_CLICKED(IDC_BUTTON1, &CTrafficMonitorSkinEditorDlg::OnBnClickedButton1)
+	//ON_BN_CLICKED(IDC_BUTTON1, &CTrafficMonitorSkinEditorDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_LARGE_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedLargeWindowRadio)
+	ON_BN_CLICKED(IDC_SMALL_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedSmallWindowRadio)
+	ON_BN_CLICKED(IDC_ASSIGN_TEXT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignTextCheck)
 END_MESSAGE_MAP()
 
 
@@ -100,19 +109,77 @@ END_MESSAGE_MAP()
 
 void CTrafficMonitorSkinEditorDlg::DrawPreview()
 {
-	CSkinEditorHelper skin_editor;
-	skin_editor.SetSkinPath(m_path);
-	m_skin_data = skin_editor.LoadSkin();
+	m_view->SetSize(m_skin_data.preview_width, m_skin_data.preview_height);
+	m_view->Invalidate();
 }
 
 void CTrafficMonitorSkinEditorDlg::LayoutDataToUI(bool small_window)
 {
-	//m_text_height_edit.SetValue()
-	//m_window_width_edit.SetValue(m_skin_data.w)
+	m_text_height_edit.SetValue(m_skin_data.text_height);
+	m_no_item_text_chk.SetCheck(m_skin_data.no_text);
 	if (small_window)
 	{
+		m_window_width_edit.SetValue(m_skin_data.width_s);
+		m_window_heitht_edit.SetValue(m_skin_data.height_s);
 
+		m_up_x_edit.SetValue(m_skin_data.up_x_s);
+		m_up_y_edit.SetValue(m_skin_data.up_y_s);
+		m_up_width_edit.SetValue(m_skin_data.up_width_s);
+		m_no_upload_chk.SetCheck(!m_skin_data.show_up_s);
+		m_down_x_edit.SetValue(m_skin_data.down_x_s);
+		m_down_y_edit.SetValue(m_skin_data.down_y_s);
+		m_down_width_edit.SetValue(m_skin_data.down_width_s);
+		m_no_download_chk.SetCheck(!m_skin_data.show_down_s);
+		m_cpu_x_edit.SetValue(m_skin_data.cpu_x_s);
+		m_cpu_y_edit.SetValue(m_skin_data.cpu_y_s);
+		m_cpu_width_edit.SetValue(m_skin_data.cpu_width_s);
+		m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_s);
+		m_memory_x_edit.SetValue(m_skin_data.memory_x_s);
+		m_memory_y_edit.SetValue(m_skin_data.memory_y_s);
+		m_memory_width_edit.SetValue(m_skin_data.memory_width_s);
+		m_no_memory_chk.SetCheck(!m_skin_data.show_memory_s);
 	}
+	else
+	{
+		m_window_width_edit.SetValue(m_skin_data.width_l);
+		m_window_heitht_edit.SetValue(m_skin_data.height_l);
+
+		m_up_x_edit.SetValue(m_skin_data.up_x_l);
+		m_up_y_edit.SetValue(m_skin_data.up_y_l);
+		m_up_width_edit.SetValue(m_skin_data.up_width_l);
+		m_no_upload_chk.SetCheck(!m_skin_data.show_up_l);
+		m_down_x_edit.SetValue(m_skin_data.down_x_l);
+		m_down_y_edit.SetValue(m_skin_data.down_y_l);
+		m_down_width_edit.SetValue(m_skin_data.down_width_l);
+		m_no_download_chk.SetCheck(!m_skin_data.show_down_l);
+		m_cpu_x_edit.SetValue(m_skin_data.cpu_x_l);
+		m_cpu_y_edit.SetValue(m_skin_data.cpu_y_l);
+		m_cpu_width_edit.SetValue(m_skin_data.cpu_width_l);
+		m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_l);
+		m_memory_x_edit.SetValue(m_skin_data.memory_x_l);
+		m_memory_y_edit.SetValue(m_skin_data.memory_y_l);
+		m_memory_width_edit.SetValue(m_skin_data.memory_width_l);
+		m_no_memory_chk.SetCheck(!m_skin_data.show_memory_l);
+	}
+}
+
+void CTrafficMonitorSkinEditorDlg::AllToUI()
+{
+	m_text_color_static.SetFillColor(m_skin_data.text_color);
+	m_skin_author_edit.SetWindowTextW(m_skin_data.skin_author.c_str());
+	m_assign_text_chk.SetCheck(m_asign_item_text);
+
+	m_up_string_edit.SetWindowTextW(m_skin_data.up_string.c_str());
+	m_down_string_edit.SetWindowTextW(m_skin_data.down_string.c_str());
+	m_cpu_string_edit.SetWindowTextW(m_skin_data.cpu_string.c_str());
+	m_memory_string_edit.SetWindowTextW(m_skin_data.memory_string.c_str());
+
+	m_up_string_edit.EnableWindow(m_asign_item_text);
+	m_down_string_edit.EnableWindow(m_asign_item_text);
+	m_cpu_string_edit.EnableWindow(m_asign_item_text);
+	m_memory_string_edit.EnableWindow(m_asign_item_text);
+
+	LayoutDataToUI(m_edit_small_window);
 }
 
 BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
@@ -154,16 +221,19 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 	m_view = (CDrawScrollView*)RUNTIME_CLASS(CDrawScrollView)->CreateObject();
 	CRect rect;
 	GetDlgItem(IDC_PREVIEW_GROUP_STATIC)->GetWindowRect(rect);		//获取“预览” group box 的位置
+	ScreenToClient(&rect);
 	m_start_point.x = rect.left + theApp.DPI(12);
-	m_start_point.y = rect.top + theApp.DPI(116);
-	ScreenToClient(&m_start_point);
-	CRect scroll_view_rect(m_start_point, CSize(theApp.DPI(248), theApp.DPI(145)));
+	m_start_point.y = rect.top + theApp.DPI(110);
+	CRect scroll_view_rect{ rect };
+	scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(12));
+	scroll_view_rect.top = m_start_point.y;
 	m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
 	m_view->InitialUpdate();
 	m_view->SetSkinData(&m_skin_data);
 	m_view->ShowWindow(SW_SHOW);
 
-	m_text_height_edit.SetValue(12);
+	//
+	((CButton*)GetDlgItem(IDC_LARGE_WINDOW_RADIO))->SetCheck(TRUE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -250,13 +320,45 @@ void CTrafficMonitorSkinEditorDlg::OnFileOpen()
 	if (dlg.DoModal() == IDOK)
 	{
 		m_path = dlg.GetPathName();
-		DrawPreview();
+		//载入皮肤布局
+		CSkinEditorHelper skin_editor;
+		skin_editor.SetSkinPath(m_path);
+		m_skin_data = skin_editor.LoadSkin();
+		AllToUI();
 	}
 }
 
 
-void CTrafficMonitorSkinEditorDlg::OnBnClickedButton1()
+//void CTrafficMonitorSkinEditorDlg::OnBnClickedButton1()
+//{
+//	// TODO: 在此添加控件通知处理程序代码
+//	int v = m_text_height_edit.GetValue();
+//}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedLargeWindowRadio()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	int v = m_text_height_edit.GetValue();
+	m_edit_small_window = false;
+	LayoutDataToUI(m_edit_small_window);
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedSmallWindowRadio()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_edit_small_window = true;
+	LayoutDataToUI(m_edit_small_window);
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedAssignTextCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_asign_item_text = (m_assign_text_chk.GetCheck() != 0);
+
+	m_up_string_edit.EnableWindow(m_asign_item_text);
+	m_down_string_edit.EnableWindow(m_asign_item_text);
+	m_cpu_string_edit.EnableWindow(m_asign_item_text);
+	m_memory_string_edit.EnableWindow(m_asign_item_text);
 }
