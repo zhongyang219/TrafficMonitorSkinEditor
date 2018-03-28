@@ -21,6 +21,7 @@ public:
 	CTrafficMonitorSkinEditorApp();
 
 	int DPI(int pixel);
+	void DPI(CRect& rect);
 	void GetDPI(CWnd* pWnd);
 
 protected:

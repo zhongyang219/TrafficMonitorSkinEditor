@@ -1,5 +1,6 @@
 #pragma once
 #include "SkinEditorHelper.h"
+#include "DrawCommon.h"
 
 // DrawScrollView 视图
 #define WM_VIEW_MOUSE_CLICK (WM_USER + 1)		//定义Scroll View窗口鼠标单击消息
@@ -24,6 +25,7 @@ public:
 	void InitialUpdate();
 	void SetSize(int width,int hight);
 	void SetSkinData(SkinData* skin_data) { m_skin_data = skin_data; }
+	void SetBackImage(CImage* background_s, CImage* background_l);
 
 //成员变量
 protected:
@@ -31,12 +33,16 @@ protected:
 	CPoint m_start_point;			//绘图的起始位置
 
 	SkinData* m_skin_data;
+	CImage* m_background_s;
+	CImage* m_background_l;
 
 protected:
 	virtual void OnDraw(CDC* pDC);      // 重写以绘制该视图
 	virtual void OnInitialUpdate();     // 构造后的第一次
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 

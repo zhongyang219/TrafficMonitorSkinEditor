@@ -46,6 +46,9 @@
     <Filter Include="头文件和源文件\派生的控件类\SpinEdit">
       <UniqueIdentifier>{8487b796-4b3a-4b78-9182-e38d309c0659}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\公共的类\DrawCommon">
+      <UniqueIdentifier>{dd0d49b9-8444-4296-85f6-7ade6c308f9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -84,6 +87,9 @@
     <ClInclude Include="SpinEdit.h">
       <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
     </ClInclude>
+    <ClInclude Include="DrawCommon.h">
+      <Filter>头文件和源文件\公共的类\DrawCommon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitorSkinEditorDlg.cpp">
@@ -112,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="SpinEdit.cpp">
       <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCommon.cpp">
+      <Filter>头文件和源文件\公共的类\DrawCommon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

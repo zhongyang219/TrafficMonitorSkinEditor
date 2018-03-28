@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="ColorStatic.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="DrawCommon.h" />
     <ClInclude Include="DrawScrollView.h" />
     <ClInclude Include="IniHelper.h" />
     <ClInclude Include="Resource.h" />
@@ -117,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="DrawCommon.cpp" />
     <ClCompile Include="DrawScrollView.cpp" />
     <ClCompile Include="IniHelper.cpp" />
     <ClCompile Include="SkinEditorHelper.cpp" />

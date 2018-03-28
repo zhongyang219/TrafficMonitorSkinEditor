@@ -28,12 +28,15 @@ public:
 protected:
 	HICON m_hIcon;
 	CDrawScrollView* m_view;	//预览区视图类
-	CPoint m_start_point;		//预览区的起始位置
 
 	SkinData m_skin_data;
 	wstring m_path;
 	bool m_edit_small_window{ false };
 	bool m_asign_item_text{ false };
+	CImage m_background_s;
+	CImage m_background_l;
+
+	bool m_modified{ false };
 
 	//控件变量
 	CColorStatic m_text_color_static;
@@ -89,4 +92,14 @@ public:
 	afx_msg void OnBnClickedLargeWindowRadio();
 	afx_msg void OnBnClickedSmallWindowRadio();
 	afx_msg void OnBnClickedAssignTextCheck();
+	afx_msg void OnEnChangeUploadEdit();
+	afx_msg void OnEnChangeDownloadEdit();
+	afx_msg void OnEnChangeCpuEdit();
+	afx_msg void OnEnChangeMemoryEdit();
+	afx_msg void OnEnChangePreviewWidthEdit();
+	afx_msg void OnEnChangePreviewHeightEdit();
+	afx_msg void OnEnChangePreviewXSEdit();
+	afx_msg void OnEnChangePreviewYSEdit();
+	afx_msg void OnEnChangePreviewXLEdit();
+	afx_msg void OnEnChangePreviewYLEdit();
 };

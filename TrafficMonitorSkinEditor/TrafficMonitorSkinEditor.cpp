@@ -35,6 +35,14 @@ int CTrafficMonitorSkinEditorApp::DPI(int pixel)
 	return m_dpi * pixel / 96;
 }
 
+void CTrafficMonitorSkinEditorApp::DPI(CRect & rect)
+{
+	rect.left = DPI(rect.left);
+	rect.right = DPI(rect.right);
+	rect.top = DPI(rect.top);
+	rect.bottom = DPI(rect.bottom);
+}
+
 void CTrafficMonitorSkinEditorApp::GetDPI(CWnd * pWnd)
 {
 	CWindowDC dc(pWnd);
