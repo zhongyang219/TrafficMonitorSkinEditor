@@ -37,6 +37,7 @@ protected:
 	CImage m_background_l;
 
 	bool m_modified{ false };
+	bool m_spin_clicked{ false };
 
 	//控件变量
 	CColorStatic m_text_color_static;
@@ -77,6 +78,9 @@ protected:
 	void DrawPreview();
 	void LayoutDataToUI(bool small_window);
 	void AllToUI();
+	void LoadSkin(const wstring& path);
+	void SetTitle();
+	void Modified();	//有改动时的处理
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
@@ -102,4 +106,24 @@ public:
 	afx_msg void OnEnChangePreviewYSEdit();
 	afx_msg void OnEnChangePreviewXLEdit();
 	afx_msg void OnEnChangePreviewYLEdit();
-};
+	afx_msg void OnEnChangeTextHeightEdit();
+	afx_msg void OnBnClickedNoItemTextCheck();
+	afx_msg void OnEnChangeWndWidthEdit();
+	afx_msg void OnEnChangeWndHeightEdit();
+	afx_msg void OnEnChangeUpXEdit();
+	afx_msg void OnEnChangeUpYEdit();
+	afx_msg void OnEnChangeUpWidthEdit();
+	afx_msg void OnEnChangeDownXEdit();
+	afx_msg void OnEnChangeDownYEdit();
+	afx_msg void OnEnChangeDownWidthEdit();
+	afx_msg void OnEnChangeCpuXEdit();
+	afx_msg void OnEnChangeCpuYEdit();
+	afx_msg void OnEnChangeCpuWidthEdit();
+	afx_msg void OnEnChangeMemoryXEdit();
+	afx_msg void OnEnChangeMemoryYEdit();
+	afx_msg void OnEnChangeMemoryWidthEdit();
+	afx_msg void OnBnClickedNoUploadCheck();
+	afx_msg void OnBnClickedCnoDownloadHeck();
+	afx_msg void OnBnClickedNoCpuCheck();
+	afx_msg void OnBnClickedNoMemoryCheck();
+	afx_msg void OnDeltaposSpin(NMHDR *pNMHDR, LRESULT *pResult); };

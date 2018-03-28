@@ -64,10 +64,10 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 	CString down_str;
 	CString cpu_str;
 	CString memory_str;
-	up_str.Format(_T("%s%s"), (m_skin_data->no_text ? _T("") : m_skin_data->up_string.c_str()), _T("88.8KB/s"));
-	down_str.Format(_T("%s%s"), (m_skin_data->no_text ? _T("") : m_skin_data->down_string.c_str()), _T("88.9KB/s"));
-	cpu_str.Format(_T("%s%s"), (m_skin_data->no_text ? _T("") : m_skin_data->cpu_string.c_str()), _T("50%%"));
-	memory_str.Format(_T("%s%s"), (m_skin_data->no_text ? _T("") : m_skin_data->memory_string.c_str()), _T("51%%"));
+	up_str.Format(_T("%s88.8KB/s"), (m_skin_data->no_text ? _T("") : m_skin_data->up_string.c_str()));
+	down_str.Format(_T("%s88.9KB/s"), (m_skin_data->no_text ? _T("") : m_skin_data->down_string.c_str()));
+	cpu_str.Format(_T("%s50%%"), (m_skin_data->no_text ? _T("") : m_skin_data->cpu_string.c_str()));
+	memory_str.Format(_T("%s51%%"), (m_skin_data->no_text ? _T("") : m_skin_data->memory_string.c_str()));
 
 	CPoint point;
 	//绘制小预览图文本

@@ -112,6 +112,27 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_EN_CHANGE(IDC_PREVIEW_Y_S_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYSEdit)
 	ON_EN_CHANGE(IDC_PREVIEW_X_L_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXLEdit)
 	ON_EN_CHANGE(IDC_PREVIEW_Y_L_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYLEdit)
+	ON_EN_CHANGE(IDC_TEXT_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeTextHeightEdit)
+	ON_BN_CLICKED(IDC_NO_ITEM_TEXT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoItemTextCheck)
+	ON_EN_CHANGE(IDC_WND_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeWndWidthEdit)
+	ON_EN_CHANGE(IDC_WND_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeWndHeightEdit)
+	ON_EN_CHANGE(IDC_UP_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpXEdit)
+	ON_EN_CHANGE(IDC_UP_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpYEdit)
+	ON_EN_CHANGE(IDC_UP_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpWidthEdit)
+	ON_EN_CHANGE(IDC_DOWN_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownXEdit)
+	ON_EN_CHANGE(IDC_DOWN_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownYEdit)
+	ON_EN_CHANGE(IDC_DOWN_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownWidthEdit)
+	ON_EN_CHANGE(IDC_CPU_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuXEdit)
+	ON_EN_CHANGE(IDC_CPU_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuYEdit)
+	ON_EN_CHANGE(IDC_CPU_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuWidthEdit)
+	ON_EN_CHANGE(IDC_MEMORY_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryXEdit)
+	ON_EN_CHANGE(IDC_MEMORY_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryYEdit)
+	ON_EN_CHANGE(IDC_MEMORY_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryWidthEdit)
+	ON_BN_CLICKED(IDC_NO_UPLOAD_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoUploadCheck)
+	ON_BN_CLICKED(IDC_CNO_DOWNLOAD_HECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck)
+	ON_BN_CLICKED(IDC_NO_CPU_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck)
+	ON_BN_CLICKED(IDC_NO_MEMORY_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck)
+	ON_NOTIFY(UDN_DELTAPOS, SPIN_ID, &CTrafficMonitorSkinEditorDlg::OnDeltaposSpin)		//响应所有文本编辑控件微调按钮的点击事件（每个微调按钮的ID都一样）
 END_MESSAGE_MAP()
 
 
@@ -197,6 +218,44 @@ void CTrafficMonitorSkinEditorDlg::AllToUI()
 	m_preview_y_s_edit.SetValue(m_skin_data.preview_y_s);
 	m_preview_x_l_edit.SetValue(m_skin_data.preview_x_l);
 	m_preview_y_l_edit.SetValue(m_skin_data.preview_y_l);
+}
+
+void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
+{
+	//载入皮肤布局
+	CSkinEditorHelper skin_editor;
+	skin_editor.SetSkinPath(path);
+	m_skin_data = skin_editor.LoadSkin();
+	//载入背景图
+	m_background_s.Destroy();
+	m_background_l.Destroy();
+	m_background_s.Load((path + L"\\background.bmp").c_str());
+	m_background_l.Load((path + L"\\background_l.bmp").c_str());
+	//设置控件数据
+	AllToUI();
+	//绘制预览
+	DrawPreview();
+	SetTitle();
+}
+
+void CTrafficMonitorSkinEditorDlg::SetTitle()
+{
+	wstring title;
+	if (m_path.empty())
+		title = L"无标题 - TrafficMonitor 皮肤编辑器";
+	else
+		title = m_path + L" - TrafficMonitor 皮肤编辑器";
+	if (m_modified)
+		title = L'*' + title;
+	SetWindowTextW(title.c_str());
+}
+
+void CTrafficMonitorSkinEditorDlg::Modified()
+{
+	m_modified = true;
+	DrawPreview();
+	SetTitle();
+	m_spin_clicked = false;
 }
 
 BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
@@ -337,19 +396,7 @@ void CTrafficMonitorSkinEditorDlg::OnFileOpen()
 	if (dlg.DoModal() == IDOK)
 	{
 		m_path = dlg.GetPathName();
-		//载入皮肤布局
-		CSkinEditorHelper skin_editor;
-		skin_editor.SetSkinPath(m_path);
-		m_skin_data = skin_editor.LoadSkin();
-		//载入背景图
-		m_background_s.Destroy();
-		m_background_l.Destroy();
-		m_background_s.Load((m_path + L"\\background.bmp").c_str());
-		m_background_l.Load((m_path + L"\\background_l.bmp").c_str());
-		//设置控件数据
-		AllToUI();
-		//绘制预览
-		DrawPreview();
+		LoadSkin(m_path);
 	}
 }
 
@@ -397,10 +444,13 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeUploadEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	CString tmp;
-	m_up_string_edit.GetWindowText(tmp);
-	m_skin_data.up_string = tmp;
-	DrawPreview();
+	if (m_up_string_edit.GetModify())
+	{
+		CString tmp;
+		m_up_string_edit.GetWindowText(tmp);
+		m_skin_data.up_string = tmp;
+		Modified();
+	}
 }
 
 
@@ -412,10 +462,13 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeDownloadEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	CString tmp;
-	m_down_string_edit.GetWindowText(tmp);
-	m_skin_data.down_string = tmp;
-	DrawPreview();
+	if (m_down_string_edit.GetModify())
+	{
+		CString tmp;
+		m_down_string_edit.GetWindowText(tmp);
+		m_skin_data.down_string = tmp;
+		Modified();
+	}
 }
 
 
@@ -427,10 +480,13 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	CString tmp;
-	m_cpu_string_edit.GetWindowText(tmp);
-	m_skin_data.cpu_string = tmp;
-	DrawPreview();
+	if (m_cpu_string_edit.GetModify())
+	{
+		CString tmp;
+		m_cpu_string_edit.GetWindowText(tmp);
+		m_skin_data.cpu_string = tmp;
+		Modified();
+	}
 }
 
 
@@ -442,10 +498,13 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	CString tmp;
-	m_memory_string_edit.GetWindowText(tmp);
-	m_skin_data.memory_string = tmp;
-	DrawPreview();
+	if (m_memory_string_edit.GetModify())
+	{
+		CString tmp;
+		m_memory_string_edit.GetWindowText(tmp);
+		m_skin_data.memory_string = tmp;
+		Modified();
+	}
 }
 
 
@@ -457,8 +516,11 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewWidthEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	m_skin_data.preview_width = m_preview_width_edit.GetValue();
-	DrawPreview();
+	if (m_preview_width_edit.GetModify() || m_spin_clicked)
+	{
+		m_skin_data.preview_width = m_preview_width_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -470,8 +532,11 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewHeightEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	m_skin_data.preview_height = m_preview_height_edit.GetValue();
-	DrawPreview();
+	if (m_preview_height_edit.GetModify() || m_spin_clicked)
+	{
+		m_skin_data.preview_height = m_preview_height_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -483,8 +548,11 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXSEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	m_skin_data.preview_x_s = m_preview_x_s_edit.GetValue();
-	DrawPreview();
+	if (m_preview_x_s_edit.GetModify() || m_spin_clicked)
+	{
+		m_skin_data.preview_x_s = m_preview_x_s_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -496,8 +564,11 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYSEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	m_skin_data.preview_y_s = m_preview_y_s_edit.GetValue();
-	DrawPreview();
+	if (m_preview_y_s_edit.GetModify() || m_spin_clicked)
+	{
+		m_skin_data.preview_y_s = m_preview_y_s_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -509,8 +580,11 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXLEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	m_skin_data.preview_x_l = m_preview_x_l_edit.GetValue();
-	DrawPreview();
+	if (m_preview_x_l_edit.GetModify() || m_spin_clicked)
+	{
+		m_skin_data.preview_x_l = m_preview_x_l_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -522,6 +596,273 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYLEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	m_skin_data.preview_y_l = m_preview_y_l_edit.GetValue();
-	DrawPreview();
+	if (m_preview_y_l_edit.GetModify() || m_spin_clicked)
+	{
+		m_skin_data.preview_y_l = m_preview_y_l_edit.GetValue();
+		Modified();
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeTextHeightEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	if (m_text_height_edit.GetModify() || m_spin_clicked)
+	{
+		m_skin_data.text_height = m_text_height_edit.GetValue();
+		Modified();
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedNoItemTextCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_skin_data.no_text = (m_no_item_text_chk.GetCheck() != 0);
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeWndWidthEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	if (m_window_width_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.width_s = m_window_width_edit.GetValue();
+		else
+			m_skin_data.width_l = m_window_width_edit.GetValue();
+		Modified();
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeWndHeightEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	if (m_window_heitht_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.height_s = m_window_heitht_edit.GetValue();
+		else
+			m_skin_data.height_l = m_window_heitht_edit.GetValue();
+		Modified();
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeUpXEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	if (m_up_x_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.up_x_s = m_up_x_edit.GetValue();
+		else
+			m_skin_data.up_x_l = m_up_x_edit.GetValue();
+		Modified();
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeUpYEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	if (m_up_y_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.up_y_s = m_up_y_edit.GetValue();
+		else
+			m_skin_data.up_y_l = m_up_y_edit.GetValue();
+		Modified();
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeUpWidthEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	if (m_up_width_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.up_width_s = m_up_width_edit.GetValue();
+		else
+			m_skin_data.up_width_l = m_up_width_edit.GetValue();
+		Modified();
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeDownXEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeDownYEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeDownWidthEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuXEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuYEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuWidthEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryXEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryYEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryWidthEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	//Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedNoUploadCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	Modified();
+}
+
+void CTrafficMonitorSkinEditorDlg::OnDeltaposSpin(NMHDR * pNMHDR, LRESULT * pResult)
+{
+	//CSpinButtonCtrl* pSpin = (CSpinButtonCtrl*)CWnd::FromHandle(pNMHDR->hwndFrom);
+	//CEdit* pEdit = (CEdit*)(pSpin->GetBuddy());
+	//pEdit->SetModify();
+	m_spin_clicked = true;
+	*pResult = 0;
 }
