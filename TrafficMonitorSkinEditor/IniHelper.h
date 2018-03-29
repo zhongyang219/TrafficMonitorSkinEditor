@@ -1,5 +1,5 @@
 #pragma once
-#define NONE_CH L'$'		//写入和读取ini文件字符串时，在字符串前后添加的字符
+#define DEF_CH L'\"'		//写入和读取ini文件字符串时，在字符串前后添加的字符
 
 class CIniHelper
 {

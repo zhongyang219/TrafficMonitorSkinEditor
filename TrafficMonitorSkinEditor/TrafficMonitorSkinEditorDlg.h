@@ -82,6 +82,19 @@ protected:
 	void SetTitle();
 	void Modified();	//有改动时的处理
 
+	//设置控件的启用和禁用
+	void EnableTextControl(bool enable);
+	void EnableUpControl(bool enable);
+	void EnableDownControl(bool enable);
+	void EnableCpuControl(bool enable);
+	void EnableMemoryControl(bool enable);
+	void SetItemControlEnable();
+
+	bool SaveSkin(const wstring& path);
+	bool _OnFileSave();
+	bool _OnFileSaveAs();
+	bool SaveInquiry();		//询问用户是否保存，如果选择了“是”则返回true
+
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -93,6 +106,7 @@ public:
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileOpen();
 	//afx_msg void OnBnClickedButton1();
+	afx_msg void OnEnChangeSkinAuthorEdit();
 	afx_msg void OnBnClickedLargeWindowRadio();
 	afx_msg void OnBnClickedSmallWindowRadio();
 	afx_msg void OnBnClickedAssignTextCheck();
@@ -126,4 +140,8 @@ public:
 	afx_msg void OnBnClickedCnoDownloadHeck();
 	afx_msg void OnBnClickedNoCpuCheck();
 	afx_msg void OnBnClickedNoMemoryCheck();
-	afx_msg void OnDeltaposSpin(NMHDR *pNMHDR, LRESULT *pResult); };
+	afx_msg void OnDeltaposSpin(NMHDR *pNMHDR, LRESULT *pResult); afx_msg void OnFileNew();
+	afx_msg void OnFileSave();
+	afx_msg void OnFileSaveAs();
+	afx_msg void OnClose();
+};

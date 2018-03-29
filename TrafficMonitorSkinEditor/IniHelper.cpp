@@ -18,7 +18,7 @@ void CIniHelper::SetPath(const wstring & path)
 
 bool CIniHelper::WriteString(const wchar_t * AppName, const wchar_t * KeyName, wstring str)
 {
-	str = NONE_CH + str + NONE_CH;
+	str = DEF_CH + str + DEF_CH;
 	return (::WritePrivateProfileStringW(AppName, KeyName, str.c_str(), m_path.c_str()) != FALSE);
 }
 
@@ -29,9 +29,9 @@ wstring CIniHelper::GetString(const wchar_t * AppName, const wchar_t * KeyName, 
 	::GetPrivateProfileStringW(AppName, KeyName, default_str, buff, 256, m_path.c_str());
 	rtn = buff;
 	//如果读取的字符串前后有指定的字符，则删除它
-	if (!rtn.empty() && rtn.front() == NONE_CH)
+	if (!rtn.empty() && (rtn.front() == L'$' || rtn.front() == DEF_CH))
 		rtn = rtn.substr(1);
-	if (!rtn.empty() && rtn.back() == NONE_CH)
+	if (!rtn.empty() && (rtn.back() == L'$' || rtn.back() == DEF_CH))
 		rtn.pop_back();
 	return rtn;
 }

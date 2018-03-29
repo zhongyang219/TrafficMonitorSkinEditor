@@ -99,6 +99,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_COMMAND(ID_APP_ABOUT, &CTrafficMonitorSkinEditorDlg::OnAppAbout)
 	ON_COMMAND(ID_FILE_OPEN, &CTrafficMonitorSkinEditorDlg::OnFileOpen)
 	//ON_BN_CLICKED(IDC_BUTTON1, &CTrafficMonitorSkinEditorDlg::OnBnClickedButton1)
+	ON_EN_CHANGE(IDC_SKIN_AUTHOR_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeSkinAuthorEdit)
 	ON_BN_CLICKED(IDC_LARGE_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedLargeWindowRadio)
 	ON_BN_CLICKED(IDC_SMALL_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedSmallWindowRadio)
 	ON_BN_CLICKED(IDC_ASSIGN_TEXT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignTextCheck)
@@ -133,6 +134,10 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_BN_CLICKED(IDC_NO_CPU_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck)
 	ON_BN_CLICKED(IDC_NO_MEMORY_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck)
 	ON_NOTIFY(UDN_DELTAPOS, SPIN_ID, &CTrafficMonitorSkinEditorDlg::OnDeltaposSpin)		//响应所有文本编辑控件微调按钮的点击事件（每个微调按钮的ID都一样）
+	ON_COMMAND(ID_FILE_NEW, &CTrafficMonitorSkinEditorDlg::OnFileNew)
+	ON_COMMAND(ID_FILE_SAVE, &CTrafficMonitorSkinEditorDlg::OnFileSave)
+	ON_COMMAND(ID_FILE_SAVE_AS, &CTrafficMonitorSkinEditorDlg::OnFileSaveAs)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -205,11 +210,6 @@ void CTrafficMonitorSkinEditorDlg::AllToUI()
 	m_cpu_string_edit.SetWindowTextW(m_skin_data.cpu_string.c_str());
 	m_memory_string_edit.SetWindowTextW(m_skin_data.memory_string.c_str());
 
-	m_up_string_edit.EnableWindow(m_asign_item_text);
-	m_down_string_edit.EnableWindow(m_asign_item_text);
-	m_cpu_string_edit.EnableWindow(m_asign_item_text);
-	m_memory_string_edit.EnableWindow(m_asign_item_text);
-
 	LayoutDataToUI(m_edit_small_window);
 
 	m_preview_width_edit.SetValue(m_skin_data.preview_width);
@@ -218,6 +218,9 @@ void CTrafficMonitorSkinEditorDlg::AllToUI()
 	m_preview_y_s_edit.SetValue(m_skin_data.preview_y_s);
 	m_preview_x_l_edit.SetValue(m_skin_data.preview_x_l);
 	m_preview_y_l_edit.SetValue(m_skin_data.preview_y_l);
+
+	EnableTextControl(m_asign_item_text);
+	SetItemControlEnable();
 }
 
 void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
@@ -256,6 +259,143 @@ void CTrafficMonitorSkinEditorDlg::Modified()
 	DrawPreview();
 	SetTitle();
 	m_spin_clicked = false;
+}
+
+void CTrafficMonitorSkinEditorDlg::EnableTextControl(bool enable)
+{
+	m_up_string_edit.EnableWindow(enable);
+	m_down_string_edit.EnableWindow(enable);
+	m_cpu_string_edit.EnableWindow(enable);
+	m_memory_string_edit.EnableWindow(enable);
+}
+
+void CTrafficMonitorSkinEditorDlg::EnableUpControl(bool enable)
+{
+	m_up_x_edit.EnableWindow(enable);
+	m_up_y_edit.EnableWindow(enable);
+	m_up_width_edit.EnableWindow(enable);
+}
+
+void CTrafficMonitorSkinEditorDlg::EnableDownControl(bool enable)
+{
+	m_down_x_edit.EnableWindow(enable);
+	m_down_y_edit.EnableWindow(enable);
+	m_down_width_edit.EnableWindow(enable);
+}
+
+void CTrafficMonitorSkinEditorDlg::EnableCpuControl(bool enable)
+{
+	m_cpu_x_edit.EnableWindow(enable);
+	m_cpu_y_edit.EnableWindow(enable);
+	m_cpu_width_edit.EnableWindow(enable);
+}
+
+void CTrafficMonitorSkinEditorDlg::EnableMemoryControl(bool enable)
+{
+	m_memory_x_edit.EnableWindow(enable);
+	m_memory_y_edit.EnableWindow(enable);
+	m_memory_width_edit.EnableWindow(enable);
+}
+
+void CTrafficMonitorSkinEditorDlg::SetItemControlEnable()
+{
+	if (m_edit_small_window)
+	{
+		EnableUpControl(m_skin_data.show_up_s);
+		EnableDownControl(m_skin_data.show_down_s);
+		EnableCpuControl(m_skin_data.show_cpu_s);
+		EnableMemoryControl(m_skin_data.show_memory_s);
+	}
+	else
+	{
+		EnableUpControl(m_skin_data.show_up_l);
+		EnableDownControl(m_skin_data.show_down_l);
+		EnableCpuControl(m_skin_data.show_cpu_l);
+		EnableMemoryControl(m_skin_data.show_memory_l);
+	}
+}
+
+bool CTrafficMonitorSkinEditorDlg::SaveSkin(const wstring& path)
+{
+	CSkinEditorHelper skin_editor;
+	skin_editor.SetSkinPath(path);
+	if (skin_editor.SaveSkin(m_skin_data, m_asign_item_text))
+	{
+		m_modified = false;
+		SetTitle();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool CTrafficMonitorSkinEditorDlg::_OnFileSave()
+{
+	if (m_modified)		//只有在已更改过之后才保存
+	{
+		//已经打开过一个文件时就直接保存，还没有打开一个文件就弹出“另存为”对话框
+		if (!m_path.empty())
+		{
+			if (SaveSkin(m_path))
+				return true;
+			else
+				return _OnFileSaveAs();		//文件无法保存时弹出“另存为”对话框
+		}
+		else
+		{
+			return _OnFileSaveAs();
+		}
+	}
+	return false;
+}
+
+bool CTrafficMonitorSkinEditorDlg::_OnFileSaveAs()
+{
+	//构造保存文件对话框
+	CFolderPickerDialog folderDlg;
+	//显示保存文件对话框
+	if (IDOK == folderDlg.DoModal())
+	{
+		if (SaveSkin(folderDlg.GetPathName().GetString()))
+		{
+			m_path = folderDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
+			m_modified = true;
+			_OnFileSave();					//在新的位置保存文本资源文件
+			SetTitle();					//用新的文件名设置标题
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CTrafficMonitorSkinEditorDlg::SaveInquiry()
+{
+	if (m_modified)
+	{
+		CString text;
+		if (m_path.empty())
+		{
+			text = _T("\"无标题\" 已更改，是否保存？");
+		}
+		else
+		{
+			text.Format(_T("%s 已更改，是否保存？"), m_path.c_str());
+		}
+
+		int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
+		switch (rtn)
+		{
+		case IDYES: return _OnFileSave();
+		case IDNO:
+			m_modified = false;
+			SetTitle();
+			break;
+		default: return false;
+		}
+	}
+	return true;
 }
 
 BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
@@ -308,6 +448,7 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 	m_view->ShowWindow(SW_SHOW);
 
 	//
+	LoadSkin(wstring());
 	((CButton*)GetDlgItem(IDC_LARGE_WINDOW_RADIO))->SetCheck(TRUE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -375,6 +516,7 @@ afx_msg LRESULT CTrafficMonitorSkinEditorDlg::OnStaticClicked(WPARAM wParam, LPA
 			m_skin_data.text_color = dlg.GetColor();
 			m_text_color_static.SetFillColor(m_skin_data.text_color);
 			DrawPreview();
+			Modified();
 		}
 	}
 	return 0;
@@ -392,6 +534,8 @@ void CTrafficMonitorSkinEditorDlg::OnAppAbout()
 void CTrafficMonitorSkinEditorDlg::OnFileOpen()
 {
 	// TODO: 在此添加命令处理程序代码
+	if (!SaveInquiry())
+		return;
 	CFolderPickerDialog dlg;
 	if (dlg.DoModal() == IDOK)
 	{
@@ -408,10 +552,29 @@ void CTrafficMonitorSkinEditorDlg::OnFileOpen()
 //}
 
 
+void CTrafficMonitorSkinEditorDlg::OnEnChangeSkinAuthorEdit()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
+	if (m_skin_author_edit.GetModify())
+	{
+		CString tmp;
+		m_skin_author_edit.GetWindowText(tmp);
+		m_skin_data.skin_author = tmp;
+		Modified();
+	}
+}
+
+
 void CTrafficMonitorSkinEditorDlg::OnBnClickedLargeWindowRadio()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	m_edit_small_window = false;
+	SetItemControlEnable();
 	LayoutDataToUI(m_edit_small_window);
 }
 
@@ -420,6 +583,7 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedSmallWindowRadio()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	m_edit_small_window = true;
+	SetItemControlEnable();
 	LayoutDataToUI(m_edit_small_window);
 }
 
@@ -428,11 +592,7 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedAssignTextCheck()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	m_asign_item_text = (m_assign_text_chk.GetCheck() != 0);
-
-	m_up_string_edit.EnableWindow(m_asign_item_text);
-	m_down_string_edit.EnableWindow(m_asign_item_text);
-	m_cpu_string_edit.EnableWindow(m_asign_item_text);
-	m_memory_string_edit.EnableWindow(m_asign_item_text);
+	EnableTextControl(m_asign_item_text);
 }
 
 
@@ -731,7 +891,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeDownXEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_down_x_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.down_x_s = m_down_x_edit.GetValue();
+		else
+			m_skin_data.down_x_l = m_down_x_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -743,7 +910,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeDownYEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_down_y_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.down_y_s = m_down_y_edit.GetValue();
+		else
+			m_skin_data.down_y_l = m_down_y_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -755,7 +929,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeDownWidthEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_down_width_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.down_width_s = m_down_width_edit.GetValue();
+		else
+			m_skin_data.down_width_l = m_down_width_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -767,7 +948,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuXEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_cpu_x_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.cpu_x_s = m_cpu_x_edit.GetValue();
+		else
+			m_skin_data.cpu_x_l = m_cpu_x_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -779,7 +967,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuYEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_cpu_y_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.cpu_y_s = m_cpu_y_edit.GetValue();
+		else
+			m_skin_data.cpu_y_l = m_cpu_y_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -791,7 +986,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuWidthEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_cpu_width_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.cpu_width_s = m_cpu_width_edit.GetValue();
+		else
+			m_skin_data.cpu_width_l = m_cpu_width_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -803,7 +1005,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryXEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_memory_x_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.memory_x_s = m_memory_x_edit.GetValue();
+		else
+			m_skin_data.memory_x_l = m_memory_x_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -815,7 +1024,14 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryYEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_memory_y_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.memory_y_s = m_memory_y_edit.GetValue();
+		else
+			m_skin_data.memory_y_l = m_memory_y_edit.GetValue();
+		Modified();
+	}
 }
 
 
@@ -827,13 +1043,30 @@ void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryWidthEdit()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
-	//Modified();
+	if (m_memory_width_edit.GetModify() || m_spin_clicked)
+	{
+		if (m_edit_small_window)
+			m_skin_data.memory_width_s = m_memory_width_edit.GetValue();
+		else
+			m_skin_data.memory_width_l = m_memory_width_edit.GetValue();
+		Modified();
+	}
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedNoUploadCheck()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+	{
+		m_skin_data.show_up_s = (m_no_upload_chk.GetCheck() == 0);
+		EnableUpControl(m_skin_data.show_up_s);
+	}
+	else
+	{
+		m_skin_data.show_up_l = (m_no_upload_chk.GetCheck() == 0);
+		EnableUpControl(m_skin_data.show_up_l);
+	}
 	Modified();
 }
 
@@ -841,6 +1074,16 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedNoUploadCheck()
 void CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+	{
+		m_skin_data.show_down_s = (m_no_download_chk.GetCheck() == 0);
+		EnableDownControl(m_skin_data.show_down_s);
+	}
+	else
+	{
+		m_skin_data.show_down_l = (m_no_download_chk.GetCheck() == 0);
+		EnableDownControl(m_skin_data.show_down_l);
+	}
 	Modified();
 }
 
@@ -848,6 +1091,16 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck()
 void CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+	{
+		m_skin_data.show_cpu_s = (m_no_cpu_chk.GetCheck() == 0);
+		EnableCpuControl(m_skin_data.show_cpu_s);
+	}
+	else
+	{
+		m_skin_data.show_cpu_l = (m_no_cpu_chk.GetCheck() == 0);
+		EnableCpuControl(m_skin_data.show_cpu_l);
+	}
 	Modified();
 }
 
@@ -855,6 +1108,16 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck()
 void CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+	{
+		m_skin_data.show_memory_s = (m_no_memory_chk.GetCheck() == 0);
+		EnableMemoryControl(m_skin_data.show_memory_s);
+	}
+	else
+	{
+		m_skin_data.show_memory_l = (m_no_memory_chk.GetCheck() == 0);
+		EnableMemoryControl(m_skin_data.show_memory_l);
+	}
 	Modified();
 }
 
@@ -865,4 +1128,39 @@ void CTrafficMonitorSkinEditorDlg::OnDeltaposSpin(NMHDR * pNMHDR, LRESULT * pRes
 	//pEdit->SetModify();
 	m_spin_clicked = true;
 	*pResult = 0;
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnFileNew()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!SaveInquiry())
+		return;
+	m_modified = false;
+	LoadSkin(wstring());
+	SetTitle();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnFileSave()
+{
+	// TODO: 在此添加命令处理程序代码
+	_OnFileSave();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnFileSaveAs()
+{
+	// TODO: 在此添加命令处理程序代码
+	_OnFileSaveAs();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnClose()
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	//询问是否保存
+	if (!SaveInquiry()) return;
+
+	CDialog::OnClose();
 }

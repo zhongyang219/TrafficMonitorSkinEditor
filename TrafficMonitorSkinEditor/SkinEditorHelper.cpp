@@ -22,10 +22,10 @@ SkinData CSkinEditorHelper::LoadSkin()
 
 	data.text_color = ini_helper.GetInt(L"skin", L"text_color", 0);
 	data.skin_author = ini_helper.GetString(L"skin", L"skin_author", L"unknow");
-	data.up_string = ini_helper.GetString(L"skin", L"up_string", L"上传: ");
-	data.down_string = ini_helper.GetString(L"skin", L"down_string", L"下载: ");
-	data.cpu_string = ini_helper.GetString(L"skin", L"cpu_string", L"CPU: ");
-	data.memory_string = ini_helper.GetString(L"skin", L"memory_string", L"内存: ");
+	data.up_string = ini_helper.GetString(L"skin", L"up_string", L"\"上传: \"");
+	data.down_string = ini_helper.GetString(L"skin", L"down_string", L"\"下载: \"");
+	data.cpu_string = ini_helper.GetString(L"skin", L"cpu_string", L"\"CPU: \"");
+	data.memory_string = ini_helper.GetString(L"skin", L"memory_string", L"\"内存: \"");
 
 	data.text_height = ini_helper.GetInt(L"layout", L"text_height", 20);
 	data.no_text = ini_helper.GetBool(L"layout", L"no_text", false);
@@ -77,74 +77,76 @@ SkinData CSkinEditorHelper::LoadSkin()
 	return data;
 }
 
-void CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text)
+bool CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text)
 {
 	CIniHelper ini_helper;
 	if (m_ini_path.empty())
-		return;
+		return false;
 	ini_helper.SetPath(m_ini_path);
-	ini_helper.WriteInt(L"skin", L"text_color", data.text_color);
-	ini_helper.WriteString(L"skin", L"skin_author", data.skin_author);
+	bool success{ true };
+	success = (success && ini_helper.WriteInt(L"skin", L"text_color", data.text_color));
+	success = (success && ini_helper.WriteString(L"skin", L"skin_author", data.skin_author));
 	if (asign_item_text)
 	{
-		ini_helper.WriteString(L"skin", L"up_string", data.up_string);
-		ini_helper.WriteString(L"skin", L"down_string", data.down_string);
-		ini_helper.WriteString(L"skin", L"cpu_string", data.cpu_string);
-		ini_helper.WriteString(L"skin", L"memory_string", data.memory_string);
+		success = (success && ini_helper.WriteString(L"skin", L"up_string", data.up_string));
+		success = (success && ini_helper.WriteString(L"skin", L"down_string", data.down_string));
+		success = (success && ini_helper.WriteString(L"skin", L"cpu_string", data.cpu_string));
+		success = (success && ini_helper.WriteString(L"skin", L"memory_string", data.memory_string));
 	}
 
-	ini_helper.WriteInt(L"layout", L"text_height", data.text_height);
-	ini_helper.WriteBool(L"layout", L"no_text", data.no_text);
-	ini_helper.WriteInt(L"layout", L"preview_width", data.preview_width);
-	ini_helper.WriteInt(L"layout", L"preview_height", data.preview_height);
+	success = (success && ini_helper.WriteInt(L"layout", L"text_height", data.text_height));
+	success = (success && ini_helper.WriteBool(L"layout", L"no_text", data.no_text));
+	success = (success && ini_helper.WriteInt(L"layout", L"preview_width", data.preview_width));
+	success = (success && ini_helper.WriteInt(L"layout", L"preview_height", data.preview_height));
 
-	ini_helper.WriteInt(L"layout", L"width_l", data.width_l);
-	ini_helper.WriteInt(L"layout", L"height_l", data.height_l);
-	ini_helper.WriteInt(L"layout", L"up_x_l", data.up_x_l);
-	ini_helper.WriteInt(L"layout", L"up_y_l", data.up_y_l);
-	ini_helper.WriteInt(L"layout", L"up_width_l", data.up_width_l);
-	ini_helper.WriteInt(L"layout", L"down_x_l", data.down_x_l);
-	ini_helper.WriteInt(L"layout", L"down_y_l", data.down_y_l);
-	ini_helper.WriteInt(L"layout", L"down_width_l", data.down_width_l);
-	ini_helper.WriteInt(L"layout", L"cpu_x_l", data.cpu_x_l);
-	ini_helper.WriteInt(L"layout", L"cpu_y_l", data.cpu_y_l);
-	ini_helper.WriteInt(L"layout", L"cpu_width_l", data.cpu_width_l);
-	ini_helper.WriteInt(L"layout", L"memory_x_l", data.memory_x_l);
-	ini_helper.WriteInt(L"layout", L"memory_y_l", data.memory_y_l);
-	ini_helper.WriteInt(L"layout", L"memory_width_l", data.memory_width_l);
-	ini_helper.WriteBool(L"layout", L"show_up_l", data.show_up_l);
-	ini_helper.WriteBool(L"layout", L"show_down_l", data.show_down_l);
-	ini_helper.WriteBool(L"layout", L"show_cpu_l", data.show_cpu_l);
-	ini_helper.WriteBool(L"layout", L"show_memory_l", data.show_memory_l);
-	ini_helper.WriteInt(L"layout", L"preview_x_l", data.preview_x_l);
-	ini_helper.WriteInt(L"layout", L"preview_y_l", data.preview_y_l);
+	success = (success && ini_helper.WriteInt(L"layout", L"width_l", data.width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"height_l", data.height_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_x_l", data.up_x_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_y_l", data.up_y_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_width_l", data.up_width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_x_l", data.down_x_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_y_l", data.down_y_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_width_l", data.down_width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_x_l", data.cpu_x_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_y_l", data.cpu_y_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_width_l", data.cpu_width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_x_l", data.memory_x_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_y_l", data.memory_y_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_width_l", data.memory_width_l));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_up_l", data.show_up_l));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_down_l", data.show_down_l));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_cpu_l", data.show_cpu_l));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_memory_l", data.show_memory_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"preview_x_l", data.preview_x_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"preview_y_l", data.preview_y_l));
 
-	ini_helper.WriteInt(L"layout", L"width_s", data.width_s);
-	ini_helper.WriteInt(L"layout", L"height_s", data.height_s);
-	ini_helper.WriteInt(L"layout", L"up_x_s", data.up_x_s);
-	ini_helper.WriteInt(L"layout", L"up_y_s", data.up_y_s);
-	ini_helper.WriteInt(L"layout", L"up_width_s", data.up_width_s);
-	ini_helper.WriteInt(L"layout", L"down_x_s", data.down_x_s);
-	ini_helper.WriteInt(L"layout", L"down_y_s", data.down_y_s);
-	ini_helper.WriteInt(L"layout", L"down_width_s", data.down_width_s);
-	ini_helper.WriteInt(L"layout", L"cpu_x_s", data.cpu_x_s);
-	ini_helper.WriteInt(L"layout", L"cpu_y_s", data.cpu_y_s);
-	ini_helper.WriteInt(L"layout", L"cpu_width_s", data.cpu_width_s);
-	ini_helper.WriteInt(L"layout", L"memory_x_s", data.memory_x_s);
-	ini_helper.WriteInt(L"layout", L"memory_y_s", data.memory_y_s);
-	ini_helper.WriteInt(L"layout", L"memory_width_s", data.memory_width_s);
-	ini_helper.WriteBool(L"layout", L"show_up_s", data.show_up_s);
-	ini_helper.WriteBool(L"layout", L"show_down_s", data.show_down_s);
-	ini_helper.WriteBool(L"layout", L"show_cpu_s", data.show_cpu_s);
-	ini_helper.WriteBool(L"layout", L"show_memory_s", data.show_memory_s);
-	ini_helper.WriteInt(L"layout", L"preview_x_s", data.preview_x_s);
-	ini_helper.WriteInt(L"layout", L"preview_y_s", data.preview_y_s);
+	success = (success && ini_helper.WriteInt(L"layout", L"width_s", data.width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"height_s", data.height_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_x_s", data.up_x_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_y_s", data.up_y_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_width_s", data.up_width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_x_s", data.down_x_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_y_s", data.down_y_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_width_s", data.down_width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_x_s", data.cpu_x_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_y_s", data.cpu_y_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_width_s", data.cpu_width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_x_s", data.memory_x_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_y_s", data.memory_y_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_width_s", data.memory_width_s));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_up_s", data.show_up_s));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_down_s", data.show_down_s));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_cpu_s", data.show_cpu_s));
+	success = (success && ini_helper.WriteBool(L"layout", L"show_memory_s", data.show_memory_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"preview_x_s", data.preview_x_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"preview_y_s", data.preview_y_s));
+	return success;
 }
 
 void CSkinEditorHelper::SetSkinPath(const wstring & skin_path)
 {
 	m_ini_path = skin_path;
-	if (skin_path.back() != L'\\'&&skin_path.back() != L'/')
+	if (skin_path.size() > 1 && skin_path.back() != L'\\' && skin_path.back() != L'/')
 		m_ini_path.push_back(L'\\');
 	m_ini_path += L"skin.ini";
 }
