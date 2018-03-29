@@ -138,6 +138,9 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_COMMAND(ID_FILE_SAVE, &CTrafficMonitorSkinEditorDlg::OnFileSave)
 	ON_COMMAND(ID_FILE_SAVE_AS, &CTrafficMonitorSkinEditorDlg::OnFileSaveAs)
 	ON_WM_CLOSE()
+	ON_COMMAND(ID_IMPORT_LARGE_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportLargeBackImage)
+	ON_COMMAND(ID_IMPORT_SMALL_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportSmallBackImage)
+	ON_WM_DROPFILES()
 END_MESSAGE_MAP()
 
 
@@ -223,6 +226,20 @@ void CTrafficMonitorSkinEditorDlg::AllToUI()
 	SetItemControlEnable();
 }
 
+void CTrafficMonitorSkinEditorDlg::LoadBackImage(const wstring& path, bool small_image)
+{
+	if (small_image)
+	{
+		m_background_s.Destroy();
+		m_background_s.Load((path + BACKGROUND_IMAGE_S).c_str());
+	}
+	else
+	{
+		m_background_l.Destroy();
+		m_background_l.Load((path + BACKGROUND_IMAGE_L).c_str());
+	}
+}
+
 void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
 {
 	//载入皮肤布局
@@ -230,10 +247,8 @@ void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
 	skin_editor.SetSkinPath(path);
 	m_skin_data = skin_editor.LoadSkin();
 	//载入背景图
-	m_background_s.Destroy();
-	m_background_l.Destroy();
-	m_background_s.Load((path + L"\\background.bmp").c_str());
-	m_background_l.Load((path + L"\\background_l.bmp").c_str());
+	LoadBackImage(path, true);
+	LoadBackImage(path, false);
 	//设置控件数据
 	AllToUI();
 	//绘制预览
@@ -333,6 +348,7 @@ bool CTrafficMonitorSkinEditorDlg::SaveSkin(const wstring& path)
 
 bool CTrafficMonitorSkinEditorDlg::_OnFileSave()
 {
+	CWaitCursor wait_cursor;
 	if (m_modified)		//只有在已更改过之后才保存
 	{
 		//已经打开过一个文件时就直接保存，还没有打开一个文件就弹出“另存为”对话框
@@ -355,15 +371,73 @@ bool CTrafficMonitorSkinEditorDlg::_OnFileSaveAs()
 {
 	//构造保存文件对话框
 	CFolderPickerDialog folderDlg;
+	folderDlg.m_ofn.lpstrTitle = _T("选择要保存的皮肤文件夹");
 	//显示保存文件对话框
 	if (IDOK == folderDlg.DoModal())
 	{
-		if (SaveSkin(folderDlg.GetPathName().GetString()))
+		wstring new_path = folderDlg.GetPathName();
+		if (CCommon::FileExist(new_path + L"\\skin.ini"))
 		{
-			m_path = folderDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
+			if (MessageBox(_T("该文件夹已经有皮肤，要覆盖它吗？"), NULL, MB_YESNOCANCEL | MB_ICONQUESTION) != IDYES)
+				return false;
+		}
+		if (SaveSkin(new_path))
+		{
+			//将背景图片复制到新的路径
+			if (m_path != new_path)
+			{
+				if (CCommon::FileExist(m_path + BACKGROUND_IMAGE_S))	//确保当前路径下背景图片存在
+				{
+					if (CCommon::FileExist(new_path + BACKGROUND_IMAGE_S))		//如果目标路径下背景图片已经存在，则询问用户是否覆盖
+					{
+						CString info;
+						info.Format(_T("文件 %s 已存在，要覆盖它吗？"), (new_path + BACKGROUND_IMAGE_S).c_str());
+						switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
+						{
+						case IDYES:
+							CopyFile((m_path + BACKGROUND_IMAGE_S).c_str(), (new_path + BACKGROUND_IMAGE_S).c_str(), FALSE);
+							break;
+						case IDNO:
+							break;
+						case IDCANCEL:
+							return false;
+						}
+					}
+					else	//如果目标路径下图片文件不存在，就直接复制到目标路径
+					{
+						CopyFile((m_path + BACKGROUND_IMAGE_S).c_str(), (new_path + BACKGROUND_IMAGE_S).c_str(), FALSE);
+					}
+				}
+				if (CCommon::FileExist(m_path + BACKGROUND_IMAGE_L))
+				{
+					if (CCommon::FileExist(new_path + BACKGROUND_IMAGE_L))
+					{
+						CString info;
+						info.Format(_T("文件 %s 已存在，要覆盖它吗？"), (new_path + BACKGROUND_IMAGE_L).c_str());
+						switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
+						{
+						case IDYES:
+							CopyFile((m_path + BACKGROUND_IMAGE_L).c_str(), (new_path + BACKGROUND_IMAGE_L).c_str(), FALSE);
+							break;
+						case IDNO:
+							break;
+						case IDCANCEL:
+							return false;
+						}
+					}
+					else
+					{
+						CopyFile((m_path + BACKGROUND_IMAGE_L).c_str(), (new_path + BACKGROUND_IMAGE_L).c_str(), FALSE);
+					}
+				}
+			}
+			m_path = new_path;	//另存为后，当前文件名为保存的文件名
 			m_modified = true;
-			_OnFileSave();					//在新的位置保存文本资源文件
-			SetTitle();					//用新的文件名设置标题
+			_OnFileSave();					//在新的位置保存皮肤文件
+			SetTitle();					//设置标题
+			LoadBackImage(m_path, true);
+			LoadBackImage(m_path, false);
+			DrawPreview();
 			return true;
 		}
 	}
@@ -375,14 +449,7 @@ bool CTrafficMonitorSkinEditorDlg::SaveInquiry()
 	if (m_modified)
 	{
 		CString text;
-		if (m_path.empty())
-		{
-			text = _T("\"无标题\" 已更改，是否保存？");
-		}
-		else
-		{
-			text.Format(_T("%s 已更改，是否保存？"), m_path.c_str());
-		}
+		text.Format(_T("皮肤 %s 已更改，是否保存？"), (m_path.empty() ? _T("\"无标题\"") : m_path.c_str()));
 
 		int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
 		switch (rtn)
@@ -396,6 +463,45 @@ bool CTrafficMonitorSkinEditorDlg::SaveInquiry()
 		}
 	}
 	return true;
+}
+
+void CTrafficMonitorSkinEditorDlg::_OnImportBackImage(bool small_image)
+{
+	if (m_path.empty() || !CCommon::FolderExist(m_path))
+	{
+		if (MessageBox(_T("当前皮肤还没有保存，要保存吗？"), NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
+			_OnFileSaveAs();
+		else
+			return;
+	}
+	if (m_path.empty() || !CCommon::FolderExist(m_path))
+		return;
+	//设置过滤器
+	LPCTSTR szFilter = _T("BMP图像(*.bmp)|*.bmp||");
+	//构造打开文件对话框
+	CFileDialog fileDlg(TRUE, _T("bmp"), NULL, 0, szFilter, this);
+	//设置窗口标题
+	LPCTSTR szTitle = (small_image ? _T("导入小背景图") : _T("导入大背景图"));
+	fileDlg.m_ofn.lpstrTitle = szTitle;
+	//显示打开文件对话框
+	if (IDOK == fileDlg.DoModal())
+	{
+		wstring current_back_image(small_image ? (m_path + BACKGROUND_IMAGE_S) : (m_path + BACKGROUND_IMAGE_L));
+		if (current_back_image == fileDlg.GetPathName().GetString())		//如果要导入文件就是已加载的文件，则直接返回
+		{
+			return;
+		}
+		if (!(small_image ? m_background_s : m_background_l).IsNull())		//如果背景图已经加载，弹出警告对话框
+		{
+			if (MessageBox(_T("背景图已经存在，要覆盖它吗？此操作不可逆！"), NULL, MB_YESNO | MB_ICONWARNING) != IDYES)
+				return;
+		}
+		//将要载入的背景图复制到皮肤文件夹，并覆盖已经存在的文件
+		CopyFile(fileDlg.GetPathName(), current_back_image.c_str(), FALSE);
+		//重新载入背景图
+		LoadBackImage(m_path, small_image);
+		DrawPreview();
+	}
 }
 
 BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
@@ -510,7 +616,7 @@ afx_msg LRESULT CTrafficMonitorSkinEditorDlg::OnStaticClicked(WPARAM wParam, LPA
 	CWnd* pWnd = (CWnd*)wParam;
 	if (pWnd == &m_text_color_static)
 	{
-		CColorDialog dlg;
+		CColorDialog dlg(m_skin_data.text_color);
 		if (dlg.DoModal() == IDOK)
 		{
 			m_skin_data.text_color = dlg.GetColor();
@@ -1137,6 +1243,7 @@ void CTrafficMonitorSkinEditorDlg::OnFileNew()
 	if (!SaveInquiry())
 		return;
 	m_modified = false;
+	m_path.clear();
 	LoadSkin(wstring());
 	SetTitle();
 }
@@ -1163,4 +1270,35 @@ void CTrafficMonitorSkinEditorDlg::OnClose()
 	if (!SaveInquiry()) return;
 
 	CDialog::OnClose();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnImportLargeBackImage()
+{
+	// TODO: 在此添加命令处理程序代码
+	_OnImportBackImage(false);
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnImportSmallBackImage()
+{
+	// TODO: 在此添加命令处理程序代码
+	_OnImportBackImage(true);
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnDropFiles(HDROP hDropInfo)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	if (!SaveInquiry())		//打开新文件前询问用户是否保存
+		return;
+	wchar_t file_path[MAX_PATH];
+	DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);
+	if (!CCommon::FolderExist(file_path))
+		return;
+	m_path = file_path;
+	LoadSkin(m_path);	//打开皮肤
+	DragFinish(hDropInfo);  //拖放结束后,释放内存
+
+	CDialog::OnDropFiles(hDropInfo);
 }

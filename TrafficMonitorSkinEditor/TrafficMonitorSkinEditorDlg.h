@@ -78,7 +78,8 @@ protected:
 	void DrawPreview();
 	void LayoutDataToUI(bool small_window);
 	void AllToUI();
-	void LoadSkin(const wstring& path);
+	void LoadBackImage(const wstring& path, bool small_image);		//载入背景图，path为皮肤所在路径；small_image指定载入小背景图还是大背景图
+	void LoadSkin(const wstring& path);		//载入皮肤，path为皮肤所在路径
 	void SetTitle();
 	void Modified();	//有改动时的处理
 
@@ -94,6 +95,7 @@ protected:
 	bool _OnFileSave();
 	bool _OnFileSaveAs();
 	bool SaveInquiry();		//询问用户是否保存，如果选择了“是”则返回true
+	void _OnImportBackImage(bool small_image);		//导入背景图
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
@@ -144,4 +146,7 @@ public:
 	afx_msg void OnFileSave();
 	afx_msg void OnFileSaveAs();
 	afx_msg void OnClose();
+	afx_msg void OnImportLargeBackImage();
+	afx_msg void OnImportSmallBackImage();
+	afx_msg void OnDropFiles(HDROP hDropInfo);
 };

@@ -84,6 +84,7 @@ bool CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text)
 		return false;
 	ini_helper.SetPath(m_ini_path);
 	bool success{ true };
+	DeleteFileW(m_ini_path.c_str());		//保存前先删除ini文件
 	success = (success && ini_helper.WriteInt(L"skin", L"text_color", data.text_color));
 	success = (success && ini_helper.WriteString(L"skin", L"skin_author", data.skin_author));
 	if (asign_item_text)

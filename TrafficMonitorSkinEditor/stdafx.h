@@ -55,3 +55,5 @@ using std::wstring;
 #endif
 
 
+#define BACKGROUND_IMAGE_S L"\\background.bmp"
+#define BACKGROUND_IMAGE_L L"\\background_l.bmp"
