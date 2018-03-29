@@ -20,7 +20,7 @@ public:
 // 对话框数据
 	enum { IDD = IDD_TRAFFICMONITORSKINEDITOR_DIALOG };
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
 

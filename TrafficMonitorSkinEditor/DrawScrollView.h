@@ -3,9 +3,6 @@
 #include "DrawCommon.h"
 
 // DrawScrollView 视图
-#define WM_VIEW_MOUSE_CLICK (WM_USER + 1)		//定义Scroll View窗口鼠标单击消息
-#define WM_VIEW_MOUSE_DBCLICK (WM_USER + 2)		//定义Scroll View窗口鼠标双击消息
-
 class CDrawScrollView : public CScrollView
 {
 	DECLARE_DYNCREATE(CDrawScrollView)
