@@ -23,6 +23,7 @@ public:
 	void SetSize(int width,int hight);
 	void SetSkinData(SkinData* skin_data) { m_skin_data = skin_data; }
 	void SetBackImage(CImage* background_s, CImage* background_l);
+	void SetShowItemOutline(bool* show_item_outline) { m_show_item_outline = show_item_outline; }
 
 //成员变量
 protected:
@@ -32,6 +33,9 @@ protected:
 	SkinData* m_skin_data;
 	CImage* m_background_s;
 	CImage* m_background_l;
+	bool* m_show_item_outline;
+
+	const COLORREF m_outline_color{ RGB(96,96,96) };
 
 protected:
 	virtual void OnDraw(CDC* pDC);      // 重写以绘制该视图

@@ -45,6 +45,21 @@ void CDrawCommon::DrawWindowText(CRect rect, LPCTSTR lpszString, COLORREF color,
 		m_pDC->DrawText(lpszString, rect, (center ? DT_CENTER : 0) | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX);
 }
 
+void CDrawCommon::DrawRectOutLine(CRect rect, COLORREF color, bool dot_line)
+{
+	CPen aPen, *pOldPen;
+	aPen.CreatePen((dot_line ? PS_DOT : PS_SOLID), 1, color);
+	pOldPen = m_pDC->SelectObject(&aPen);
+
+	m_pDC->MoveTo(rect.TopLeft());
+	m_pDC->LineTo(rect.right - 1, rect.top);
+	m_pDC->LineTo(rect.right - 1, rect.bottom - 1);
+	m_pDC->LineTo(rect.left, rect.bottom - 1);
+	m_pDC->LineTo(rect.TopLeft());
+
+	m_pDC->SelectObject(pOldPen);
+}
+
 
 void CDrawCommon::SetDrawRect(CRect rect)
 {

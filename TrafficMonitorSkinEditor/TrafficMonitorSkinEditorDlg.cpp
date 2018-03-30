@@ -151,6 +151,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_COMMAND(ID_IMPORT_LARGE_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportLargeBackImage)
 	ON_COMMAND(ID_IMPORT_SMALL_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportSmallBackImage)
 	ON_WM_DROPFILES()
+	ON_BN_CLICKED(IDC_SHOW_ITEM_OUTLINE_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck)
 END_MESSAGE_MAP()
 
 
@@ -555,17 +556,19 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 	GetDlgItem(IDC_PREVIEW_GROUP_STATIC)->GetWindowRect(rect);		//获取“预览” group box 的位置
 	ScreenToClient(&rect);
 	CRect scroll_view_rect{ rect };
-	scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(12));
+	scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(25));
 	scroll_view_rect.top += theApp.DPI(102);
 	m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
 	m_view->InitialUpdate();
 	m_view->SetSkinData(&m_skin_data);
 	m_view->SetBackImage(&m_background_s, &m_background_l);
+	m_view->SetShowItemOutline(&m_show_item_outline);
 	m_view->ShowWindow(SW_SHOW);
 
 	//
 	LoadSkin(wstring());
 	((CButton*)GetDlgItem(IDC_LARGE_WINDOW_RADIO))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->SetCheck(m_show_item_outline);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -1311,4 +1314,12 @@ void CTrafficMonitorSkinEditorDlg::OnDropFiles(HDROP hDropInfo)
 	DragFinish(hDropInfo);  //拖放结束后,释放内存
 
 	CDialog::OnDropFiles(hDropInfo);
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_show_item_outline = (((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->GetCheck() != 0);
+	DrawPreview();
 }

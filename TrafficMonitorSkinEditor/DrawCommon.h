@@ -21,6 +21,7 @@ public:
 	CDC* GetDC() { return m_pDC; }
 
 	void DrawWindowText(CRect rect, LPCTSTR lpszString, COLORREF color, bool center);	//在指定的矩形区域内绘制文本
+	void DrawRectOutLine(CRect rect, COLORREF color, bool dot_line = false);	//绘制矩形边框。如果dot_line为true，则为虚线
 
 	void SetDrawRect(CRect rect);
 

@@ -33,6 +33,7 @@ protected:
 	wstring m_path;
 	bool m_edit_small_window{ false };
 	bool m_asign_item_text{ false };
+	bool m_show_item_outline{ true };
 	CImage m_background_s;
 	CImage m_background_l;
 
@@ -149,4 +150,5 @@ public:
 	afx_msg void OnImportLargeBackImage();
 	afx_msg void OnImportSmallBackImage();
 	afx_msg void OnDropFiles(HDROP hDropInfo);
+	afx_msg void OnBnClickedShowItemOutlineCheck();
 };

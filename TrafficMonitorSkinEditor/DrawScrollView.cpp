@@ -79,6 +79,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->up_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, up_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
 	//绘制“下载”文本
 	if (m_skin_data->show_down_s)
@@ -88,6 +90,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->down_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, down_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
 	//绘制“CPU”文本
 	if (m_skin_data->show_cpu_s)
@@ -97,8 +101,10 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->cpu_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, cpu_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//绘制“上传”文本
+	//绘制“内存”文本
 	if (m_skin_data->show_memory_s)
 	{
 		point.SetPoint(m_skin_data->memory_x_s, m_skin_data->memory_y_s);
@@ -106,6 +112,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->memory_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, memory_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
 
 	//绘制大预览图文本
@@ -117,6 +125,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->up_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, up_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
 	//绘制“下载”文本
 	if (m_skin_data->show_down_l)
@@ -126,6 +136,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->down_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, down_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
 	//绘制“CPU”文本
 	if (m_skin_data->show_cpu_l)
@@ -135,8 +147,10 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->cpu_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, cpu_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//绘制“上传”文本
+	//绘制“内存”文本
 	if (m_skin_data->show_memory_l)
 	{
 		point.SetPoint(m_skin_data->memory_x_l, m_skin_data->memory_y_l);
@@ -144,6 +158,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CRect rect(point, CSize(m_skin_data->memory_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
 		draw.DrawWindowText(rect, memory_str, m_skin_data->text_color, false);
+		if (*m_show_item_outline)
+			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
 }
 
