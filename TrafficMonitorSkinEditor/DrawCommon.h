@@ -1,5 +1,6 @@
 //封装的绘图类
 #pragma once
+#include "Common.h"
 class CDrawCommon
 {
 public:
@@ -20,7 +21,7 @@ public:
 	void SetDC(CDC* pDC);		//设置绘图的DC
 	CDC* GetDC() { return m_pDC; }
 
-	void DrawWindowText(CRect rect, LPCTSTR lpszString, COLORREF color, bool center);	//在指定的矩形区域内绘制文本
+	void DrawWindowText(CRect rect, LPCTSTR lpszString, COLORREF color, Alignment align = Alignment::LEFT);	//在指定的矩形区域内绘制文本
 	void DrawRectOutLine(CRect rect, COLORREF color, bool dot_line = false);	//绘制矩形边框。如果dot_line为true，则为虚线
 
 	void SetDrawRect(CRect rect);

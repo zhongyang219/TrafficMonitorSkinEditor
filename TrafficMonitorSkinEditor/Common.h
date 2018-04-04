@@ -1,5 +1,12 @@
 #pragma once
 
+enum class Alignment
+{
+	LEFT,
+	RIGHT,
+	CENTER
+};
+
 class CCommon
 {
 public:

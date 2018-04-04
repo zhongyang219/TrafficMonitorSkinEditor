@@ -37,15 +37,19 @@ SkinData CSkinEditorHelper::LoadSkin()
 	data.up_x_l = ini_helper.GetInt(L"layout", L"up_x_l", 6);
 	data.up_y_l = ini_helper.GetInt(L"layout", L"up_y_l", 2);
 	data.up_width_l = ini_helper.GetInt(L"layout", L"up_width_l", 108);
+	data.up_align_l = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"up_align_l", 0));
 	data.down_x_l = ini_helper.GetInt(L"layout", L"down_x_l", 114);
 	data.down_y_l = ini_helper.GetInt(L"layout", L"down_y_l", 2);
 	data.down_width_l = ini_helper.GetInt(L"layout", L"down_width_l", 110);
+	data.down_align_l = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"down_align_l", 0));
 	data.cpu_x_l = ini_helper.GetInt(L"layout", L"cpu_x_l", 6);
 	data.cpu_y_l = ini_helper.GetInt(L"layout", L"cpu_y_l", 22);
 	data.cpu_width_l = ini_helper.GetInt(L"layout", L"cpu_width_l", 108);
+	data.cpu_align_l = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"cpu_align_l", 0));
 	data.memory_x_l = ini_helper.GetInt(L"layout", L"memory_x_l", 114);
 	data.memory_y_l = ini_helper.GetInt(L"layout", L"memory_y_l", 22);
 	data.memory_width_l = ini_helper.GetInt(L"layout", L"memory_width_l", 110);
+	data.memory_align_l = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"memory_align_l", 0));
 	data.show_up_l = ini_helper.GetBool(L"layout", L"show_up_l", true);
 	data.show_down_l = ini_helper.GetBool(L"layout", L"show_down_l", true);
 	data.show_cpu_l = ini_helper.GetBool(L"layout", L"show_cpu_l", true);
@@ -58,15 +62,19 @@ SkinData CSkinEditorHelper::LoadSkin()
 	data.up_x_s = ini_helper.GetInt(L"layout", L"up_x_s", 6);
 	data.up_y_s = ini_helper.GetInt(L"layout", L"up_y_s", 4);
 	data.up_width_s = ini_helper.GetInt(L"layout", L"up_width_s", 108);
+	data.up_align_s = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"up_align_s", 0));
 	data.down_x_s = ini_helper.GetInt(L"layout", L"down_x_s", 114);
 	data.down_y_s = ini_helper.GetInt(L"layout", L"down_y_s", 4);
 	data.down_width_s = ini_helper.GetInt(L"layout", L"down_width_s", 110);
+	data.down_align_s = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"down_align_s", 0));
 	data.cpu_x_s = ini_helper.GetInt(L"layout", L"cpu_x_s", 0);
 	data.cpu_y_s = ini_helper.GetInt(L"layout", L"cpu_y_s", 0);
 	data.cpu_width_s = ini_helper.GetInt(L"layout", L"cpu_width_s", 0);
+	data.cpu_align_s = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"cpu_align_s", 0));
 	data.memory_x_s = ini_helper.GetInt(L"layout", L"memory_x_s", 0);
 	data.memory_y_s = ini_helper.GetInt(L"layout", L"memory_y_s", 0);
 	data.memory_width_s = ini_helper.GetInt(L"layout", L"memory_width_s", 0);
+	data.memory_align_s = static_cast<Alignment>(ini_helper.GetInt(L"layout", L"memory_align_s", 0));
 	data.show_up_s = ini_helper.GetBool(L"layout", L"show_up_s", true);
 	data.show_down_s = ini_helper.GetBool(L"layout", L"show_down_s", true);
 	data.show_cpu_s = ini_helper.GetBool(L"layout", L"show_cpu_s", false);
@@ -105,15 +113,19 @@ bool CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text)
 	success = (success && ini_helper.WriteInt(L"layout", L"up_x_l", data.up_x_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"up_y_l", data.up_y_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"up_width_l", data.up_width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_align_l", static_cast<int>(data.up_align_l)));
 	success = (success && ini_helper.WriteInt(L"layout", L"down_x_l", data.down_x_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"down_y_l", data.down_y_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"down_width_l", data.down_width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_align_l", static_cast<int>(data.down_align_l)));
 	success = (success && ini_helper.WriteInt(L"layout", L"cpu_x_l", data.cpu_x_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"cpu_y_l", data.cpu_y_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"cpu_width_l", data.cpu_width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_align_l", static_cast<int>(data.cpu_align_l)));
 	success = (success && ini_helper.WriteInt(L"layout", L"memory_x_l", data.memory_x_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"memory_y_l", data.memory_y_l));
 	success = (success && ini_helper.WriteInt(L"layout", L"memory_width_l", data.memory_width_l));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_align_l", static_cast<int>(data.memory_align_l)));
 	success = (success && ini_helper.WriteBool(L"layout", L"show_up_l", data.show_up_l));
 	success = (success && ini_helper.WriteBool(L"layout", L"show_down_l", data.show_down_l));
 	success = (success && ini_helper.WriteBool(L"layout", L"show_cpu_l", data.show_cpu_l));
@@ -126,15 +138,19 @@ bool CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text)
 	success = (success && ini_helper.WriteInt(L"layout", L"up_x_s", data.up_x_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"up_y_s", data.up_y_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"up_width_s", data.up_width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"up_align_s", static_cast<int>(data.up_align_s)));
 	success = (success && ini_helper.WriteInt(L"layout", L"down_x_s", data.down_x_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"down_y_s", data.down_y_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"down_width_s", data.down_width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"down_align_s", static_cast<int>(data.down_align_s)));
 	success = (success && ini_helper.WriteInt(L"layout", L"cpu_x_s", data.cpu_x_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"cpu_y_s", data.cpu_y_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"cpu_width_s", data.cpu_width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"cpu_align_s", static_cast<int>(data.cpu_align_s)));
 	success = (success && ini_helper.WriteInt(L"layout", L"memory_x_s", data.memory_x_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"memory_y_s", data.memory_y_s));
 	success = (success && ini_helper.WriteInt(L"layout", L"memory_width_s", data.memory_width_s));
+	success = (success && ini_helper.WriteInt(L"layout", L"memory_align_s", static_cast<int>(data.memory_align_s)));
 	success = (success && ini_helper.WriteBool(L"layout", L"show_up_s", data.show_up_s));
 	success = (success && ini_helper.WriteBool(L"layout", L"show_down_s", data.show_down_s));
 	success = (success && ini_helper.WriteBool(L"layout", L"show_cpu_s", data.show_cpu_s));
@@ -152,7 +168,3 @@ void CSkinEditorHelper::SetSkinPath(const wstring & skin_path)
 	m_ini_path += L"skin.ini";
 }
 
-//int CSkinEditorHelper::DPI(int pixel)
-//{
-//	return pixel * m_dpi / 96;
-//}

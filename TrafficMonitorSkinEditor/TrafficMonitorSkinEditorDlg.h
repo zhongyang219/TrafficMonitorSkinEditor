@@ -68,6 +68,10 @@ protected:
 	CSpinEdit m_memory_y_edit;
 	CSpinEdit m_memory_width_edit;
 	CButton m_no_memory_chk;
+	CComboBox m_up_align_combo;
+	CComboBox m_down_align_combo;
+	CComboBox m_cpu_align_combo;
+	CComboBox m_memory_align_combo;
 
 	CSpinEdit m_preview_width_edit;
 	CSpinEdit m_preview_height_edit;
@@ -83,6 +87,7 @@ protected:
 	void LoadSkin(const wstring& path);		//载入皮肤，path为皮肤所在路径
 	void SetTitle();
 	void Modified();	//有改动时的处理
+	void IniAlignComboBox(CComboBox& combo);	//为“对齐方式”下拉列表控件添加字符串
 
 	//设置控件的启用和禁用
 	void EnableTextControl(bool enable);
@@ -151,4 +156,8 @@ public:
 	afx_msg void OnImportSmallBackImage();
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 	afx_msg void OnBnClickedShowItemOutlineCheck();
+	afx_msg void OnCbnSelchangeCombo1();
+	afx_msg void OnCbnSelchangeCombo2();
+	afx_msg void OnCbnSelchangeCombo3();
+	afx_msg void OnCbnSelchangeCombo4();
 };

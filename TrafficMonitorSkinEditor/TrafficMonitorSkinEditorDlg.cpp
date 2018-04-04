@@ -99,6 +99,10 @@ void CTrafficMonitorSkinEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_PREVIEW_Y_S_EDIT, m_preview_y_s_edit);
 	DDX_Control(pDX, IDC_PREVIEW_X_L_EDIT, m_preview_x_l_edit);
 	DDX_Control(pDX, IDC_PREVIEW_Y_L_EDIT, m_preview_y_l_edit);
+	DDX_Control(pDX, IDC_COMBO1, m_up_align_combo);
+	DDX_Control(pDX, IDC_COMBO2, m_down_align_combo);
+	DDX_Control(pDX, IDC_COMBO3, m_cpu_align_combo);
+	DDX_Control(pDX, IDC_COMBO4, m_memory_align_combo);
 }
 
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
@@ -152,6 +156,10 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_COMMAND(ID_IMPORT_SMALL_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportSmallBackImage)
 	ON_WM_DROPFILES()
 	ON_BN_CLICKED(IDC_SHOW_ITEM_OUTLINE_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck)
+	ON_CBN_SELCHANGE(IDC_COMBO1, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo1)
+	ON_CBN_SELCHANGE(IDC_COMBO2, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo2)
+	ON_CBN_SELCHANGE(IDC_COMBO3, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo3)
+	ON_CBN_SELCHANGE(IDC_COMBO4, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4)
 END_MESSAGE_MAP()
 
 
@@ -175,18 +183,22 @@ void CTrafficMonitorSkinEditorDlg::LayoutDataToUI(bool small_window)
 		m_up_x_edit.SetValue(m_skin_data.up_x_s);
 		m_up_y_edit.SetValue(m_skin_data.up_y_s);
 		m_up_width_edit.SetValue(m_skin_data.up_width_s);
+		m_up_align_combo.SetCurSel(static_cast<int>(m_skin_data.up_align_s));
 		m_no_upload_chk.SetCheck(!m_skin_data.show_up_s);
 		m_down_x_edit.SetValue(m_skin_data.down_x_s);
 		m_down_y_edit.SetValue(m_skin_data.down_y_s);
+		m_down_align_combo.SetCurSel(static_cast<int>(m_skin_data.down_align_s));
 		m_down_width_edit.SetValue(m_skin_data.down_width_s);
 		m_no_download_chk.SetCheck(!m_skin_data.show_down_s);
 		m_cpu_x_edit.SetValue(m_skin_data.cpu_x_s);
 		m_cpu_y_edit.SetValue(m_skin_data.cpu_y_s);
 		m_cpu_width_edit.SetValue(m_skin_data.cpu_width_s);
+		m_cpu_align_combo.SetCurSel(static_cast<int>(m_skin_data.cpu_align_s));
 		m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_s);
 		m_memory_x_edit.SetValue(m_skin_data.memory_x_s);
 		m_memory_y_edit.SetValue(m_skin_data.memory_y_s);
 		m_memory_width_edit.SetValue(m_skin_data.memory_width_s);
+		m_memory_align_combo.SetCurSel(static_cast<int>(m_skin_data.memory_align_s));
 		m_no_memory_chk.SetCheck(!m_skin_data.show_memory_s);
 	}
 	else
@@ -197,18 +209,22 @@ void CTrafficMonitorSkinEditorDlg::LayoutDataToUI(bool small_window)
 		m_up_x_edit.SetValue(m_skin_data.up_x_l);
 		m_up_y_edit.SetValue(m_skin_data.up_y_l);
 		m_up_width_edit.SetValue(m_skin_data.up_width_l);
+		m_up_align_combo.SetCurSel(static_cast<int>(m_skin_data.up_align_l));
 		m_no_upload_chk.SetCheck(!m_skin_data.show_up_l);
 		m_down_x_edit.SetValue(m_skin_data.down_x_l);
 		m_down_y_edit.SetValue(m_skin_data.down_y_l);
+		m_down_align_combo.SetCurSel(static_cast<int>(m_skin_data.down_align_l));
 		m_down_width_edit.SetValue(m_skin_data.down_width_l);
 		m_no_download_chk.SetCheck(!m_skin_data.show_down_l);
 		m_cpu_x_edit.SetValue(m_skin_data.cpu_x_l);
 		m_cpu_y_edit.SetValue(m_skin_data.cpu_y_l);
 		m_cpu_width_edit.SetValue(m_skin_data.cpu_width_l);
+		m_cpu_align_combo.SetCurSel(static_cast<int>(m_skin_data.cpu_align_l));
 		m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_l);
 		m_memory_x_edit.SetValue(m_skin_data.memory_x_l);
 		m_memory_y_edit.SetValue(m_skin_data.memory_y_l);
 		m_memory_width_edit.SetValue(m_skin_data.memory_width_l);
+		m_memory_align_combo.SetCurSel(static_cast<int>(m_skin_data.memory_align_l));
 		m_no_memory_chk.SetCheck(!m_skin_data.show_memory_l);
 	}
 }
@@ -287,6 +303,13 @@ void CTrafficMonitorSkinEditorDlg::Modified()
 	m_spin_clicked = false;
 }
 
+void CTrafficMonitorSkinEditorDlg::IniAlignComboBox(CComboBox & combo)
+{
+	combo.AddString(_T("左对齐"));
+	combo.AddString(_T("右对齐"));
+	combo.AddString(_T("居中"));
+}
+
 void CTrafficMonitorSkinEditorDlg::EnableTextControl(bool enable)
 {
 	m_up_string_edit.EnableWindow(enable);
@@ -300,6 +323,7 @@ void CTrafficMonitorSkinEditorDlg::EnableUpControl(bool enable)
 	m_up_x_edit.EnableWindow(enable);
 	m_up_y_edit.EnableWindow(enable);
 	m_up_width_edit.EnableWindow(enable);
+	m_up_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableDownControl(bool enable)
@@ -307,6 +331,7 @@ void CTrafficMonitorSkinEditorDlg::EnableDownControl(bool enable)
 	m_down_x_edit.EnableWindow(enable);
 	m_down_y_edit.EnableWindow(enable);
 	m_down_width_edit.EnableWindow(enable);
+	m_down_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableCpuControl(bool enable)
@@ -314,6 +339,7 @@ void CTrafficMonitorSkinEditorDlg::EnableCpuControl(bool enable)
 	m_cpu_x_edit.EnableWindow(enable);
 	m_cpu_y_edit.EnableWindow(enable);
 	m_cpu_width_edit.EnableWindow(enable);
+	m_cpu_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableMemoryControl(bool enable)
@@ -321,6 +347,7 @@ void CTrafficMonitorSkinEditorDlg::EnableMemoryControl(bool enable)
 	m_memory_x_edit.EnableWindow(enable);
 	m_memory_y_edit.EnableWindow(enable);
 	m_memory_width_edit.EnableWindow(enable);
+	m_memory_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::SetItemControlEnable()
@@ -556,14 +583,21 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 	GetDlgItem(IDC_PREVIEW_GROUP_STATIC)->GetWindowRect(rect);		//获取“预览” group box 的位置
 	ScreenToClient(&rect);
 	CRect scroll_view_rect{ rect };
-	scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(25));
-	scroll_view_rect.top += theApp.DPI(102);
+	scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(25));	//预览视图两侧距“预览”group box 12个像素，底部25个像素
+	GetDlgItem(IDC_PREVIEW_X_L_EDIT)->GetWindowRect(rect);		//获取“大窗口位置”中“X” Edit box的位置
+	ScreenToClient(&rect);
+	scroll_view_rect.top = rect.bottom + theApp.DPI(8);			//预览视图顶部距Edit box底部8个像素
 	m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
 	m_view->InitialUpdate();
 	m_view->SetSkinData(&m_skin_data);
 	m_view->SetBackImage(&m_background_s, &m_background_l);
 	m_view->SetShowItemOutline(&m_show_item_outline);
 	m_view->ShowWindow(SW_SHOW);
+	//初始化Combo box
+	IniAlignComboBox(m_up_align_combo);
+	IniAlignComboBox(m_down_align_combo);
+	IniAlignComboBox(m_cpu_align_combo);
+	IniAlignComboBox(m_memory_align_combo);
 
 	//
 	LoadSkin(wstring());
@@ -1322,4 +1356,48 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck()
 	// TODO: 在此添加控件通知处理程序代码
 	m_show_item_outline = (((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->GetCheck() != 0);
 	DrawPreview();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+		m_skin_data.up_align_s = static_cast<Alignment>(m_up_align_combo.GetCurSel());
+	else
+		m_skin_data.up_align_l = static_cast<Alignment>(m_up_align_combo.GetCurSel());
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+		m_skin_data.down_align_s = static_cast<Alignment>(m_down_align_combo.GetCurSel());
+	else
+		m_skin_data.down_align_l = static_cast<Alignment>(m_down_align_combo.GetCurSel());
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo3()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+		m_skin_data.cpu_align_s = static_cast<Alignment>(m_cpu_align_combo.GetCurSel());
+	else
+		m_skin_data.cpu_align_l = static_cast<Alignment>(m_cpu_align_combo.GetCurSel());
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	if (m_edit_small_window)
+		m_skin_data.memory_align_s = static_cast<Alignment>(m_memory_align_combo.GetCurSel());
+	else
+		m_skin_data.memory_align_l = static_cast<Alignment>(m_memory_align_combo.GetCurSel());
+	Modified();
 }
