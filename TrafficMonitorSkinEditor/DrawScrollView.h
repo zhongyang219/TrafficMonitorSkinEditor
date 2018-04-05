@@ -24,6 +24,7 @@ public:
 	void SetSkinData(SkinData* skin_data) { m_skin_data = skin_data; }
 	void SetBackImage(CImage* background_s, CImage* background_l);
 	void SetShowItemOutline(bool* show_item_outline) { m_show_item_outline = show_item_outline; }
+	void SetFont(CFont* pfont) { m_font = pfont; }
 
 //成员变量
 protected:
@@ -34,6 +35,7 @@ protected:
 	CImage* m_background_s;
 	CImage* m_background_l;
 	bool* m_show_item_outline;
+	CFont* m_font;
 
 	const COLORREF m_outline_color{ RGB(96,96,96) };
 

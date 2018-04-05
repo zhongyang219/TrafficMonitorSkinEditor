@@ -33,9 +33,11 @@ protected:
 	wstring m_path;
 	bool m_edit_small_window{ false };
 	bool m_asign_item_text{ false };
+	bool m_asing_font{ false };
 	bool m_show_item_outline{ true };
 	CImage m_background_s;
 	CImage m_background_l;
+	CFont m_font;
 
 	bool m_modified{ false };
 	bool m_spin_clicked{ false };
@@ -48,6 +50,7 @@ protected:
 	CEdit m_down_string_edit;
 	CEdit m_cpu_string_edit;
 	CEdit m_memory_string_edit;
+	CButton m_assign_font_chk;
 	CButton m_no_item_text_chk;
 	CSpinEdit m_text_height_edit;
 	CSpinEdit m_window_width_edit;
@@ -88,9 +91,12 @@ protected:
 	void SetTitle();
 	void Modified();	//有改动时的处理
 	void IniAlignComboBox(CComboBox& combo);	//为“对齐方式”下拉列表控件添加字符串
+	void SetFontText();		//设置字体编辑框中的文本
+	void SetViewFont();		//设置预览图中的字体
 
 	//设置控件的启用和禁用
 	void EnableTextControl(bool enable);
+	void EnableFontControl(bool enable);
 	void EnableUpControl(bool enable);
 	void EnableDownControl(bool enable);
 	void EnableCpuControl(bool enable);
@@ -160,4 +166,6 @@ public:
 	afx_msg void OnCbnSelchangeCombo2();
 	afx_msg void OnCbnSelchangeCombo3();
 	afx_msg void OnCbnSelchangeCombo4();
+	afx_msg void OnBnClickedAssignFontCheck();
+	afx_msg void OnBnClickedSetFontButton();
 };

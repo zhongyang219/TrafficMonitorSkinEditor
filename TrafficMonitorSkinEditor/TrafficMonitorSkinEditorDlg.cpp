@@ -73,6 +73,7 @@ void CTrafficMonitorSkinEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_DOWNLOAD_EDIT, m_down_string_edit);
 	DDX_Control(pDX, IDC_CPU_EDIT, m_cpu_string_edit);
 	DDX_Control(pDX, IDC_MEMORY_EDIT, m_memory_string_edit);
+	DDX_Control(pDX, IDC_ASSIGN_FONT_CHECK, m_assign_font_chk);
 	DDX_Control(pDX, IDC_NO_ITEM_TEXT_CHECK, m_no_item_text_chk);
 	DDX_Control(pDX, IDC_TEXT_HEIGHT_EDIT, m_text_height_edit);
 	DDX_Control(pDX, IDC_WND_WIDTH_EDIT, m_window_width_edit);
@@ -160,6 +161,8 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO2, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo2)
 	ON_CBN_SELCHANGE(IDC_COMBO3, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo3)
 	ON_CBN_SELCHANGE(IDC_COMBO4, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4)
+	ON_BN_CLICKED(IDC_ASSIGN_FONT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck)
+	ON_BN_CLICKED(IDC_SET_FONT_BUTTON, &CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton)
 END_MESSAGE_MAP()
 
 
@@ -250,7 +253,10 @@ void CTrafficMonitorSkinEditorDlg::AllToUI()
 	m_preview_y_l_edit.SetValue(m_skin_data.preview_y_l);
 
 	EnableTextControl(m_asign_item_text);
+	EnableFontControl(m_asing_font);
 	SetItemControlEnable();
+
+	m_assign_font_chk.SetCheck(m_asing_font);
 }
 
 void CTrafficMonitorSkinEditorDlg::LoadBackImage(const wstring& path, bool small_image)
@@ -276,11 +282,17 @@ void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
 	//载入背景图
 	LoadBackImage(path, true);
 	LoadBackImage(path, false);
+	//确定是否指定显示文本
+	m_asign_item_text = !(m_skin_data.up_string == L"上传: "&&m_skin_data.down_string == L"下载: "&&m_skin_data.cpu_string == L"CPU: "&&m_skin_data.memory_string == L"内存: ");
+	//确定是否指定字体
+	m_asing_font = (!m_skin_data.font_name.empty() && m_skin_data.font_size > 0);
 	//设置控件数据
 	AllToUI();
 	//绘制预览
 	DrawPreview();
 	SetTitle();
+	SetFontText();
+	SetViewFont();
 }
 
 void CTrafficMonitorSkinEditorDlg::SetTitle()
@@ -310,12 +322,46 @@ void CTrafficMonitorSkinEditorDlg::IniAlignComboBox(CComboBox & combo)
 	combo.AddString(_T("居中"));
 }
 
+void CTrafficMonitorSkinEditorDlg::SetFontText()
+{
+	if (m_skin_data.font_name.empty() && m_skin_data.font_size <= 0)
+	{
+		SetDlgItemText(IDC_FONT_EDIT, _T(""));
+	}
+	else
+	{
+		CString font_str;
+		font_str.Format(_T("%s, %d"), m_skin_data.font_name.c_str(), m_skin_data.font_size);
+		SetDlgItemText(IDC_FONT_EDIT, font_str);
+	}
+	if (m_font.m_hObject)
+		m_font.DeleteObject();
+	if(m_skin_data.font_name.empty()&& m_skin_data.font_size<=0)
+		m_font.CreatePointFont(90, _T("微软雅黑"));
+	else
+		m_font.CreatePointFont(m_skin_data.font_size * 10, m_skin_data.font_name.c_str());
+}
+
+void CTrafficMonitorSkinEditorDlg::SetViewFont()
+{
+	if (m_asing_font)
+		m_view->SetFont(&m_font);
+	else
+		m_view->SetFont(GetFont());
+}
+
 void CTrafficMonitorSkinEditorDlg::EnableTextControl(bool enable)
 {
 	m_up_string_edit.EnableWindow(enable);
 	m_down_string_edit.EnableWindow(enable);
 	m_cpu_string_edit.EnableWindow(enable);
 	m_memory_string_edit.EnableWindow(enable);
+}
+
+void CTrafficMonitorSkinEditorDlg::EnableFontControl(bool enable)
+{
+	GetDlgItem(IDC_SET_FONT_BUTTON)->EnableWindow(enable);
+	GetDlgItem(IDC_FONT_EDIT)->EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableUpControl(bool enable)
@@ -372,7 +418,7 @@ bool CTrafficMonitorSkinEditorDlg::SaveSkin(const wstring& path)
 {
 	CSkinEditorHelper skin_editor;
 	skin_editor.SetSkinPath(path);
-	if (skin_editor.SaveSkin(m_skin_data, m_asign_item_text))
+	if (skin_editor.SaveSkin(m_skin_data, m_asign_item_text, m_asing_font))
 	{
 		m_modified = false;
 		SetTitle();
@@ -603,6 +649,9 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 	LoadSkin(wstring());
 	((CButton*)GetDlgItem(IDC_LARGE_WINDOW_RADIO))->SetCheck(TRUE);
 	((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->SetCheck(m_show_item_outline);
+
+	SetFontText();
+	SetViewFont();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -1400,4 +1449,33 @@ void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4()
 	else
 		m_skin_data.memory_align_l = static_cast<Alignment>(m_memory_align_combo.GetCurSel());
 	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_asing_font = (m_assign_font_chk.GetCheck() != 0);
+	EnableFontControl(m_asing_font);
+	SetViewFont();
+	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	LOGFONT lf{};             //LOGFONT变量
+	m_font.GetLogFont(&lf);
+	CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
+	if (IDOK == fontDlg.DoModal())     // 显示字体对话框
+	{
+		//获取字体信息
+		m_skin_data.font_name = fontDlg.GetFaceName();
+		m_skin_data.font_size = fontDlg.GetSize() / 10;
+		//将字体信息显示出来
+		SetFontText();
+		SetViewFont();
+		Modified();
+	}
 }

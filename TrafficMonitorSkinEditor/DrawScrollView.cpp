@@ -42,7 +42,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 	// TODO: 在此添加绘制代码
 
 	CDrawCommon draw;
-	draw.Create(pDC, AfxGetMainWnd());
+	draw.Create(pDC, nullptr);
+	draw.SetFont(m_font);
 	CRect draw_rect(CPoint(0, 0), m_size);
 	draw.SetDrawRect(draw_rect);
 	draw.FillRect(draw_rect, RGB(255, 255, 255));
