@@ -1519,5 +1519,5 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck()
 	// TODO: 在此添加控件通知处理程序代码
 	m_skin_data.specify_each_item_color = (m_specify_each_item_color_chk.GetCheck() != 0);
 	SetTextColorPreview();
-	DrawPreview();
+	Modified();
 }
