@@ -70,6 +70,17 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 	cpu_str.Format(_T("%s50%%"), (m_skin_data->no_text ? _T("") : m_skin_data->cpu_string.c_str()));
 	memory_str.Format(_T("%s51%%"), (m_skin_data->no_text ? _T("") : m_skin_data->memory_string.c_str()));
 
+	int text_colors[MAIN_WND_COLOR_NUM];
+	if (m_skin_data->specify_each_item_color)
+	{
+		for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
+			text_colors[i] = m_skin_data->text_colors[i];
+	}
+	else
+	{
+		for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
+			text_colors[i] = m_skin_data->text_colors[0];
+	}
 	CPoint point;
 	//绘制小预览图文本
 	//绘制“上传”文本
@@ -79,7 +90,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_s, m_skin_data->preview_y_s);
 		CRect rect(point, CSize(m_skin_data->up_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, up_str, m_skin_data->text_color, m_skin_data->up_align_s);
+		draw.DrawWindowText(rect, up_str, text_colors[0], m_skin_data->up_align_s);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
@@ -90,7 +101,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_s, m_skin_data->preview_y_s);
 		CRect rect(point, CSize(m_skin_data->down_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, down_str, m_skin_data->text_color, m_skin_data->down_align_s);
+		draw.DrawWindowText(rect, down_str, text_colors[1], m_skin_data->down_align_s);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
@@ -101,7 +112,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_s, m_skin_data->preview_y_s);
 		CRect rect(point, CSize(m_skin_data->cpu_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, cpu_str, m_skin_data->text_color, m_skin_data->cpu_align_s);
+		draw.DrawWindowText(rect, cpu_str, text_colors[2], m_skin_data->cpu_align_s);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
@@ -112,7 +123,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_s, m_skin_data->preview_y_s);
 		CRect rect(point, CSize(m_skin_data->memory_width_s, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, memory_str, m_skin_data->text_color, m_skin_data->memory_align_s);
+		draw.DrawWindowText(rect, memory_str, text_colors[3], m_skin_data->memory_align_s);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
@@ -125,7 +136,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_l, m_skin_data->preview_y_l);
 		CRect rect(point, CSize(m_skin_data->up_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, up_str, m_skin_data->text_color, m_skin_data->up_align_l);
+		draw.DrawWindowText(rect, up_str, text_colors[0], m_skin_data->up_align_l);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
@@ -136,7 +147,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_l, m_skin_data->preview_y_l);
 		CRect rect(point, CSize(m_skin_data->down_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, down_str, m_skin_data->text_color, m_skin_data->down_align_l);
+		draw.DrawWindowText(rect, down_str, text_colors[1], m_skin_data->down_align_l);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
@@ -147,7 +158,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_l, m_skin_data->preview_y_l);
 		CRect rect(point, CSize(m_skin_data->cpu_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, cpu_str, m_skin_data->text_color, m_skin_data->cpu_align_l);
+		draw.DrawWindowText(rect, cpu_str, text_colors[2], m_skin_data->cpu_align_l);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
@@ -158,7 +169,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		point.Offset(m_skin_data->preview_x_l, m_skin_data->preview_y_l);
 		CRect rect(point, CSize(m_skin_data->memory_width_l, m_skin_data->text_height));
 		theApp.DPI(rect);
-		draw.DrawWindowText(rect, memory_str, m_skin_data->text_color, m_skin_data->memory_align_l);
+		draw.DrawWindowText(rect, memory_str, text_colors[3], m_skin_data->memory_align_l);
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}

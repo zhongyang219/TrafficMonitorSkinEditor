@@ -9,6 +9,7 @@
 #include "ColorStatic.h"
 #include "DrawScrollView.h"
 #include "SpinEdit.h"
+#include "MainWndColorDlg.h"
 
 // CTrafficMonitorSkinEditorDlg 对话框
 class CTrafficMonitorSkinEditorDlg : public CDialog
@@ -51,6 +52,7 @@ protected:
 	CEdit m_cpu_string_edit;
 	CEdit m_memory_string_edit;
 	CButton m_assign_font_chk;
+	CButton m_specify_each_item_color_chk;
 	CButton m_no_item_text_chk;
 	CSpinEdit m_text_height_edit;
 	CSpinEdit m_window_width_edit;
@@ -93,6 +95,7 @@ protected:
 	void IniAlignComboBox(CComboBox& combo);	//为“对齐方式”下拉列表控件添加字符串
 	void SetFontText();		//设置字体编辑框中的文本
 	void SetViewFont();		//设置预览图中的字体
+	void SetTextColorPreview();		//设置文本颜色控件中的预览颜色
 
 	//设置控件的启用和禁用
 	void EnableTextControl(bool enable);
@@ -168,4 +171,5 @@ public:
 	afx_msg void OnCbnSelchangeCombo4();
 	afx_msg void OnBnClickedAssignFontCheck();
 	afx_msg void OnBnClickedSetFontButton();
+	afx_msg void OnBnClickedSpecifyEachItemColorCheck();
 };

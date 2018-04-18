@@ -6,7 +6,8 @@
 struct SkinData
 {
 	//皮肤数据
-	COLORREF text_color;
+	COLORREF text_colors[MAIN_WND_COLOR_NUM]{};		//文字颜色（分别为“上传”、“下载”、“CPU”、“内存”的颜色）
+	bool specify_each_item_color;		//是否指定每个项目的颜色
 	wstring skin_author;
 	wstring up_string;
 	wstring down_string;

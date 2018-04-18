@@ -49,6 +49,9 @@
     <Filter Include="头文件和源文件\公共的类\DrawCommon">
       <UniqueIdentifier>{dd0d49b9-8444-4296-85f6-7ade6c308f9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\颜色设置对话框">
+      <UniqueIdentifier>{9e91ad31-b582-41c7-86af-63210196f3c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -90,6 +93,9 @@
     <ClInclude Include="DrawCommon.h">
       <Filter>头文件和源文件\公共的类\DrawCommon</Filter>
     </ClInclude>
+    <ClInclude Include="MainWndColorDlg.h">
+      <Filter>头文件和源文件\颜色设置对话框</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitorSkinEditorDlg.cpp">
@@ -121,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="DrawCommon.cpp">
       <Filter>头文件和源文件\公共的类\DrawCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWndColorDlg.cpp">
+      <Filter>头文件和源文件\颜色设置对话框</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,9 @@ SkinData CSkinEditorHelper::LoadSkin()
 		return data;
 	ini_helper.SetPath(m_ini_path);
 
-	data.text_color = ini_helper.GetInt(L"skin", L"text_color", 0);
+	//data.text_color = ini_helper.GetInt(L"skin", L"text_color", 0);
+	ini_helper.GetIntArray(L"skin", L"text_color", (int*)data.text_colors, MAIN_WND_COLOR_NUM, 0);
+	data.specify_each_item_color = ini_helper.GetBool(L"skin", L"specify_each_item_color", false);
 	data.skin_author = ini_helper.GetString(L"skin", L"skin_author", L"unknow");
 	data.up_string = ini_helper.GetString(L"skin", L"up_string", L"\"上传: \"");
 	data.down_string = ini_helper.GetString(L"skin", L"down_string", L"\"下载: \"");
@@ -95,7 +97,9 @@ bool CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text, boo
 	ini_helper.SetPath(m_ini_path);
 	bool success{ true };
 	DeleteFileW(m_ini_path.c_str());		//保存前先删除ini文件
-	success = (success && ini_helper.WriteInt(L"skin", L"text_color", data.text_color));
+	//success = (success && ini_helper.WriteInt(L"skin", L"text_color", data.text_color));
+	success = (success && ini_helper.WriteIntArray(L"skin", L"text_color", (int*)data.text_colors, MAIN_WND_COLOR_NUM));
+	success = (success && ini_helper.WriteBool(L"skin", L"specify_each_item_color", data.specify_each_item_color));
 	success = (success && ini_helper.WriteString(L"skin", L"skin_author", data.skin_author));
 	if (asign_item_text)
 	{

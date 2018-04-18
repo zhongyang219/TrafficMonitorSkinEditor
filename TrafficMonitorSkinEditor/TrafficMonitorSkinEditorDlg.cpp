@@ -69,6 +69,7 @@ void CTrafficMonitorSkinEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TEXT_COLOR_STATIC, m_text_color_static);
 	DDX_Control(pDX, IDC_SKIN_AUTHOR_EDIT, m_skin_author_edit);
 	DDX_Control(pDX, IDC_ASSIGN_TEXT_CHECK, m_assign_text_chk);
+	DDX_Control(pDX, IDC_SPECIFY_EACH_ITEM_COLOR_CHECK, m_specify_each_item_color_chk);
 	DDX_Control(pDX, IDC_UPLOAD_EDIT, m_up_string_edit);
 	DDX_Control(pDX, IDC_DOWNLOAD_EDIT, m_down_string_edit);
 	DDX_Control(pDX, IDC_CPU_EDIT, m_cpu_string_edit);
@@ -163,6 +164,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO4, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4)
 	ON_BN_CLICKED(IDC_ASSIGN_FONT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck)
 	ON_BN_CLICKED(IDC_SET_FONT_BUTTON, &CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton)
+	ON_BN_CLICKED(IDC_SPECIFY_EACH_ITEM_COLOR_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck)
 END_MESSAGE_MAP()
 
 
@@ -234,7 +236,8 @@ void CTrafficMonitorSkinEditorDlg::LayoutDataToUI(bool small_window)
 
 void CTrafficMonitorSkinEditorDlg::AllToUI()
 {
-	m_text_color_static.SetFillColor(m_skin_data.text_color);
+	SetTextColorPreview();
+	m_specify_each_item_color_chk.SetCheck(m_skin_data.specify_each_item_color);
 	m_skin_author_edit.SetWindowTextW(m_skin_data.skin_author.c_str());
 	m_assign_text_chk.SetCheck(m_asign_item_text);
 
@@ -348,6 +351,21 @@ void CTrafficMonitorSkinEditorDlg::SetViewFont()
 		m_view->SetFont(&m_font);
 	else
 		m_view->SetFont(GetFont());
+}
+
+void CTrafficMonitorSkinEditorDlg::SetTextColorPreview()
+{
+	if (m_skin_data.specify_each_item_color)
+	{
+		m_text_color_static.SetColorNum(MAIN_WND_COLOR_NUM);
+		for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
+			m_text_color_static.SetFillColor(i, m_skin_data.text_colors[i]);
+		m_text_color_static.Invalidate();
+	}
+	else
+	{
+		m_text_color_static.SetFillColor(m_skin_data.text_colors[0]);
+	}
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableTextControl(bool enable)
@@ -712,13 +730,28 @@ afx_msg LRESULT CTrafficMonitorSkinEditorDlg::OnStaticClicked(WPARAM wParam, LPA
 	CWnd* pWnd = (CWnd*)wParam;
 	if (pWnd == &m_text_color_static)
 	{
-		CColorDialog dlg(m_skin_data.text_color);
-		if (dlg.DoModal() == IDOK)
+		if (m_skin_data.specify_each_item_color)
 		{
-			m_skin_data.text_color = dlg.GetColor();
-			m_text_color_static.SetFillColor(m_skin_data.text_color);
-			DrawPreview();
-			Modified();
+			CMainWndColorDlg dlg(m_skin_data.text_colors);
+			if (dlg.DoModal() == IDOK)
+			{
+				for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
+					m_skin_data.text_colors[i] = dlg.GetColors()[i];
+				SetTextColorPreview();
+				DrawPreview();
+				Modified();
+			}
+		}
+		else
+		{
+			CColorDialog dlg(m_skin_data.text_colors[0]);
+			if (dlg.DoModal() == IDOK)
+			{
+				m_skin_data.text_colors[0] = dlg.GetColor();
+				SetTextColorPreview();
+				DrawPreview();
+				Modified();
+			}
 		}
 	}
 	return 0;
@@ -1478,4 +1511,13 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton()
 		SetViewFont();
 		Modified();
 	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_skin_data.specify_each_item_color = (m_specify_each_item_color_chk.GetCheck() != 0);
+	SetTextColorPreview();
+	DrawPreview();
 }

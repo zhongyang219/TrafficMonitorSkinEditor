@@ -107,6 +107,7 @@
     <ClInclude Include="DrawCommon.h" />
     <ClInclude Include="DrawScrollView.h" />
     <ClInclude Include="IniHelper.h" />
+    <ClInclude Include="MainWndColorDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SkinEditorHelper.h" />
     <ClInclude Include="SpinEdit.h" />
@@ -121,6 +122,7 @@
     <ClCompile Include="DrawCommon.cpp" />
     <ClCompile Include="DrawScrollView.cpp" />
     <ClCompile Include="IniHelper.cpp" />
+    <ClCompile Include="MainWndColorDlg.cpp" />
     <ClCompile Include="SkinEditorHelper.cpp" />
     <ClCompile Include="SpinEdit.cpp" />
     <ClCompile Include="stdafx.cpp">

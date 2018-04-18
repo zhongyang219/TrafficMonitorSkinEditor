@@ -37,8 +37,8 @@
 #include <afxwin.h>
 using std::string;
 using std::wstring;
-
-
+#include <vector>
+using std::vector;
 
 
 
@@ -57,3 +57,5 @@ using std::wstring;
 
 #define BACKGROUND_IMAGE_S L"\\background.bmp"
 #define BACKGROUND_IMAGE_L L"\\background_l.bmp"
+
+#define MAIN_WND_COLOR_NUM 4
