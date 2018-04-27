@@ -40,6 +40,7 @@ using std::wstring;
 #include <vector>
 using std::vector;
 
+#include "resource.h"
 
 
 
@@ -59,3 +60,7 @@ using std::vector;
 #define BACKGROUND_IMAGE_L L"\\background_l.bmp"
 
 #define MAIN_WND_COLOR_NUM 4
+
+#define VERSION L"1.03"
+#define TRAFFICMONITOR_VERSION L"1.73"
+#define COMPILE_DATE L"2018/04/27"

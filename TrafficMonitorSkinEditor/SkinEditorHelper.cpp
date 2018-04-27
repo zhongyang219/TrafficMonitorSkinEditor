@@ -24,10 +24,10 @@ SkinData CSkinEditorHelper::LoadSkin()
 	ini_helper.GetIntArray(L"skin", L"text_color", (int*)data.text_colors, MAIN_WND_COLOR_NUM, 0);
 	data.specify_each_item_color = ini_helper.GetBool(L"skin", L"specify_each_item_color", false);
 	data.skin_author = ini_helper.GetString(L"skin", L"skin_author", L"unknow");
-	data.up_string = ini_helper.GetString(L"skin", L"up_string", L"\"上传: \"");
-	data.down_string = ini_helper.GetString(L"skin", L"down_string", L"\"下载: \"");
+	data.up_string = ini_helper.GetString(L"skin", L"up_string", CCommon::LoadText(_T("\""), IDS_UPLOAD_DISP, _T(": \"")));
+	data.down_string = ini_helper.GetString(L"skin", L"down_string", CCommon::LoadText(_T("\""), IDS_DOWNLOAD_DISP, _T(": \"")));
 	data.cpu_string = ini_helper.GetString(L"skin", L"cpu_string", L"\"CPU: \"");
-	data.memory_string = ini_helper.GetString(L"skin", L"memory_string", L"\"内存: \"");
+	data.memory_string = ini_helper.GetString(L"skin", L"memory_string", CCommon::LoadText(_T("\""), IDS_MEMORY_DISP, _T(": \"")));
 	//data.font_name = ini_helper.GetString(L"skin", L"font_name", L"");
 	//data.font_size = ini_helper.GetInt(L"skin", L"font_size", 0);
 	FontInfo default_font{};

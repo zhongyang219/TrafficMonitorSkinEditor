@@ -9,7 +9,7 @@
 #endif
 
 #include "resource.h"		// 主符号
-
+#include "Common.h"
 
 // CTrafficMonitorSkinEditorApp: 
 // 有关此类的实现，请参阅 TrafficMonitorSkinEditor.cpp
@@ -23,6 +23,15 @@ public:
 	int DPI(int pixel);
 	void DPI(CRect& rect);
 	void GetDPI(CWnd* pWnd);
+
+	void SaveConfig();
+
+private:
+	void LoadConfig();
+
+public:
+	Language m_language;
+	wstring m_config_path;
 
 protected:
 	int m_dpi{ 96 };

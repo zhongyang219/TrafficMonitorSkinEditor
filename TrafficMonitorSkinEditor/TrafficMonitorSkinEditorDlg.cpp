@@ -30,6 +30,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnNMClickSyslink1(NMHDR *pNMHDR, LRESULT *pResult);
+	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -44,6 +45,29 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 	ON_NOTIFY(NM_CLICK, IDC_SYSLINK1, &CAboutDlg::OnNMClickSyslink1)
 END_MESSAGE_MAP()
+
+
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  在此添加额外的初始化
+	CString str;
+	GetDlgItemText(IDC_VERSION_STATIC, str);
+	str.Replace(_T("<%version%>"), VERSION);
+	SetDlgItemText(IDC_VERSION_STATIC, str);
+
+	GetDlgItemText(IDC_TRAFFICMONITOR_VERSION_STATIC, str);
+	str.Replace(_T("<%tm_version%>"), TRAFFICMONITOR_VERSION);
+	SetDlgItemText(IDC_TRAFFICMONITOR_VERSION_STATIC, str);
+
+	GetDlgItemText(IDC_COPYRIGHT_STATIC, str);
+	str.Replace(_T("<%compile_date%>"), COMPILE_DATE);
+	SetDlgItemText(IDC_COPYRIGHT_STATIC, str);
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 异常: OCX 属性页应返回 FALSE
+}
 
 void CAboutDlg::OnNMClickSyslink1(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -165,6 +189,10 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
 	ON_BN_CLICKED(IDC_ASSIGN_FONT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck)
 	ON_BN_CLICKED(IDC_SET_FONT_BUTTON, &CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton)
 	ON_BN_CLICKED(IDC_SPECIFY_EACH_ITEM_COLOR_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck)
+	ON_COMMAND(ID_LANGUAGE_FOLLOWING_SYSTEM, &CTrafficMonitorSkinEditorDlg::OnLanguageFollowingSystem)
+	ON_COMMAND(ID_LANGUAGE_ENGLISH, &CTrafficMonitorSkinEditorDlg::OnLanguageEnglish)
+	ON_COMMAND(ID_LANGUAGE_SIMPLIFIED_CHINESE, &CTrafficMonitorSkinEditorDlg::OnLanguageSimplifiedChinese)
+	ON_WM_INITMENU()
 END_MESSAGE_MAP()
 
 
@@ -286,7 +314,8 @@ void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
 	LoadBackImage(path, true);
 	LoadBackImage(path, false);
 	//确定是否指定显示文本
-	m_asign_item_text = !(m_skin_data.up_string == L"上传: "&&m_skin_data.down_string == L"下载: "&&m_skin_data.cpu_string == L"CPU: "&&m_skin_data.memory_string == L"内存: ");
+	m_asign_item_text = !(m_skin_data.up_string == CCommon::LoadText(IDS_UPLOAD_DISP, _T(": ")).GetString() &&m_skin_data.down_string == CCommon::LoadText(IDS_DOWNLOAD_DISP, _T(": ")).GetString()
+		&&m_skin_data.cpu_string == L"CPU: "&&m_skin_data.memory_string == CCommon::LoadText(IDS_MEMORY_DISP, _T(": ")).GetString());
 	//确定是否指定字体
 	m_asing_font = (!m_skin_data.font.name.IsEmpty() && m_skin_data.font.size > 0);
 	//设置控件数据
@@ -302,9 +331,9 @@ void CTrafficMonitorSkinEditorDlg::SetTitle()
 {
 	wstring title;
 	if (m_path.empty())
-		title = L"无标题 - TrafficMonitor 皮肤编辑器";
+		title = CCommon::LoadText(IDS_NO_TITLE, _T(" - ")) + CCommon::LoadText(IDS_TRAFFIC_MONITOR_SKIN_EDITOR);
 	else
-		title = m_path + L" - TrafficMonitor 皮肤编辑器";
+		title = m_path + CCommon::LoadText(_T(" - "), IDS_TRAFFIC_MONITOR_SKIN_EDITOR).GetString();
 	if (m_modified)
 		title = L'*' + title;
 	SetWindowTextW(title.c_str());
@@ -320,9 +349,9 @@ void CTrafficMonitorSkinEditorDlg::Modified()
 
 void CTrafficMonitorSkinEditorDlg::IniAlignComboBox(CComboBox & combo)
 {
-	combo.AddString(_T("左对齐"));
-	combo.AddString(_T("右对齐"));
-	combo.AddString(_T("居中"));
+	combo.AddString(CCommon::LoadText(IDS_LEFT_ALIGN));
+	combo.AddString(CCommon::LoadText(IDS_RIGHT_ALIGN));
+	combo.AddString(CCommon::LoadText(IDS_CENTER));
 }
 
 void CTrafficMonitorSkinEditorDlg::SetFontText()
@@ -341,7 +370,7 @@ void CTrafficMonitorSkinEditorDlg::SetFontText()
 		m_font.DeleteObject();
 	if (m_skin_data.font.name.IsEmpty() && m_skin_data.font.size <= 0)
 	{
-		m_font.CreatePointFont(90, _T("微软雅黑"));
+		m_font.CreatePointFont(90, CCommon::LoadText(IDS_DEFAULT_FONT));
 	}
 	else
 	{
@@ -493,14 +522,14 @@ bool CTrafficMonitorSkinEditorDlg::_OnFileSaveAs()
 {
 	//构造保存文件对话框
 	CFolderPickerDialog folderDlg;
-	folderDlg.m_ofn.lpstrTitle = _T("选择要保存的皮肤文件夹");
-	//显示保存文件对话框
+	folderDlg.m_ofn.lpstrTitle = CCommon::LoadText(IDS_SELECT_SKIN_FOLDER);
+	//显示保存文件对话框"选择要保存的皮肤文件夹"
 	if (IDOK == folderDlg.DoModal())
 	{
 		wstring new_path = folderDlg.GetPathName();
 		if (CCommon::FileExist(new_path + L"\\skin.ini"))
 		{
-			if (MessageBox(_T("该文件夹已经有皮肤，要覆盖它吗？"), NULL, MB_YESNOCANCEL | MB_ICONQUESTION) != IDYES)
+			if (MessageBox(CCommon::LoadText(IDS_SKIN_EXIST_INQUIRY), NULL, MB_YESNOCANCEL | MB_ICONQUESTION) != IDYES)
 				return false;
 		}
 		if (SaveSkin(new_path))
@@ -513,7 +542,7 @@ bool CTrafficMonitorSkinEditorDlg::_OnFileSaveAs()
 					if (CCommon::FileExist(new_path + BACKGROUND_IMAGE_S))		//如果目标路径下背景图片已经存在，则询问用户是否覆盖
 					{
 						CString info;
-						info.Format(_T("文件 %s 已存在，要覆盖它吗？"), (new_path + BACKGROUND_IMAGE_S).c_str());
+						info.Format(CCommon::LoadText(IDS_FILE_EXIST_INQUIRY), (new_path + BACKGROUND_IMAGE_S).c_str());
 						switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
 						{
 						case IDYES:
@@ -535,7 +564,7 @@ bool CTrafficMonitorSkinEditorDlg::_OnFileSaveAs()
 					if (CCommon::FileExist(new_path + BACKGROUND_IMAGE_L))
 					{
 						CString info;
-						info.Format(_T("文件 %s 已存在，要覆盖它吗？"), (new_path + BACKGROUND_IMAGE_L).c_str());
+						info.Format(CCommon::LoadText(IDS_FILE_EXIST_INQUIRY), (new_path + BACKGROUND_IMAGE_L).c_str());
 						switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
 						{
 						case IDYES:
@@ -571,7 +600,7 @@ bool CTrafficMonitorSkinEditorDlg::SaveInquiry()
 	if (m_modified)
 	{
 		CString text;
-		text.Format(_T("皮肤 %s 已更改，是否保存？"), (m_path.empty() ? _T("\"无标题\"") : m_path.c_str()));
+		text.Format(CCommon::LoadText(IDS_SKIN_SAVE_INQUIRY), (m_path.empty() ? CCommon::LoadText(_T("\""), IDS_NO_TITLE, _T("\"")) : m_path.c_str()));
 
 		int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
 		switch (rtn)
@@ -591,7 +620,7 @@ void CTrafficMonitorSkinEditorDlg::_OnImportBackImage(bool small_image)
 {
 	if (m_path.empty() || !CCommon::FolderExist(m_path))
 	{
-		if (MessageBox(_T("当前皮肤还没有保存，要保存吗？"), NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
+		if (MessageBox(CCommon::LoadText(IDS_CURRENT_SKIN_SAVE_INQUIRY), NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
 			_OnFileSaveAs();
 		else
 			return;
@@ -599,11 +628,11 @@ void CTrafficMonitorSkinEditorDlg::_OnImportBackImage(bool small_image)
 	if (m_path.empty() || !CCommon::FolderExist(m_path))
 		return;
 	//设置过滤器
-	LPCTSTR szFilter = _T("BMP图像(*.bmp)|*.bmp||");
+	LPCTSTR szFilter = CCommon::LoadText(IDS_IMAGE_FILTER);
 	//构造打开文件对话框
 	CFileDialog fileDlg(TRUE, _T("bmp"), NULL, 0, szFilter, this);
 	//设置窗口标题
-	LPCTSTR szTitle = (small_image ? _T("导入小背景图") : _T("导入大背景图"));
+	LPCTSTR szTitle = (small_image ? CCommon::LoadText(IDS_IMPORT_SMALL_BACK_IMAGE) : CCommon::LoadText(IDS_IMPORT_LARGE_BACK_IMAGE));
 	fileDlg.m_ofn.lpstrTitle = szTitle;
 	//显示打开文件对话框
 	if (IDOK == fileDlg.DoModal())
@@ -615,7 +644,7 @@ void CTrafficMonitorSkinEditorDlg::_OnImportBackImage(bool small_image)
 		}
 		if (!(small_image ? m_background_s : m_background_l).IsNull())		//如果背景图已经加载，弹出警告对话框
 		{
-			if (MessageBox(_T("背景图已经存在，要覆盖它吗？此操作不可逆！"), NULL, MB_YESNO | MB_ICONWARNING) != IDYES)
+			if (MessageBox(CCommon::LoadText(IDS_BACK_IMAGE_OVERWRITE_WARNING), NULL, MB_YESNO | MB_ICONWARNING) != IDYES)
 				return;
 		}
 		//将要载入的背景图复制到皮肤文件夹，并覆盖已经存在的文件
@@ -1519,13 +1548,14 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	LOGFONT lf{};
-	lf.lfHeight = FONTSIZE_TO_LFHEIGHT(m_skin_data.font.size);
-	lf.lfWeight = (m_skin_data.font.bold ? FW_BOLD : FW_NORMAL);
-	lf.lfItalic = m_skin_data.font.italic;
-	lf.lfUnderline = m_skin_data.font.underline;
-	lf.lfStrikeOut = m_skin_data.font.strike_out;
-	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_SWISS;
-	CCommon::WStringCopy(lf.lfFaceName, 32, m_skin_data.font.name.GetString());
+	//lf.lfHeight = FONTSIZE_TO_LFHEIGHT(m_skin_data.font.size);
+	//lf.lfWeight = (m_skin_data.font.bold ? FW_BOLD : FW_NORMAL);
+	//lf.lfItalic = m_skin_data.font.italic;
+	//lf.lfUnderline = m_skin_data.font.underline;
+	//lf.lfStrikeOut = m_skin_data.font.strike_out;
+	//lf.lfPitchAndFamily = DEFAULT_PITCH | FF_SWISS;
+	//CCommon::WStringCopy(lf.lfFaceName, 32, m_skin_data.font.name.GetString());
+	m_font.GetLogFont(&lf);
 	CCommon::NormalizeFont(lf);
 	CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
 	if (IDOK == fontDlg.DoModal())     // 显示字体对话框
@@ -1551,4 +1581,55 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck()
 	m_skin_data.specify_each_item_color = (m_specify_each_item_color_chk.GetCheck() != 0);
 	SetTextColorPreview();
 	Modified();
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnLanguageFollowingSystem()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (theApp.m_language != Language::FOLLOWING_SYSTEM)
+	{
+		theApp.m_language = Language::FOLLOWING_SYSTEM;
+		theApp.SaveConfig();
+		MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnLanguageEnglish()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (theApp.m_language != Language::ENGLISH)
+	{
+		theApp.m_language = Language::ENGLISH;
+		theApp.SaveConfig();
+		MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnLanguageSimplifiedChinese()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (theApp.m_language != Language::SIMPLIFIED_CHINESE)
+	{
+		theApp.m_language = Language::SIMPLIFIED_CHINESE;
+		theApp.SaveConfig();
+		MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
+	}
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnInitMenu(CMenu* pMenu)
+{
+	CDialog::OnInitMenu(pMenu);
+	switch (theApp.m_language)
+	{
+	case Language::ENGLISH: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_ENGLISH, MF_BYCOMMAND | MF_CHECKED); break;
+	case Language::SIMPLIFIED_CHINESE: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_SIMPLIFIED_CHINESE, MF_BYCOMMAND | MF_CHECKED); break;
+	default: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_FOLLOWING_SYSTEM, MF_BYCOMMAND | MF_CHECKED); break;
+	}
+
+
+	// TODO: 在此处添加消息处理程序代码
 }

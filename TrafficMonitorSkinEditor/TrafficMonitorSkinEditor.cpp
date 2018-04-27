@@ -50,6 +50,20 @@ void CTrafficMonitorSkinEditorApp::GetDPI(CWnd * pWnd)
 	m_dpi = GetDeviceCaps(hDC, LOGPIXELSY);
 }
 
+void CTrafficMonitorSkinEditorApp::SaveConfig()
+{
+	CIniHelper ini;
+	ini.SetPath(theApp.m_config_path);
+	ini.WriteInt(_T("config"), _T("language"), static_cast<int>(m_language));
+}
+
+void CTrafficMonitorSkinEditorApp::LoadConfig()
+{
+	CIniHelper ini;
+	ini.SetPath(theApp.m_config_path);
+	m_language = static_cast<Language>(ini.GetInt(_T("config"), _T("language"), 0));
+}
+
 
 // 唯一的一个 CTrafficMonitorSkinEditorApp 对象
 
@@ -60,6 +74,17 @@ CTrafficMonitorSkinEditorApp theApp;
 
 BOOL CTrafficMonitorSkinEditorApp::InitInstance()
 {
+	m_config_path = CCommon::GetModulePath() + L"config.ini";
+
+	//初始化界面语言
+	LoadConfig();
+	switch (m_language)
+	{
+	case Language::ENGLISH: SetThreadUILanguage(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)); break;
+	case Language::SIMPLIFIED_CHINESE: SetThreadUILanguage(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED)); break;
+	default: break;
+	}
+
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
 	//则需要 InitCommonControlsEx()。  否则，将无法创建窗口。

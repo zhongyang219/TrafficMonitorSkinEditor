@@ -24,12 +24,25 @@ bool CCommon::FolderExist(const wstring & file)
 	return INVALID_FILE_ATTRIBUTES != dwAttrib && 0 != (dwAttrib & FILE_ATTRIBUTE_DIRECTORY);
 }
 
+wstring CCommon::GetModulePath()
+{
+	wchar_t path[MAX_PATH];
+	GetModuleFileNameW(NULL, path, MAX_PATH);
+	size_t index;
+	wstring current_path{ path };
+	index = current_path.find_last_of(L'\\');
+	current_path = current_path.substr(0, index + 1);
+	return current_path;
+}
+
 
 void CCommon::NormalizeFont(LOGFONT & font)
 {
 	wstring name;
 	wstring style;
 	name = font.lfFaceName;
+	if (name.empty())
+		return;
 	if (name.back() == L' ')
 		name.pop_back();
 	size_t index = name.rfind(L' ');
@@ -89,4 +102,24 @@ void CCommon::WStringCopy(wchar_t * str_dest, int dest_size, const wchar_t * str
 		str_dest[copy_cnt] = L'\0';
 	else
 		str_dest[dest_size - 1] = L'\0';
+}
+
+CString CCommon::LoadText(UINT id, LPCTSTR back_str)
+{
+	CString str;
+	str.LoadString(id);
+	if (back_str != nullptr)
+		str += back_str;
+	return str;
+}
+
+CString CCommon::LoadText(LPCTSTR front_str, UINT id, LPCTSTR back_str)
+{
+	CString str;
+	str.LoadString(id);
+	if (back_str != nullptr)
+		str += back_str;
+	if (front_str != nullptr)
+		str = front_str + str;
+	return str;
 }

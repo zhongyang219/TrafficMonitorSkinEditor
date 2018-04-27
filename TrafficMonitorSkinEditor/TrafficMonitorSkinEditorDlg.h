@@ -172,4 +172,8 @@ public:
 	afx_msg void OnBnClickedAssignFontCheck();
 	afx_msg void OnBnClickedSetFontButton();
 	afx_msg void OnBnClickedSpecifyEachItemColorCheck();
+	afx_msg void OnLanguageFollowingSystem();
+	afx_msg void OnLanguageEnglish();
+	afx_msg void OnLanguageSimplifiedChinese();
+	afx_msg void OnInitMenu(CMenu* pMenu);
 };
