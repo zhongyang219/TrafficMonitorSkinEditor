@@ -28,8 +28,10 @@ SkinData CSkinEditorHelper::LoadSkin()
 	data.down_string = ini_helper.GetString(L"skin", L"down_string", L"\"ÏÂÔØ: \"");
 	data.cpu_string = ini_helper.GetString(L"skin", L"cpu_string", L"\"CPU: \"");
 	data.memory_string = ini_helper.GetString(L"skin", L"memory_string", L"\"ÄÚ´æ: \"");
-	data.font_name = ini_helper.GetString(L"skin", L"font_name", L"");
-	data.font_size = ini_helper.GetInt(L"skin", L"font_size", 0);
+	//data.font_name = ini_helper.GetString(L"skin", L"font_name", L"");
+	//data.font_size = ini_helper.GetInt(L"skin", L"font_size", 0);
+	FontInfo default_font{};
+	ini_helper.LoadFontData(L"skin", data.font, default_font);
 
 	data.text_height = ini_helper.GetInt(L"layout", L"text_height", 20);
 	data.no_text = ini_helper.GetBool(L"layout", L"no_text", false);
@@ -110,8 +112,9 @@ bool CSkinEditorHelper::SaveSkin(const SkinData& data, bool asign_item_text, boo
 	}
 	if (assign_font)
 	{
-		success = (success && ini_helper.WriteString(L"skin", L"font_name", data.font_name));
-		success = (success && ini_helper.WriteInt(L"skin", L"font_size", data.font_size));
+		//success = (success && ini_helper.WriteString(L"skin", L"font_name", data.font_name));
+		//success = (success && ini_helper.WriteInt(L"skin", L"font_size", data.font_size));
+		success = (success && ini_helper.SaveFontData(L"skin", data.font));
 	}
 
 	success = (success && ini_helper.WriteInt(L"layout", L"text_height", data.text_height));

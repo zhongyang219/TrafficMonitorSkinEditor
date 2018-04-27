@@ -288,7 +288,7 @@ void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
 	//确定是否指定显示文本
 	m_asign_item_text = !(m_skin_data.up_string == L"上传: "&&m_skin_data.down_string == L"下载: "&&m_skin_data.cpu_string == L"CPU: "&&m_skin_data.memory_string == L"内存: ");
 	//确定是否指定字体
-	m_asing_font = (!m_skin_data.font_name.empty() && m_skin_data.font_size > 0);
+	m_asing_font = (!m_skin_data.font.name.IsEmpty() && m_skin_data.font.size > 0);
 	//设置控件数据
 	AllToUI();
 	//绘制预览
@@ -327,22 +327,42 @@ void CTrafficMonitorSkinEditorDlg::IniAlignComboBox(CComboBox & combo)
 
 void CTrafficMonitorSkinEditorDlg::SetFontText()
 {
-	if (m_skin_data.font_name.empty() && m_skin_data.font_size <= 0)
+	if (m_skin_data.font.name.IsEmpty() && m_skin_data.font.size <= 0)
 	{
 		SetDlgItemText(IDC_FONT_EDIT, _T(""));
 	}
 	else
 	{
 		CString font_str;
-		font_str.Format(_T("%s, %d"), m_skin_data.font_name.c_str(), m_skin_data.font_size);
+		font_str.Format(_T("%s, %d"), m_skin_data.font.name, m_skin_data.font.size);
 		SetDlgItemText(IDC_FONT_EDIT, font_str);
 	}
 	if (m_font.m_hObject)
 		m_font.DeleteObject();
-	if(m_skin_data.font_name.empty()&& m_skin_data.font_size<=0)
+	if (m_skin_data.font.name.IsEmpty() && m_skin_data.font.size <= 0)
+	{
 		m_font.CreatePointFont(90, _T("微软雅黑"));
+	}
 	else
-		m_font.CreatePointFont(m_skin_data.font_size * 10, m_skin_data.font_name.c_str());
+	{
+		//m_font.CreatePointFont(m_skin_data.font_size * 10, m_skin_data.font_name.c_str());
+		m_font.CreateFont(
+			FONTSIZE_TO_LFHEIGHT(m_skin_data.font.size), // nHeight
+			0, // nWidth
+			0, // nEscapement
+			0, // nOrientation
+			(m_skin_data.font.bold ? FW_BOLD : FW_NORMAL), // nWeight
+			m_skin_data.font.italic, // bItalic
+			m_skin_data.font.underline, // bUnderline
+			m_skin_data.font.strike_out, // cStrikeOut
+			DEFAULT_CHARSET, // nCharSet
+			OUT_DEFAULT_PRECIS, // nOutPrecision
+			CLIP_DEFAULT_PRECIS, // nClipPrecision
+			DEFAULT_QUALITY, // nQuality
+			DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily
+			m_skin_data.font.name);
+
+	}
 }
 
 void CTrafficMonitorSkinEditorDlg::SetViewFont()
@@ -1498,14 +1518,25 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck()
 void CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	LOGFONT lf{};             //LOGFONT变量
-	m_font.GetLogFont(&lf);
+	LOGFONT lf{};
+	lf.lfHeight = FONTSIZE_TO_LFHEIGHT(m_skin_data.font.size);
+	lf.lfWeight = (m_skin_data.font.bold ? FW_BOLD : FW_NORMAL);
+	lf.lfItalic = m_skin_data.font.italic;
+	lf.lfUnderline = m_skin_data.font.underline;
+	lf.lfStrikeOut = m_skin_data.font.strike_out;
+	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_SWISS;
+	CCommon::WStringCopy(lf.lfFaceName, 32, m_skin_data.font.name.GetString());
+	CCommon::NormalizeFont(lf);
 	CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
 	if (IDOK == fontDlg.DoModal())     // 显示字体对话框
 	{
 		//获取字体信息
-		m_skin_data.font_name = fontDlg.GetFaceName();
-		m_skin_data.font_size = fontDlg.GetSize() / 10;
+		m_skin_data.font.name = fontDlg.GetFaceName();
+		m_skin_data.font.size = fontDlg.GetSize() / 10;
+		m_skin_data.font.bold = (fontDlg.IsBold() != FALSE);
+		m_skin_data.font.italic = (fontDlg.IsItalic() != FALSE);
+		m_skin_data.font.underline = (fontDlg.IsUnderline() != FALSE);
+		m_skin_data.font.strike_out = (fontDlg.IsStrikeOut() != FALSE);
 		//将字体信息显示出来
 		SetFontText();
 		SetViewFont();

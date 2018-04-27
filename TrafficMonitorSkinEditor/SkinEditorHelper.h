@@ -13,8 +13,7 @@ struct SkinData
 	wstring down_string;
 	wstring cpu_string;
 	wstring memory_string;
-	wstring font_name;
-	int font_size;
+	FontInfo font;		//字体
 
 	//布局数据
 	int text_height;	//文本区域的高度
