@@ -1,5 +1,5 @@
-
-// TrafficMonitorSkinEditorDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿
+// TrafficMonitorSkinEditorDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -12,25 +12,25 @@
 #endif
 
 
-// ÓÃÓÚÓ¦ÓÃ³ÌĞò¡°¹ØÓÚ¡±²Ëµ¥ÏîµÄ CAboutDlg ¶Ô»°¿ò
+// ç”¨äºåº”ç”¨ç¨‹åºâ€œå…³äºâ€èœå•é¡¹çš„ CAboutDlg å¯¹è¯æ¡†
 
 class CAboutDlg : public CDialogEx
 {
 public:
-	CAboutDlg();
+    CAboutDlg();
 
-// ¶Ô»°¿òÊı¾İ
-	enum { IDD = IDD_ABOUTBOX };
+    // å¯¹è¯æ¡†æ•°æ®
+    enum { IDD = IDD_ABOUTBOX };
 
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
-
-// ÊµÏÖ
 protected:
-	DECLARE_MESSAGE_MAP()
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
+
+// å®ç°
+protected:
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnNMClickSyslink1(NMHDR *pNMHDR, LRESULT *pResult);
-	virtual BOOL OnInitDialog();
+    afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
+    virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -39,1597 +39,1597 @@ CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-	ON_NOTIFY(NM_CLICK, IDC_SYSLINK1, &CAboutDlg::OnNMClickSyslink1)
+    ON_NOTIFY(NM_CLICK, IDC_SYSLINK1, &CAboutDlg::OnNMClickSyslink1)
 END_MESSAGE_MAP()
 
 
 BOOL CAboutDlg::OnInitDialog()
 {
-	CDialogEx::OnInitDialog();
+    CDialogEx::OnInitDialog();
 
-	// TODO:  ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯
-	CString str;
-	GetDlgItemText(IDC_VERSION_STATIC, str);
-	str.Replace(_T("<%version%>"), VERSION);
-	SetDlgItemText(IDC_VERSION_STATIC, str);
+    // TODO:  åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–
+    CString str;
+    GetDlgItemText(IDC_VERSION_STATIC, str);
+    str.Replace(_T("<%version%>"), VERSION);
+    SetDlgItemText(IDC_VERSION_STATIC, str);
 
-	GetDlgItemText(IDC_TRAFFICMONITOR_VERSION_STATIC, str);
-	str.Replace(_T("<%tm_version%>"), TRAFFICMONITOR_VERSION);
-	SetDlgItemText(IDC_TRAFFICMONITOR_VERSION_STATIC, str);
+    GetDlgItemText(IDC_TRAFFICMONITOR_VERSION_STATIC, str);
+    str.Replace(_T("<%tm_version%>"), TRAFFICMONITOR_VERSION);
+    SetDlgItemText(IDC_TRAFFICMONITOR_VERSION_STATIC, str);
 
-	GetDlgItemText(IDC_COPYRIGHT_STATIC, str);
-	str.Replace(_T("<%compile_date%>"), COMPILE_DATE);
-	SetDlgItemText(IDC_COPYRIGHT_STATIC, str);
+    GetDlgItemText(IDC_COPYRIGHT_STATIC, str);
+    str.Replace(_T("<%compile_date%>"), COMPILE_DATE);
+    SetDlgItemText(IDC_COPYRIGHT_STATIC, str);
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-				  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+    return TRUE;  // return TRUE unless you set the focus to a control
+                  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
-void CAboutDlg::OnNMClickSyslink1(NMHDR *pNMHDR, LRESULT *pResult)
+void CAboutDlg::OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	ShellExecute(NULL, _T("open"), L"https://github.com/zhongyang219/TrafficMonitorSkinEditor/releases", NULL, NULL, SW_SHOW);
-	*pResult = 0;
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    ShellExecute(NULL, _T("open"), L"https://github.com/zhongyang219/TrafficMonitorSkinEditor/releases", NULL, NULL, SW_SHOW);
+    *pResult = 0;
 }
 
 
-// CTrafficMonitorSkinEditorDlg ¶Ô»°¿ò
+// CTrafficMonitorSkinEditorDlg å¯¹è¯æ¡†
 
 
 
 CTrafficMonitorSkinEditorDlg::CTrafficMonitorSkinEditorDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CTrafficMonitorSkinEditorDlg::IDD, pParent)
+    : CDialog(CTrafficMonitorSkinEditorDlg::IDD, pParent)
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+    m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 void CTrafficMonitorSkinEditorDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_TEXT_COLOR_STATIC, m_text_color_static);
-	DDX_Control(pDX, IDC_SKIN_AUTHOR_EDIT, m_skin_author_edit);
-	DDX_Control(pDX, IDC_ASSIGN_TEXT_CHECK, m_assign_text_chk);
-	DDX_Control(pDX, IDC_SPECIFY_EACH_ITEM_COLOR_CHECK, m_specify_each_item_color_chk);
-	DDX_Control(pDX, IDC_UPLOAD_EDIT, m_up_string_edit);
-	DDX_Control(pDX, IDC_DOWNLOAD_EDIT, m_down_string_edit);
-	DDX_Control(pDX, IDC_CPU_EDIT, m_cpu_string_edit);
-	DDX_Control(pDX, IDC_MEMORY_EDIT, m_memory_string_edit);
-	DDX_Control(pDX, IDC_ASSIGN_FONT_CHECK, m_assign_font_chk);
-	DDX_Control(pDX, IDC_NO_ITEM_TEXT_CHECK, m_no_item_text_chk);
-	DDX_Control(pDX, IDC_TEXT_HEIGHT_EDIT, m_text_height_edit);
-	DDX_Control(pDX, IDC_WND_WIDTH_EDIT, m_window_width_edit);
-	DDX_Control(pDX, IDC_WND_HEIGHT_EDIT, m_window_heitht_edit);
-	DDX_Control(pDX, IDC_UP_X_EDIT, m_up_x_edit);
-	DDX_Control(pDX, IDC_UP_Y_EDIT, m_up_y_edit);
-	DDX_Control(pDX, IDC_UP_WIDTH_EDIT, m_up_width_edit);
-	DDX_Control(pDX, IDC_NO_UPLOAD_CHECK, m_no_upload_chk);
-	DDX_Control(pDX, IDC_DOWN_X_EDIT, m_down_x_edit);
-	DDX_Control(pDX, IDC_DOWN_Y_EDIT, m_down_y_edit);
-	DDX_Control(pDX, IDC_DOWN_WIDTH_EDIT, m_down_width_edit);
-	DDX_Control(pDX, IDC_CNO_DOWNLOAD_HECK, m_no_download_chk);
-	DDX_Control(pDX, IDC_CPU_X_EDIT, m_cpu_x_edit);
-	DDX_Control(pDX, IDC_CPU_Y_EDIT, m_cpu_y_edit);
-	DDX_Control(pDX, IDC_CPU_WIDTH_EDIT, m_cpu_width_edit);
-	DDX_Control(pDX, IDC_NO_CPU_CHECK, m_no_cpu_chk);
-	DDX_Control(pDX, IDC_MEMORY_X_EDIT, m_memory_x_edit);
-	DDX_Control(pDX, IDC_MEMORY_Y_EDIT, m_memory_y_edit);
-	DDX_Control(pDX, IDC_MEMORY_WIDTH_EDIT, m_memory_width_edit);
-	DDX_Control(pDX, IDC_NO_MEMORY_CHECK, m_no_memory_chk);
-	DDX_Control(pDX, IDC_PREVIEW_WIDTH_EDIT, m_preview_width_edit);
-	DDX_Control(pDX, IDC_PREVIEW_HEIGHT_EDIT, m_preview_height_edit);
-	DDX_Control(pDX, IDC_PREVIEW_X_S_EDIT, m_preview_x_s_edit);
-	DDX_Control(pDX, IDC_PREVIEW_Y_S_EDIT, m_preview_y_s_edit);
-	DDX_Control(pDX, IDC_PREVIEW_X_L_EDIT, m_preview_x_l_edit);
-	DDX_Control(pDX, IDC_PREVIEW_Y_L_EDIT, m_preview_y_l_edit);
-	DDX_Control(pDX, IDC_COMBO1, m_up_align_combo);
-	DDX_Control(pDX, IDC_COMBO2, m_down_align_combo);
-	DDX_Control(pDX, IDC_COMBO3, m_cpu_align_combo);
-	DDX_Control(pDX, IDC_COMBO4, m_memory_align_combo);
+    CDialog::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_TEXT_COLOR_STATIC, m_text_color_static);
+    DDX_Control(pDX, IDC_SKIN_AUTHOR_EDIT, m_skin_author_edit);
+    DDX_Control(pDX, IDC_ASSIGN_TEXT_CHECK, m_assign_text_chk);
+    DDX_Control(pDX, IDC_SPECIFY_EACH_ITEM_COLOR_CHECK, m_specify_each_item_color_chk);
+    DDX_Control(pDX, IDC_UPLOAD_EDIT, m_up_string_edit);
+    DDX_Control(pDX, IDC_DOWNLOAD_EDIT, m_down_string_edit);
+    DDX_Control(pDX, IDC_CPU_EDIT, m_cpu_string_edit);
+    DDX_Control(pDX, IDC_MEMORY_EDIT, m_memory_string_edit);
+    DDX_Control(pDX, IDC_ASSIGN_FONT_CHECK, m_assign_font_chk);
+    DDX_Control(pDX, IDC_NO_ITEM_TEXT_CHECK, m_no_item_text_chk);
+    DDX_Control(pDX, IDC_TEXT_HEIGHT_EDIT, m_text_height_edit);
+    DDX_Control(pDX, IDC_WND_WIDTH_EDIT, m_window_width_edit);
+    DDX_Control(pDX, IDC_WND_HEIGHT_EDIT, m_window_heitht_edit);
+    DDX_Control(pDX, IDC_UP_X_EDIT, m_up_x_edit);
+    DDX_Control(pDX, IDC_UP_Y_EDIT, m_up_y_edit);
+    DDX_Control(pDX, IDC_UP_WIDTH_EDIT, m_up_width_edit);
+    DDX_Control(pDX, IDC_NO_UPLOAD_CHECK, m_no_upload_chk);
+    DDX_Control(pDX, IDC_DOWN_X_EDIT, m_down_x_edit);
+    DDX_Control(pDX, IDC_DOWN_Y_EDIT, m_down_y_edit);
+    DDX_Control(pDX, IDC_DOWN_WIDTH_EDIT, m_down_width_edit);
+    DDX_Control(pDX, IDC_CNO_DOWNLOAD_HECK, m_no_download_chk);
+    DDX_Control(pDX, IDC_CPU_X_EDIT, m_cpu_x_edit);
+    DDX_Control(pDX, IDC_CPU_Y_EDIT, m_cpu_y_edit);
+    DDX_Control(pDX, IDC_CPU_WIDTH_EDIT, m_cpu_width_edit);
+    DDX_Control(pDX, IDC_NO_CPU_CHECK, m_no_cpu_chk);
+    DDX_Control(pDX, IDC_MEMORY_X_EDIT, m_memory_x_edit);
+    DDX_Control(pDX, IDC_MEMORY_Y_EDIT, m_memory_y_edit);
+    DDX_Control(pDX, IDC_MEMORY_WIDTH_EDIT, m_memory_width_edit);
+    DDX_Control(pDX, IDC_NO_MEMORY_CHECK, m_no_memory_chk);
+    DDX_Control(pDX, IDC_PREVIEW_WIDTH_EDIT, m_preview_width_edit);
+    DDX_Control(pDX, IDC_PREVIEW_HEIGHT_EDIT, m_preview_height_edit);
+    DDX_Control(pDX, IDC_PREVIEW_X_S_EDIT, m_preview_x_s_edit);
+    DDX_Control(pDX, IDC_PREVIEW_Y_S_EDIT, m_preview_y_s_edit);
+    DDX_Control(pDX, IDC_PREVIEW_X_L_EDIT, m_preview_x_l_edit);
+    DDX_Control(pDX, IDC_PREVIEW_Y_L_EDIT, m_preview_y_l_edit);
+    DDX_Control(pDX, IDC_COMBO1, m_up_align_combo);
+    DDX_Control(pDX, IDC_COMBO2, m_down_align_combo);
+    DDX_Control(pDX, IDC_COMBO3, m_cpu_align_combo);
+    DDX_Control(pDX, IDC_COMBO4, m_memory_align_combo);
 }
 
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
-	ON_WM_SYSCOMMAND()
-	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()
-	ON_MESSAGE(WM_STATIC_CLICKED, &CTrafficMonitorSkinEditorDlg::OnStaticClicked)
-	ON_COMMAND(ID_APP_ABOUT, &CTrafficMonitorSkinEditorDlg::OnAppAbout)
-	ON_COMMAND(ID_FILE_OPEN, &CTrafficMonitorSkinEditorDlg::OnFileOpen)
-	//ON_BN_CLICKED(IDC_BUTTON1, &CTrafficMonitorSkinEditorDlg::OnBnClickedButton1)
-	ON_EN_CHANGE(IDC_SKIN_AUTHOR_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeSkinAuthorEdit)
-	ON_BN_CLICKED(IDC_LARGE_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedLargeWindowRadio)
-	ON_BN_CLICKED(IDC_SMALL_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedSmallWindowRadio)
-	ON_BN_CLICKED(IDC_ASSIGN_TEXT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignTextCheck)
-	ON_EN_CHANGE(IDC_UPLOAD_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUploadEdit)
-	ON_EN_CHANGE(IDC_DOWNLOAD_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownloadEdit)
-	ON_EN_CHANGE(IDC_CPU_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuEdit)
-	ON_EN_CHANGE(IDC_MEMORY_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryEdit)
-	ON_EN_CHANGE(IDC_PREVIEW_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewWidthEdit)
-	ON_EN_CHANGE(IDC_PREVIEW_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewHeightEdit)
-	ON_EN_CHANGE(IDC_PREVIEW_X_S_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXSEdit)
-	ON_EN_CHANGE(IDC_PREVIEW_Y_S_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYSEdit)
-	ON_EN_CHANGE(IDC_PREVIEW_X_L_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXLEdit)
-	ON_EN_CHANGE(IDC_PREVIEW_Y_L_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYLEdit)
-	ON_EN_CHANGE(IDC_TEXT_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeTextHeightEdit)
-	ON_BN_CLICKED(IDC_NO_ITEM_TEXT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoItemTextCheck)
-	ON_EN_CHANGE(IDC_WND_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeWndWidthEdit)
-	ON_EN_CHANGE(IDC_WND_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeWndHeightEdit)
-	ON_EN_CHANGE(IDC_UP_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpXEdit)
-	ON_EN_CHANGE(IDC_UP_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpYEdit)
-	ON_EN_CHANGE(IDC_UP_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpWidthEdit)
-	ON_EN_CHANGE(IDC_DOWN_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownXEdit)
-	ON_EN_CHANGE(IDC_DOWN_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownYEdit)
-	ON_EN_CHANGE(IDC_DOWN_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownWidthEdit)
-	ON_EN_CHANGE(IDC_CPU_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuXEdit)
-	ON_EN_CHANGE(IDC_CPU_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuYEdit)
-	ON_EN_CHANGE(IDC_CPU_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuWidthEdit)
-	ON_EN_CHANGE(IDC_MEMORY_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryXEdit)
-	ON_EN_CHANGE(IDC_MEMORY_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryYEdit)
-	ON_EN_CHANGE(IDC_MEMORY_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryWidthEdit)
-	ON_BN_CLICKED(IDC_NO_UPLOAD_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoUploadCheck)
-	ON_BN_CLICKED(IDC_CNO_DOWNLOAD_HECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck)
-	ON_BN_CLICKED(IDC_NO_CPU_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck)
-	ON_BN_CLICKED(IDC_NO_MEMORY_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck)
-	ON_NOTIFY(UDN_DELTAPOS, SPIN_ID, &CTrafficMonitorSkinEditorDlg::OnDeltaposSpin)		//ÏìÓ¦ËùÓĞÎÄ±¾±à¼­¿Ø¼şÎ¢µ÷°´Å¥µÄµã»÷ÊÂ¼ş£¨Ã¿¸öÎ¢µ÷°´Å¥µÄID¶¼Ò»Ñù£©
-	ON_COMMAND(ID_FILE_NEW, &CTrafficMonitorSkinEditorDlg::OnFileNew)
-	ON_COMMAND(ID_FILE_SAVE, &CTrafficMonitorSkinEditorDlg::OnFileSave)
-	ON_COMMAND(ID_FILE_SAVE_AS, &CTrafficMonitorSkinEditorDlg::OnFileSaveAs)
-	ON_WM_CLOSE()
-	ON_COMMAND(ID_IMPORT_LARGE_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportLargeBackImage)
-	ON_COMMAND(ID_IMPORT_SMALL_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportSmallBackImage)
-	ON_WM_DROPFILES()
-	ON_BN_CLICKED(IDC_SHOW_ITEM_OUTLINE_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck)
-	ON_CBN_SELCHANGE(IDC_COMBO1, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo1)
-	ON_CBN_SELCHANGE(IDC_COMBO2, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo2)
-	ON_CBN_SELCHANGE(IDC_COMBO3, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo3)
-	ON_CBN_SELCHANGE(IDC_COMBO4, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4)
-	ON_BN_CLICKED(IDC_ASSIGN_FONT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck)
-	ON_BN_CLICKED(IDC_SET_FONT_BUTTON, &CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton)
-	ON_BN_CLICKED(IDC_SPECIFY_EACH_ITEM_COLOR_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck)
-	ON_COMMAND(ID_LANGUAGE_FOLLOWING_SYSTEM, &CTrafficMonitorSkinEditorDlg::OnLanguageFollowingSystem)
-	ON_COMMAND(ID_LANGUAGE_ENGLISH, &CTrafficMonitorSkinEditorDlg::OnLanguageEnglish)
-	ON_COMMAND(ID_LANGUAGE_SIMPLIFIED_CHINESE, &CTrafficMonitorSkinEditorDlg::OnLanguageSimplifiedChinese)
-	ON_WM_INITMENU()
+    ON_WM_SYSCOMMAND()
+    ON_WM_PAINT()
+    ON_WM_QUERYDRAGICON()
+    ON_MESSAGE(WM_STATIC_CLICKED, &CTrafficMonitorSkinEditorDlg::OnStaticClicked)
+    ON_COMMAND(ID_APP_ABOUT, &CTrafficMonitorSkinEditorDlg::OnAppAbout)
+    ON_COMMAND(ID_FILE_OPEN, &CTrafficMonitorSkinEditorDlg::OnFileOpen)
+    //ON_BN_CLICKED(IDC_BUTTON1, &CTrafficMonitorSkinEditorDlg::OnBnClickedButton1)
+    ON_EN_CHANGE(IDC_SKIN_AUTHOR_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeSkinAuthorEdit)
+    ON_BN_CLICKED(IDC_LARGE_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedLargeWindowRadio)
+    ON_BN_CLICKED(IDC_SMALL_WINDOW_RADIO, &CTrafficMonitorSkinEditorDlg::OnBnClickedSmallWindowRadio)
+    ON_BN_CLICKED(IDC_ASSIGN_TEXT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignTextCheck)
+    ON_EN_CHANGE(IDC_UPLOAD_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUploadEdit)
+    ON_EN_CHANGE(IDC_DOWNLOAD_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownloadEdit)
+    ON_EN_CHANGE(IDC_CPU_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuEdit)
+    ON_EN_CHANGE(IDC_MEMORY_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryEdit)
+    ON_EN_CHANGE(IDC_PREVIEW_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewWidthEdit)
+    ON_EN_CHANGE(IDC_PREVIEW_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewHeightEdit)
+    ON_EN_CHANGE(IDC_PREVIEW_X_S_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXSEdit)
+    ON_EN_CHANGE(IDC_PREVIEW_Y_S_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYSEdit)
+    ON_EN_CHANGE(IDC_PREVIEW_X_L_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXLEdit)
+    ON_EN_CHANGE(IDC_PREVIEW_Y_L_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYLEdit)
+    ON_EN_CHANGE(IDC_TEXT_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeTextHeightEdit)
+    ON_BN_CLICKED(IDC_NO_ITEM_TEXT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoItemTextCheck)
+    ON_EN_CHANGE(IDC_WND_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeWndWidthEdit)
+    ON_EN_CHANGE(IDC_WND_HEIGHT_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeWndHeightEdit)
+    ON_EN_CHANGE(IDC_UP_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpXEdit)
+    ON_EN_CHANGE(IDC_UP_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpYEdit)
+    ON_EN_CHANGE(IDC_UP_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeUpWidthEdit)
+    ON_EN_CHANGE(IDC_DOWN_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownXEdit)
+    ON_EN_CHANGE(IDC_DOWN_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownYEdit)
+    ON_EN_CHANGE(IDC_DOWN_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeDownWidthEdit)
+    ON_EN_CHANGE(IDC_CPU_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuXEdit)
+    ON_EN_CHANGE(IDC_CPU_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuYEdit)
+    ON_EN_CHANGE(IDC_CPU_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeCpuWidthEdit)
+    ON_EN_CHANGE(IDC_MEMORY_X_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryXEdit)
+    ON_EN_CHANGE(IDC_MEMORY_Y_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryYEdit)
+    ON_EN_CHANGE(IDC_MEMORY_WIDTH_EDIT, &CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryWidthEdit)
+    ON_BN_CLICKED(IDC_NO_UPLOAD_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoUploadCheck)
+    ON_BN_CLICKED(IDC_CNO_DOWNLOAD_HECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck)
+    ON_BN_CLICKED(IDC_NO_CPU_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck)
+    ON_BN_CLICKED(IDC_NO_MEMORY_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck)
+    ON_NOTIFY(UDN_DELTAPOS, SPIN_ID, &CTrafficMonitorSkinEditorDlg::OnDeltaposSpin)     //å“åº”æ‰€æœ‰æ–‡æœ¬ç¼–è¾‘æ§ä»¶å¾®è°ƒæŒ‰é’®çš„ç‚¹å‡»äº‹ä»¶ï¼ˆæ¯ä¸ªå¾®è°ƒæŒ‰é’®çš„IDéƒ½ä¸€æ ·ï¼‰
+    ON_COMMAND(ID_FILE_NEW, &CTrafficMonitorSkinEditorDlg::OnFileNew)
+    ON_COMMAND(ID_FILE_SAVE, &CTrafficMonitorSkinEditorDlg::OnFileSave)
+    ON_COMMAND(ID_FILE_SAVE_AS, &CTrafficMonitorSkinEditorDlg::OnFileSaveAs)
+    ON_WM_CLOSE()
+    ON_COMMAND(ID_IMPORT_LARGE_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportLargeBackImage)
+    ON_COMMAND(ID_IMPORT_SMALL_BACK_IMAGE, &CTrafficMonitorSkinEditorDlg::OnImportSmallBackImage)
+    ON_WM_DROPFILES()
+    ON_BN_CLICKED(IDC_SHOW_ITEM_OUTLINE_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck)
+    ON_CBN_SELCHANGE(IDC_COMBO1, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo1)
+    ON_CBN_SELCHANGE(IDC_COMBO2, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo2)
+    ON_CBN_SELCHANGE(IDC_COMBO3, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo3)
+    ON_CBN_SELCHANGE(IDC_COMBO4, &CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4)
+    ON_BN_CLICKED(IDC_ASSIGN_FONT_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck)
+    ON_BN_CLICKED(IDC_SET_FONT_BUTTON, &CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton)
+    ON_BN_CLICKED(IDC_SPECIFY_EACH_ITEM_COLOR_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck)
+    ON_COMMAND(ID_LANGUAGE_FOLLOWING_SYSTEM, &CTrafficMonitorSkinEditorDlg::OnLanguageFollowingSystem)
+    ON_COMMAND(ID_LANGUAGE_ENGLISH, &CTrafficMonitorSkinEditorDlg::OnLanguageEnglish)
+    ON_COMMAND(ID_LANGUAGE_SIMPLIFIED_CHINESE, &CTrafficMonitorSkinEditorDlg::OnLanguageSimplifiedChinese)
+    ON_WM_INITMENU()
 END_MESSAGE_MAP()
 
 
-// CTrafficMonitorSkinEditorDlg ÏûÏ¢´¦Àí³ÌĞò
+// CTrafficMonitorSkinEditorDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 void CTrafficMonitorSkinEditorDlg::DrawPreview()
 {
-	m_view->SetSize(m_skin_data.preview_width, m_skin_data.preview_height);
-	m_view->Invalidate();
+    m_view->SetSize(m_skin_data.preview_width, m_skin_data.preview_height);
+    m_view->Invalidate();
 }
 
 void CTrafficMonitorSkinEditorDlg::LayoutDataToUI(bool small_window)
 {
-	m_text_height_edit.SetValue(m_skin_data.text_height);
-	m_no_item_text_chk.SetCheck(m_skin_data.no_text);
-	if (small_window)
-	{
-		m_window_width_edit.SetValue(m_skin_data.width_s);
-		m_window_heitht_edit.SetValue(m_skin_data.height_s);
+    m_text_height_edit.SetValue(m_skin_data.text_height);
+    m_no_item_text_chk.SetCheck(m_skin_data.no_text);
+    if (small_window)
+    {
+        m_window_width_edit.SetValue(m_skin_data.width_s);
+        m_window_heitht_edit.SetValue(m_skin_data.height_s);
 
-		m_up_x_edit.SetValue(m_skin_data.up_x_s);
-		m_up_y_edit.SetValue(m_skin_data.up_y_s);
-		m_up_width_edit.SetValue(m_skin_data.up_width_s);
-		m_up_align_combo.SetCurSel(static_cast<int>(m_skin_data.up_align_s));
-		m_no_upload_chk.SetCheck(!m_skin_data.show_up_s);
-		m_down_x_edit.SetValue(m_skin_data.down_x_s);
-		m_down_y_edit.SetValue(m_skin_data.down_y_s);
-		m_down_align_combo.SetCurSel(static_cast<int>(m_skin_data.down_align_s));
-		m_down_width_edit.SetValue(m_skin_data.down_width_s);
-		m_no_download_chk.SetCheck(!m_skin_data.show_down_s);
-		m_cpu_x_edit.SetValue(m_skin_data.cpu_x_s);
-		m_cpu_y_edit.SetValue(m_skin_data.cpu_y_s);
-		m_cpu_width_edit.SetValue(m_skin_data.cpu_width_s);
-		m_cpu_align_combo.SetCurSel(static_cast<int>(m_skin_data.cpu_align_s));
-		m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_s);
-		m_memory_x_edit.SetValue(m_skin_data.memory_x_s);
-		m_memory_y_edit.SetValue(m_skin_data.memory_y_s);
-		m_memory_width_edit.SetValue(m_skin_data.memory_width_s);
-		m_memory_align_combo.SetCurSel(static_cast<int>(m_skin_data.memory_align_s));
-		m_no_memory_chk.SetCheck(!m_skin_data.show_memory_s);
-	}
-	else
-	{
-		m_window_width_edit.SetValue(m_skin_data.width_l);
-		m_window_heitht_edit.SetValue(m_skin_data.height_l);
+        m_up_x_edit.SetValue(m_skin_data.up_x_s);
+        m_up_y_edit.SetValue(m_skin_data.up_y_s);
+        m_up_width_edit.SetValue(m_skin_data.up_width_s);
+        m_up_align_combo.SetCurSel(static_cast<int>(m_skin_data.up_align_s));
+        m_no_upload_chk.SetCheck(!m_skin_data.show_up_s);
+        m_down_x_edit.SetValue(m_skin_data.down_x_s);
+        m_down_y_edit.SetValue(m_skin_data.down_y_s);
+        m_down_align_combo.SetCurSel(static_cast<int>(m_skin_data.down_align_s));
+        m_down_width_edit.SetValue(m_skin_data.down_width_s);
+        m_no_download_chk.SetCheck(!m_skin_data.show_down_s);
+        m_cpu_x_edit.SetValue(m_skin_data.cpu_x_s);
+        m_cpu_y_edit.SetValue(m_skin_data.cpu_y_s);
+        m_cpu_width_edit.SetValue(m_skin_data.cpu_width_s);
+        m_cpu_align_combo.SetCurSel(static_cast<int>(m_skin_data.cpu_align_s));
+        m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_s);
+        m_memory_x_edit.SetValue(m_skin_data.memory_x_s);
+        m_memory_y_edit.SetValue(m_skin_data.memory_y_s);
+        m_memory_width_edit.SetValue(m_skin_data.memory_width_s);
+        m_memory_align_combo.SetCurSel(static_cast<int>(m_skin_data.memory_align_s));
+        m_no_memory_chk.SetCheck(!m_skin_data.show_memory_s);
+    }
+    else
+    {
+        m_window_width_edit.SetValue(m_skin_data.width_l);
+        m_window_heitht_edit.SetValue(m_skin_data.height_l);
 
-		m_up_x_edit.SetValue(m_skin_data.up_x_l);
-		m_up_y_edit.SetValue(m_skin_data.up_y_l);
-		m_up_width_edit.SetValue(m_skin_data.up_width_l);
-		m_up_align_combo.SetCurSel(static_cast<int>(m_skin_data.up_align_l));
-		m_no_upload_chk.SetCheck(!m_skin_data.show_up_l);
-		m_down_x_edit.SetValue(m_skin_data.down_x_l);
-		m_down_y_edit.SetValue(m_skin_data.down_y_l);
-		m_down_align_combo.SetCurSel(static_cast<int>(m_skin_data.down_align_l));
-		m_down_width_edit.SetValue(m_skin_data.down_width_l);
-		m_no_download_chk.SetCheck(!m_skin_data.show_down_l);
-		m_cpu_x_edit.SetValue(m_skin_data.cpu_x_l);
-		m_cpu_y_edit.SetValue(m_skin_data.cpu_y_l);
-		m_cpu_width_edit.SetValue(m_skin_data.cpu_width_l);
-		m_cpu_align_combo.SetCurSel(static_cast<int>(m_skin_data.cpu_align_l));
-		m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_l);
-		m_memory_x_edit.SetValue(m_skin_data.memory_x_l);
-		m_memory_y_edit.SetValue(m_skin_data.memory_y_l);
-		m_memory_width_edit.SetValue(m_skin_data.memory_width_l);
-		m_memory_align_combo.SetCurSel(static_cast<int>(m_skin_data.memory_align_l));
-		m_no_memory_chk.SetCheck(!m_skin_data.show_memory_l);
-	}
+        m_up_x_edit.SetValue(m_skin_data.up_x_l);
+        m_up_y_edit.SetValue(m_skin_data.up_y_l);
+        m_up_width_edit.SetValue(m_skin_data.up_width_l);
+        m_up_align_combo.SetCurSel(static_cast<int>(m_skin_data.up_align_l));
+        m_no_upload_chk.SetCheck(!m_skin_data.show_up_l);
+        m_down_x_edit.SetValue(m_skin_data.down_x_l);
+        m_down_y_edit.SetValue(m_skin_data.down_y_l);
+        m_down_align_combo.SetCurSel(static_cast<int>(m_skin_data.down_align_l));
+        m_down_width_edit.SetValue(m_skin_data.down_width_l);
+        m_no_download_chk.SetCheck(!m_skin_data.show_down_l);
+        m_cpu_x_edit.SetValue(m_skin_data.cpu_x_l);
+        m_cpu_y_edit.SetValue(m_skin_data.cpu_y_l);
+        m_cpu_width_edit.SetValue(m_skin_data.cpu_width_l);
+        m_cpu_align_combo.SetCurSel(static_cast<int>(m_skin_data.cpu_align_l));
+        m_no_cpu_chk.SetCheck(!m_skin_data.show_cpu_l);
+        m_memory_x_edit.SetValue(m_skin_data.memory_x_l);
+        m_memory_y_edit.SetValue(m_skin_data.memory_y_l);
+        m_memory_width_edit.SetValue(m_skin_data.memory_width_l);
+        m_memory_align_combo.SetCurSel(static_cast<int>(m_skin_data.memory_align_l));
+        m_no_memory_chk.SetCheck(!m_skin_data.show_memory_l);
+    }
 }
 
 void CTrafficMonitorSkinEditorDlg::AllToUI()
 {
-	SetTextColorPreview();
-	m_specify_each_item_color_chk.SetCheck(m_skin_data.specify_each_item_color);
-	m_skin_author_edit.SetWindowTextW(m_skin_data.skin_author.c_str());
-	m_assign_text_chk.SetCheck(m_asign_item_text);
+    SetTextColorPreview();
+    m_specify_each_item_color_chk.SetCheck(m_skin_data.specify_each_item_color);
+    m_skin_author_edit.SetWindowTextW(m_skin_data.skin_author.c_str());
+    m_assign_text_chk.SetCheck(m_asign_item_text);
 
-	m_up_string_edit.SetWindowTextW(m_skin_data.up_string.c_str());
-	m_down_string_edit.SetWindowTextW(m_skin_data.down_string.c_str());
-	m_cpu_string_edit.SetWindowTextW(m_skin_data.cpu_string.c_str());
-	m_memory_string_edit.SetWindowTextW(m_skin_data.memory_string.c_str());
+    m_up_string_edit.SetWindowTextW(m_skin_data.up_string.c_str());
+    m_down_string_edit.SetWindowTextW(m_skin_data.down_string.c_str());
+    m_cpu_string_edit.SetWindowTextW(m_skin_data.cpu_string.c_str());
+    m_memory_string_edit.SetWindowTextW(m_skin_data.memory_string.c_str());
 
-	LayoutDataToUI(m_edit_small_window);
+    LayoutDataToUI(m_edit_small_window);
 
-	m_preview_width_edit.SetValue(m_skin_data.preview_width);
-	m_preview_height_edit.SetValue(m_skin_data.preview_height);
-	m_preview_x_s_edit.SetValue(m_skin_data.preview_x_s);
-	m_preview_y_s_edit.SetValue(m_skin_data.preview_y_s);
-	m_preview_x_l_edit.SetValue(m_skin_data.preview_x_l);
-	m_preview_y_l_edit.SetValue(m_skin_data.preview_y_l);
+    m_preview_width_edit.SetValue(m_skin_data.preview_width);
+    m_preview_height_edit.SetValue(m_skin_data.preview_height);
+    m_preview_x_s_edit.SetValue(m_skin_data.preview_x_s);
+    m_preview_y_s_edit.SetValue(m_skin_data.preview_y_s);
+    m_preview_x_l_edit.SetValue(m_skin_data.preview_x_l);
+    m_preview_y_l_edit.SetValue(m_skin_data.preview_y_l);
 
-	EnableTextControl(m_asign_item_text);
-	EnableFontControl(m_asing_font);
-	SetItemControlEnable();
+    EnableTextControl(m_asign_item_text);
+    EnableFontControl(m_asing_font);
+    SetItemControlEnable();
 
-	m_assign_font_chk.SetCheck(m_asing_font);
+    m_assign_font_chk.SetCheck(m_asing_font);
 }
 
 void CTrafficMonitorSkinEditorDlg::LoadBackImage(const wstring& path, bool small_image)
 {
-	if (small_image)
-	{
-		m_background_s.Destroy();
-		m_background_s.Load((path + BACKGROUND_IMAGE_S).c_str());
-	}
-	else
-	{
-		m_background_l.Destroy();
-		m_background_l.Load((path + BACKGROUND_IMAGE_L).c_str());
-	}
+    if (small_image)
+    {
+        m_background_s.Destroy();
+        m_background_s.Load((path + BACKGROUND_IMAGE_S).c_str());
+    }
+    else
+    {
+        m_background_l.Destroy();
+        m_background_l.Load((path + BACKGROUND_IMAGE_L).c_str());
+    }
 }
 
-void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring & path)
+void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring& path)
 {
-	//ÔØÈëÆ¤·ô²¼¾Ö
-	CSkinEditorHelper skin_editor;
-	skin_editor.SetSkinPath(path);
-	m_skin_data = skin_editor.LoadSkin();
-	//ÔØÈë±³¾°Í¼
-	LoadBackImage(path, true);
-	LoadBackImage(path, false);
-	//È·¶¨ÊÇ·ñÖ¸¶¨ÏÔÊ¾ÎÄ±¾
-	m_asign_item_text = !(m_skin_data.up_string == CCommon::LoadText(IDS_UPLOAD_DISP, _T(": ")).GetString() &&m_skin_data.down_string == CCommon::LoadText(IDS_DOWNLOAD_DISP, _T(": ")).GetString()
-		&&m_skin_data.cpu_string == L"CPU: "&&m_skin_data.memory_string == CCommon::LoadText(IDS_MEMORY_DISP, _T(": ")).GetString());
-	//È·¶¨ÊÇ·ñÖ¸¶¨×ÖÌå
-	m_asing_font = (!m_skin_data.font.name.IsEmpty() && m_skin_data.font.size > 0);
-	//ÉèÖÃ¿Ø¼şÊı¾İ
-	AllToUI();
-	//»æÖÆÔ¤ÀÀ
-	DrawPreview();
-	SetTitle();
-	SetFontText();
-	SetViewFont();
+    //è½½å…¥çš®è‚¤å¸ƒå±€
+    CSkinEditorHelper skin_editor;
+    skin_editor.SetSkinPath(path);
+    m_skin_data = skin_editor.LoadSkin();
+    //è½½å…¥èƒŒæ™¯å›¾
+    LoadBackImage(path, true);
+    LoadBackImage(path, false);
+    //ç¡®å®šæ˜¯å¦æŒ‡å®šæ˜¾ç¤ºæ–‡æœ¬
+    m_asign_item_text = !(m_skin_data.up_string == CCommon::LoadText(IDS_UPLOAD_DISP, _T(": ")).GetString() && m_skin_data.down_string == CCommon::LoadText(IDS_DOWNLOAD_DISP, _T(": ")).GetString()
+        && m_skin_data.cpu_string == L"CPU: " && m_skin_data.memory_string == CCommon::LoadText(IDS_MEMORY_DISP, _T(": ")).GetString());
+    //ç¡®å®šæ˜¯å¦æŒ‡å®šå­—ä½“
+    m_asing_font = (!m_skin_data.font.name.IsEmpty() && m_skin_data.font.size > 0);
+    //è®¾ç½®æ§ä»¶æ•°æ®
+    AllToUI();
+    //ç»˜åˆ¶é¢„è§ˆ
+    DrawPreview();
+    SetTitle();
+    SetFontText();
+    SetViewFont();
 }
 
 void CTrafficMonitorSkinEditorDlg::SetTitle()
 {
-	wstring title;
-	if (m_path.empty())
-		title = CCommon::LoadText(IDS_NO_TITLE, _T(" - ")) + CCommon::LoadText(IDS_TRAFFIC_MONITOR_SKIN_EDITOR);
-	else
-		title = m_path + CCommon::LoadText(_T(" - "), IDS_TRAFFIC_MONITOR_SKIN_EDITOR).GetString();
-	if (m_modified)
-		title = L'*' + title;
-	SetWindowTextW(title.c_str());
+    wstring title;
+    if (m_path.empty())
+        title = CCommon::LoadText(IDS_NO_TITLE, _T(" - ")) + CCommon::LoadText(IDS_TRAFFIC_MONITOR_SKIN_EDITOR);
+    else
+        title = m_path + CCommon::LoadText(_T(" - "), IDS_TRAFFIC_MONITOR_SKIN_EDITOR).GetString();
+    if (m_modified)
+        title = L'*' + title;
+    SetWindowTextW(title.c_str());
 }
 
 void CTrafficMonitorSkinEditorDlg::Modified()
 {
-	m_modified = true;
-	DrawPreview();
-	SetTitle();
-	m_spin_clicked = false;
+    m_modified = true;
+    DrawPreview();
+    SetTitle();
+    m_spin_clicked = false;
 }
 
-void CTrafficMonitorSkinEditorDlg::IniAlignComboBox(CComboBox & combo)
+void CTrafficMonitorSkinEditorDlg::IniAlignComboBox(CComboBox& combo)
 {
-	combo.AddString(CCommon::LoadText(IDS_LEFT_ALIGN));
-	combo.AddString(CCommon::LoadText(IDS_RIGHT_ALIGN));
-	combo.AddString(CCommon::LoadText(IDS_CENTER));
+    combo.AddString(CCommon::LoadText(IDS_LEFT_ALIGN));
+    combo.AddString(CCommon::LoadText(IDS_RIGHT_ALIGN));
+    combo.AddString(CCommon::LoadText(IDS_CENTER));
 }
 
 void CTrafficMonitorSkinEditorDlg::SetFontText()
 {
-	if (m_skin_data.font.name.IsEmpty() && m_skin_data.font.size <= 0)
-	{
-		SetDlgItemText(IDC_FONT_EDIT, _T(""));
-	}
-	else
-	{
-		CString font_str;
-		font_str.Format(_T("%s, %d"), m_skin_data.font.name, m_skin_data.font.size);
-		SetDlgItemText(IDC_FONT_EDIT, font_str);
-	}
-	if (m_font.m_hObject)
-		m_font.DeleteObject();
-	if (m_skin_data.font.name.IsEmpty() && m_skin_data.font.size <= 0)
-	{
-		m_font.CreatePointFont(90, CCommon::LoadText(IDS_DEFAULT_FONT));
-	}
-	else
-	{
-		//m_font.CreatePointFont(m_skin_data.font_size * 10, m_skin_data.font_name.c_str());
-		m_font.CreateFont(
-			FONTSIZE_TO_LFHEIGHT(m_skin_data.font.size), // nHeight
-			0, // nWidth
-			0, // nEscapement
-			0, // nOrientation
-			(m_skin_data.font.bold ? FW_BOLD : FW_NORMAL), // nWeight
-			m_skin_data.font.italic, // bItalic
-			m_skin_data.font.underline, // bUnderline
-			m_skin_data.font.strike_out, // cStrikeOut
-			DEFAULT_CHARSET, // nCharSet
-			OUT_DEFAULT_PRECIS, // nOutPrecision
-			CLIP_DEFAULT_PRECIS, // nClipPrecision
-			DEFAULT_QUALITY, // nQuality
-			DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily
-			m_skin_data.font.name);
+    if (m_skin_data.font.name.IsEmpty() && m_skin_data.font.size <= 0)
+    {
+        SetDlgItemText(IDC_FONT_EDIT, _T(""));
+    }
+    else
+    {
+        CString font_str;
+        font_str.Format(_T("%s, %d"), m_skin_data.font.name, m_skin_data.font.size);
+        SetDlgItemText(IDC_FONT_EDIT, font_str);
+    }
+    if (m_font.m_hObject)
+        m_font.DeleteObject();
+    if (m_skin_data.font.name.IsEmpty() && m_skin_data.font.size <= 0)
+    {
+        m_font.CreatePointFont(90, CCommon::LoadText(IDS_DEFAULT_FONT));
+    }
+    else
+    {
+        //m_font.CreatePointFont(m_skin_data.font_size * 10, m_skin_data.font_name.c_str());
+        m_font.CreateFont(
+            FontSizeToLfHeight(m_skin_data.font.size), // nHeight
+            0, // nWidth
+            0, // nEscapement
+            0, // nOrientation
+            (m_skin_data.font.bold ? FW_BOLD : FW_NORMAL), // nWeight
+            m_skin_data.font.italic, // bItalic
+            m_skin_data.font.underline, // bUnderline
+            m_skin_data.font.strike_out, // cStrikeOut
+            DEFAULT_CHARSET, // nCharSet
+            OUT_DEFAULT_PRECIS, // nOutPrecision
+            CLIP_DEFAULT_PRECIS, // nClipPrecision
+            DEFAULT_QUALITY, // nQuality
+            DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily
+            m_skin_data.font.name);
 
-	}
+    }
 }
 
 void CTrafficMonitorSkinEditorDlg::SetViewFont()
 {
-	if (m_asing_font)
-		m_view->SetFont(&m_font);
-	else
-		m_view->SetFont(GetFont());
+    if (m_asing_font)
+        m_view->SetFont(&m_font);
+    else
+        m_view->SetFont(GetFont());
 }
 
 void CTrafficMonitorSkinEditorDlg::SetTextColorPreview()
 {
-	if (m_skin_data.specify_each_item_color)
-	{
-		m_text_color_static.SetColorNum(MAIN_WND_COLOR_NUM);
-		for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
-			m_text_color_static.SetFillColor(i, m_skin_data.text_colors[i]);
-		m_text_color_static.Invalidate();
-	}
-	else
-	{
-		m_text_color_static.SetFillColor(m_skin_data.text_colors[0]);
-	}
+    if (m_skin_data.specify_each_item_color)
+    {
+        m_text_color_static.SetColorNum(MAIN_WND_COLOR_NUM);
+        for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
+            m_text_color_static.SetFillColor(i, m_skin_data.text_colors[i]);
+        m_text_color_static.Invalidate();
+    }
+    else
+    {
+        m_text_color_static.SetFillColor(m_skin_data.text_colors[0]);
+    }
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableTextControl(bool enable)
 {
-	m_up_string_edit.EnableWindow(enable);
-	m_down_string_edit.EnableWindow(enable);
-	m_cpu_string_edit.EnableWindow(enable);
-	m_memory_string_edit.EnableWindow(enable);
+    m_up_string_edit.EnableWindow(enable);
+    m_down_string_edit.EnableWindow(enable);
+    m_cpu_string_edit.EnableWindow(enable);
+    m_memory_string_edit.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableFontControl(bool enable)
 {
-	GetDlgItem(IDC_SET_FONT_BUTTON)->EnableWindow(enable);
-	GetDlgItem(IDC_FONT_EDIT)->EnableWindow(enable);
+    GetDlgItem(IDC_SET_FONT_BUTTON)->EnableWindow(enable);
+    GetDlgItem(IDC_FONT_EDIT)->EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableUpControl(bool enable)
 {
-	m_up_x_edit.EnableWindow(enable);
-	m_up_y_edit.EnableWindow(enable);
-	m_up_width_edit.EnableWindow(enable);
-	m_up_align_combo.EnableWindow(enable);
+    m_up_x_edit.EnableWindow(enable);
+    m_up_y_edit.EnableWindow(enable);
+    m_up_width_edit.EnableWindow(enable);
+    m_up_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableDownControl(bool enable)
 {
-	m_down_x_edit.EnableWindow(enable);
-	m_down_y_edit.EnableWindow(enable);
-	m_down_width_edit.EnableWindow(enable);
-	m_down_align_combo.EnableWindow(enable);
+    m_down_x_edit.EnableWindow(enable);
+    m_down_y_edit.EnableWindow(enable);
+    m_down_width_edit.EnableWindow(enable);
+    m_down_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableCpuControl(bool enable)
 {
-	m_cpu_x_edit.EnableWindow(enable);
-	m_cpu_y_edit.EnableWindow(enable);
-	m_cpu_width_edit.EnableWindow(enable);
-	m_cpu_align_combo.EnableWindow(enable);
+    m_cpu_x_edit.EnableWindow(enable);
+    m_cpu_y_edit.EnableWindow(enable);
+    m_cpu_width_edit.EnableWindow(enable);
+    m_cpu_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableMemoryControl(bool enable)
 {
-	m_memory_x_edit.EnableWindow(enable);
-	m_memory_y_edit.EnableWindow(enable);
-	m_memory_width_edit.EnableWindow(enable);
-	m_memory_align_combo.EnableWindow(enable);
+    m_memory_x_edit.EnableWindow(enable);
+    m_memory_y_edit.EnableWindow(enable);
+    m_memory_width_edit.EnableWindow(enable);
+    m_memory_align_combo.EnableWindow(enable);
 }
 
 void CTrafficMonitorSkinEditorDlg::SetItemControlEnable()
 {
-	if (m_edit_small_window)
-	{
-		EnableUpControl(m_skin_data.show_up_s);
-		EnableDownControl(m_skin_data.show_down_s);
-		EnableCpuControl(m_skin_data.show_cpu_s);
-		EnableMemoryControl(m_skin_data.show_memory_s);
-	}
-	else
-	{
-		EnableUpControl(m_skin_data.show_up_l);
-		EnableDownControl(m_skin_data.show_down_l);
-		EnableCpuControl(m_skin_data.show_cpu_l);
-		EnableMemoryControl(m_skin_data.show_memory_l);
-	}
+    if (m_edit_small_window)
+    {
+        EnableUpControl(m_skin_data.show_up_s);
+        EnableDownControl(m_skin_data.show_down_s);
+        EnableCpuControl(m_skin_data.show_cpu_s);
+        EnableMemoryControl(m_skin_data.show_memory_s);
+    }
+    else
+    {
+        EnableUpControl(m_skin_data.show_up_l);
+        EnableDownControl(m_skin_data.show_down_l);
+        EnableCpuControl(m_skin_data.show_cpu_l);
+        EnableMemoryControl(m_skin_data.show_memory_l);
+    }
 }
 
 bool CTrafficMonitorSkinEditorDlg::SaveSkin(const wstring& path)
 {
-	CSkinEditorHelper skin_editor;
-	skin_editor.SetSkinPath(path);
-	if (skin_editor.SaveSkin(m_skin_data, m_asign_item_text, m_asing_font))
-	{
-		m_modified = false;
-		SetTitle();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    CSkinEditorHelper skin_editor;
+    skin_editor.SetSkinPath(path);
+    if (skin_editor.SaveSkin(m_skin_data, m_asign_item_text, m_asing_font))
+    {
+        m_modified = false;
+        SetTitle();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool CTrafficMonitorSkinEditorDlg::_OnFileSave()
 {
-	CWaitCursor wait_cursor;
-	if (m_modified)		//Ö»ÓĞÔÚÒÑ¸ü¸Ä¹ıÖ®ºó²Å±£´æ
-	{
-		//ÒÑ¾­´ò¿ª¹ıÒ»¸öÎÄ¼şÊ±¾ÍÖ±½Ó±£´æ£¬»¹Ã»ÓĞ´ò¿ªÒ»¸öÎÄ¼ş¾Íµ¯³ö¡°Áí´æÎª¡±¶Ô»°¿ò
-		if (!m_path.empty())
-		{
-			if (SaveSkin(m_path))
-				return true;
-			else
-				return _OnFileSaveAs();		//ÎÄ¼şÎŞ·¨±£´æÊ±µ¯³ö¡°Áí´æÎª¡±¶Ô»°¿ò
-		}
-		else
-		{
-			return _OnFileSaveAs();
-		}
-	}
-	return false;
+    CWaitCursor wait_cursor;
+    if (m_modified)     //åªæœ‰åœ¨å·²æ›´æ”¹è¿‡ä¹‹åæ‰ä¿å­˜
+    {
+        //å·²ç»æ‰“å¼€è¿‡ä¸€ä¸ªæ–‡ä»¶æ—¶å°±ç›´æ¥ä¿å­˜ï¼Œè¿˜æ²¡æœ‰æ‰“å¼€ä¸€ä¸ªæ–‡ä»¶å°±å¼¹å‡ºâ€œå¦å­˜ä¸ºâ€å¯¹è¯æ¡†
+        if (!m_path.empty())
+        {
+            if (SaveSkin(m_path))
+                return true;
+            else
+                return _OnFileSaveAs();     //æ–‡ä»¶æ— æ³•ä¿å­˜æ—¶å¼¹å‡ºâ€œå¦å­˜ä¸ºâ€å¯¹è¯æ¡†
+        }
+        else
+        {
+            return _OnFileSaveAs();
+        }
+    }
+    return false;
 }
 
 bool CTrafficMonitorSkinEditorDlg::_OnFileSaveAs()
 {
-	//¹¹Ôì±£´æÎÄ¼ş¶Ô»°¿ò
-	CFolderPickerDialog folderDlg;
-	folderDlg.m_ofn.lpstrTitle = CCommon::LoadText(IDS_SELECT_SKIN_FOLDER);
-	//ÏÔÊ¾±£´æÎÄ¼ş¶Ô»°¿ò"Ñ¡ÔñÒª±£´æµÄÆ¤·ôÎÄ¼ş¼Ğ"
-	if (IDOK == folderDlg.DoModal())
-	{
-		wstring new_path = folderDlg.GetPathName();
-		if (CCommon::FileExist(new_path + L"\\skin.ini"))
-		{
-			if (MessageBox(CCommon::LoadText(IDS_SKIN_EXIST_INQUIRY), NULL, MB_YESNOCANCEL | MB_ICONQUESTION) != IDYES)
-				return false;
-		}
-		if (SaveSkin(new_path))
-		{
-			//½«±³¾°Í¼Æ¬¸´ÖÆµ½ĞÂµÄÂ·¾¶
-			if (m_path != new_path)
-			{
-				if (CCommon::FileExist(m_path + BACKGROUND_IMAGE_S))	//È·±£µ±Ç°Â·¾¶ÏÂ±³¾°Í¼Æ¬´æÔÚ
-				{
-					if (CCommon::FileExist(new_path + BACKGROUND_IMAGE_S))		//Èç¹ûÄ¿±êÂ·¾¶ÏÂ±³¾°Í¼Æ¬ÒÑ¾­´æÔÚ£¬ÔòÑ¯ÎÊÓÃ»§ÊÇ·ñ¸²¸Ç
-					{
-						CString info;
-						info.Format(CCommon::LoadText(IDS_FILE_EXIST_INQUIRY), (new_path + BACKGROUND_IMAGE_S).c_str());
-						switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
-						{
-						case IDYES:
-							CopyFile((m_path + BACKGROUND_IMAGE_S).c_str(), (new_path + BACKGROUND_IMAGE_S).c_str(), FALSE);
-							break;
-						case IDNO:
-							break;
-						case IDCANCEL:
-							return false;
-						}
-					}
-					else	//Èç¹ûÄ¿±êÂ·¾¶ÏÂÍ¼Æ¬ÎÄ¼ş²»´æÔÚ£¬¾ÍÖ±½Ó¸´ÖÆµ½Ä¿±êÂ·¾¶
-					{
-						CopyFile((m_path + BACKGROUND_IMAGE_S).c_str(), (new_path + BACKGROUND_IMAGE_S).c_str(), FALSE);
-					}
-				}
-				if (CCommon::FileExist(m_path + BACKGROUND_IMAGE_L))
-				{
-					if (CCommon::FileExist(new_path + BACKGROUND_IMAGE_L))
-					{
-						CString info;
-						info.Format(CCommon::LoadText(IDS_FILE_EXIST_INQUIRY), (new_path + BACKGROUND_IMAGE_L).c_str());
-						switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
-						{
-						case IDYES:
-							CopyFile((m_path + BACKGROUND_IMAGE_L).c_str(), (new_path + BACKGROUND_IMAGE_L).c_str(), FALSE);
-							break;
-						case IDNO:
-							break;
-						case IDCANCEL:
-							return false;
-						}
-					}
-					else
-					{
-						CopyFile((m_path + BACKGROUND_IMAGE_L).c_str(), (new_path + BACKGROUND_IMAGE_L).c_str(), FALSE);
-					}
-				}
-			}
-			m_path = new_path;	//Áí´æÎªºó£¬µ±Ç°ÎÄ¼şÃûÎª±£´æµÄÎÄ¼şÃû
-			m_modified = true;
-			_OnFileSave();					//ÔÚĞÂµÄÎ»ÖÃ±£´æÆ¤·ôÎÄ¼ş
-			SetTitle();					//ÉèÖÃ±êÌâ
-			LoadBackImage(m_path, true);
-			LoadBackImage(m_path, false);
-			DrawPreview();
-			return true;
-		}
-	}
-	return false;
+    //æ„é€ ä¿å­˜æ–‡ä»¶å¯¹è¯æ¡†
+    CFolderPickerDialog folderDlg;
+    folderDlg.m_ofn.lpstrTitle = CCommon::LoadText(IDS_SELECT_SKIN_FOLDER);
+    //æ˜¾ç¤ºä¿å­˜æ–‡ä»¶å¯¹è¯æ¡†"é€‰æ‹©è¦ä¿å­˜çš„çš®è‚¤æ–‡ä»¶å¤¹"
+    if (IDOK == folderDlg.DoModal())
+    {
+        wstring new_path = folderDlg.GetPathName();
+        if (CCommon::FileExist((new_path + L"\\skin.ini").c_str()))
+        {
+            if (MessageBox(CCommon::LoadText(IDS_SKIN_EXIST_INQUIRY), NULL, MB_YESNOCANCEL | MB_ICONQUESTION) != IDYES)
+                return false;
+        }
+        if (SaveSkin(new_path))
+        {
+            //å°†èƒŒæ™¯å›¾ç‰‡å¤åˆ¶åˆ°æ–°çš„è·¯å¾„
+            if (m_path != new_path)
+            {
+                if (CCommon::FileExist((m_path + BACKGROUND_IMAGE_S).c_str()))    //ç¡®ä¿å½“å‰è·¯å¾„ä¸‹èƒŒæ™¯å›¾ç‰‡å­˜åœ¨
+                {
+                    if (CCommon::FileExist((new_path + BACKGROUND_IMAGE_S).c_str()))      //å¦‚æœç›®æ ‡è·¯å¾„ä¸‹èƒŒæ™¯å›¾ç‰‡å·²ç»å­˜åœ¨ï¼Œåˆ™è¯¢é—®ç”¨æˆ·æ˜¯å¦è¦†ç›–
+                    {
+                        CString info;
+                        info.Format(CCommon::LoadText(IDS_FILE_EXIST_INQUIRY), (new_path + BACKGROUND_IMAGE_S).c_str());
+                        switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
+                        {
+                        case IDYES:
+                            CopyFile((m_path + BACKGROUND_IMAGE_S).c_str(), (new_path + BACKGROUND_IMAGE_S).c_str(), FALSE);
+                            break;
+                        case IDNO:
+                            break;
+                        case IDCANCEL:
+                            return false;
+                        }
+                    }
+                    else    //å¦‚æœç›®æ ‡è·¯å¾„ä¸‹å›¾ç‰‡æ–‡ä»¶ä¸å­˜åœ¨ï¼Œå°±ç›´æ¥å¤åˆ¶åˆ°ç›®æ ‡è·¯å¾„
+                    {
+                        CopyFile((m_path + BACKGROUND_IMAGE_S).c_str(), (new_path + BACKGROUND_IMAGE_S).c_str(), FALSE);
+                    }
+                }
+                if (CCommon::FileExist((m_path + BACKGROUND_IMAGE_L).c_str()))
+                {
+                    if (CCommon::FileExist((new_path + BACKGROUND_IMAGE_L).c_str()))
+                    {
+                        CString info;
+                        info.Format(CCommon::LoadText(IDS_FILE_EXIST_INQUIRY), (new_path + BACKGROUND_IMAGE_L).c_str());
+                        switch (MessageBox(info, NULL, MB_YESNOCANCEL | MB_ICONQUESTION))
+                        {
+                        case IDYES:
+                            CopyFile((m_path + BACKGROUND_IMAGE_L).c_str(), (new_path + BACKGROUND_IMAGE_L).c_str(), FALSE);
+                            break;
+                        case IDNO:
+                            break;
+                        case IDCANCEL:
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        CopyFile((m_path + BACKGROUND_IMAGE_L).c_str(), (new_path + BACKGROUND_IMAGE_L).c_str(), FALSE);
+                    }
+                }
+            }
+            m_path = new_path;  //å¦å­˜ä¸ºåï¼Œå½“å‰æ–‡ä»¶åä¸ºä¿å­˜çš„æ–‡ä»¶å
+            m_modified = true;
+            _OnFileSave();                  //åœ¨æ–°çš„ä½ç½®ä¿å­˜çš®è‚¤æ–‡ä»¶
+            SetTitle();                 //è®¾ç½®æ ‡é¢˜
+            LoadBackImage(m_path, true);
+            LoadBackImage(m_path, false);
+            DrawPreview();
+            return true;
+        }
+    }
+    return false;
 }
 
 bool CTrafficMonitorSkinEditorDlg::SaveInquiry()
 {
-	if (m_modified)
-	{
-		CString text;
-		text.Format(CCommon::LoadText(IDS_SKIN_SAVE_INQUIRY), (m_path.empty() ? CCommon::LoadText(_T("\""), IDS_NO_TITLE, _T("\"")) : m_path.c_str()));
+    if (m_modified)
+    {
+        CString text;
+        text.Format(CCommon::LoadText(IDS_SKIN_SAVE_INQUIRY), (m_path.empty() ? CCommon::LoadText(_T("\""), IDS_NO_TITLE, _T("\"")) : m_path.c_str()));
 
-		int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
-		switch (rtn)
-		{
-		case IDYES: return _OnFileSave();
-		case IDNO:
-			m_modified = false;
-			SetTitle();
-			break;
-		default: return false;
-		}
-	}
-	return true;
+        int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
+        switch (rtn)
+        {
+        case IDYES: return _OnFileSave();
+        case IDNO:
+            m_modified = false;
+            SetTitle();
+            break;
+        default: return false;
+        }
+    }
+    return true;
 }
 
 void CTrafficMonitorSkinEditorDlg::_OnImportBackImage(bool small_image)
 {
-	if (m_path.empty() || !CCommon::FolderExist(m_path))
-	{
-		if (MessageBox(CCommon::LoadText(IDS_CURRENT_SKIN_SAVE_INQUIRY), NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
-			_OnFileSaveAs();
-		else
-			return;
-	}
-	if (m_path.empty() || !CCommon::FolderExist(m_path))
-		return;
-	//ÉèÖÃ¹ıÂËÆ÷
-	LPCTSTR szFilter = CCommon::LoadText(IDS_IMAGE_FILTER);
-	//¹¹Ôì´ò¿ªÎÄ¼ş¶Ô»°¿ò
-	CFileDialog fileDlg(TRUE, _T("bmp"), NULL, 0, szFilter, this);
-	//ÉèÖÃ´°¿Ú±êÌâ
-	LPCTSTR szTitle = (small_image ? CCommon::LoadText(IDS_IMPORT_SMALL_BACK_IMAGE) : CCommon::LoadText(IDS_IMPORT_LARGE_BACK_IMAGE));
-	fileDlg.m_ofn.lpstrTitle = szTitle;
-	//ÏÔÊ¾´ò¿ªÎÄ¼ş¶Ô»°¿ò
-	if (IDOK == fileDlg.DoModal())
-	{
-		wstring current_back_image(small_image ? (m_path + BACKGROUND_IMAGE_S) : (m_path + BACKGROUND_IMAGE_L));
-		if (current_back_image == fileDlg.GetPathName().GetString())		//Èç¹ûÒªµ¼ÈëÎÄ¼ş¾ÍÊÇÒÑ¼ÓÔØµÄÎÄ¼ş£¬ÔòÖ±½Ó·µ»Ø
-		{
-			return;
-		}
-		if (!(small_image ? m_background_s : m_background_l).IsNull())		//Èç¹û±³¾°Í¼ÒÑ¾­¼ÓÔØ£¬µ¯³ö¾¯¸æ¶Ô»°¿ò
-		{
-			if (MessageBox(CCommon::LoadText(IDS_BACK_IMAGE_OVERWRITE_WARNING), NULL, MB_YESNO | MB_ICONWARNING) != IDYES)
-				return;
-		}
-		//½«ÒªÔØÈëµÄ±³¾°Í¼¸´ÖÆµ½Æ¤·ôÎÄ¼ş¼Ğ£¬²¢¸²¸ÇÒÑ¾­´æÔÚµÄÎÄ¼ş
-		CopyFile(fileDlg.GetPathName(), current_back_image.c_str(), FALSE);
-		//ÖØĞÂÔØÈë±³¾°Í¼
-		LoadBackImage(m_path, small_image);
-		DrawPreview();
-	}
+    if (m_path.empty() || !CCommon::FolderExist(m_path.c_str()))
+    {
+        if (MessageBox(CCommon::LoadText(IDS_CURRENT_SKIN_SAVE_INQUIRY), NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
+            _OnFileSaveAs();
+        else
+            return;
+    }
+    if (m_path.empty() || !CCommon::FolderExist(m_path.c_str()))
+        return;
+    //è®¾ç½®è¿‡æ»¤å™¨
+    LPCTSTR szFilter = CCommon::LoadText(IDS_IMAGE_FILTER);
+    //æ„é€ æ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
+    CFileDialog fileDlg(TRUE, _T("bmp"), NULL, 0, szFilter, this);
+    //è®¾ç½®çª—å£æ ‡é¢˜
+    LPCTSTR szTitle = (small_image ? CCommon::LoadText(IDS_IMPORT_SMALL_BACK_IMAGE) : CCommon::LoadText(IDS_IMPORT_LARGE_BACK_IMAGE));
+    fileDlg.m_ofn.lpstrTitle = szTitle;
+    //æ˜¾ç¤ºæ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
+    if (IDOK == fileDlg.DoModal())
+    {
+        wstring current_back_image(small_image ? (m_path + BACKGROUND_IMAGE_S) : (m_path + BACKGROUND_IMAGE_L));
+        if (current_back_image == fileDlg.GetPathName().GetString())        //å¦‚æœè¦å¯¼å…¥æ–‡ä»¶å°±æ˜¯å·²åŠ è½½çš„æ–‡ä»¶ï¼Œåˆ™ç›´æ¥è¿”å›
+        {
+            return;
+        }
+        if (!(small_image ? m_background_s : m_background_l).IsNull())      //å¦‚æœèƒŒæ™¯å›¾å·²ç»åŠ è½½ï¼Œå¼¹å‡ºè­¦å‘Šå¯¹è¯æ¡†
+        {
+            if (MessageBox(CCommon::LoadText(IDS_BACK_IMAGE_OVERWRITE_WARNING), NULL, MB_YESNO | MB_ICONWARNING) != IDYES)
+                return;
+        }
+        //å°†è¦è½½å…¥çš„èƒŒæ™¯å›¾å¤åˆ¶åˆ°çš®è‚¤æ–‡ä»¶å¤¹ï¼Œå¹¶è¦†ç›–å·²ç»å­˜åœ¨çš„æ–‡ä»¶
+        CopyFile(fileDlg.GetPathName(), current_back_image.c_str(), FALSE);
+        //é‡æ–°è½½å…¥èƒŒæ™¯å›¾
+        LoadBackImage(m_path, small_image);
+        DrawPreview();
+    }
 }
 
 BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+    CDialog::OnInitDialog();
 
-	// ½«¡°¹ØÓÚ...¡±²Ëµ¥ÏîÌí¼Óµ½ÏµÍ³²Ëµ¥ÖĞ¡£
+    // å°†â€œå…³äº...â€èœå•é¡¹æ·»åŠ åˆ°ç³»ç»Ÿèœå•ä¸­ã€‚
 
-	// IDM_ABOUTBOX ±ØĞëÔÚÏµÍ³ÃüÁî·¶Î§ÄÚ¡£
-	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
-	ASSERT(IDM_ABOUTBOX < 0xF000);
+    // IDM_ABOUTBOX å¿…é¡»åœ¨ç³»ç»Ÿå‘½ä»¤èŒƒå›´å†…ã€‚
+    ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
+    ASSERT(IDM_ABOUTBOX < 0xF000);
 
-	CMenu* pSysMenu = GetSystemMenu(FALSE);
-	if (pSysMenu != NULL)
-	{
-		BOOL bNameValid;
-		CString strAboutMenu;
-		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
-		ASSERT(bNameValid);
-		if (!strAboutMenu.IsEmpty())
-		{
-			pSysMenu->AppendMenu(MF_SEPARATOR);
-			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
-		}
-	}
+    CMenu* pSysMenu = GetSystemMenu(FALSE);
+    if (pSysMenu != NULL)
+    {
+        BOOL bNameValid;
+        CString strAboutMenu;
+        bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
+        ASSERT(bNameValid);
+        if (!strAboutMenu.IsEmpty())
+        {
+            pSysMenu->AppendMenu(MF_SEPARATOR);
+            pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
+        }
+    }
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£  µ±Ó¦ÓÃ³ÌĞòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ĞĞ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃĞ¡Í¼±ê
+    // è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚  å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æ¶å°†è‡ªåŠ¨
+    //  æ‰§è¡Œæ­¤æ“ä½œ
+    SetIcon(m_hIcon, TRUE);         // è®¾ç½®å¤§å›¾æ ‡
+    SetIcon(m_hIcon, FALSE);        // è®¾ç½®å°å›¾æ ‡
 
-	// TODO:  ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯´úÂë
-	theApp.GetDPI(this);
+    // TODO:  åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–ä»£ç 
+    theApp.GetDPI(this);
 
-	//m_text_color_static.SetFillColor(RGB(255, 192, 0));
-	m_text_color_static.SetLinkCursor(true);
+    //m_text_color_static.SetFillColor(RGB(255, 192, 0));
+    m_text_color_static.SetLinkCursor(true);
 
-	//³õÊ¼»¯Ô¤ÀÀÊÓÍ¼
-	m_view = (CDrawScrollView*)RUNTIME_CLASS(CDrawScrollView)->CreateObject();
-	CRect rect;
-	GetDlgItem(IDC_PREVIEW_GROUP_STATIC)->GetWindowRect(rect);		//»ñÈ¡¡°Ô¤ÀÀ¡± group box µÄÎ»ÖÃ
-	ScreenToClient(&rect);
-	CRect scroll_view_rect{ rect };
-	scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(25));	//Ô¤ÀÀÊÓÍ¼Á½²à¾à¡°Ô¤ÀÀ¡±group box 12¸öÏñËØ£¬µ×²¿25¸öÏñËØ
-	GetDlgItem(IDC_PREVIEW_X_L_EDIT)->GetWindowRect(rect);		//»ñÈ¡¡°´ó´°¿ÚÎ»ÖÃ¡±ÖĞ¡°X¡± Edit boxµÄÎ»ÖÃ
-	ScreenToClient(&rect);
-	scroll_view_rect.top = rect.bottom + theApp.DPI(8);			//Ô¤ÀÀÊÓÍ¼¶¥²¿¾àEdit boxµ×²¿8¸öÏñËØ
-	m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
-	m_view->InitialUpdate();
-	m_view->SetSkinData(&m_skin_data);
-	m_view->SetBackImage(&m_background_s, &m_background_l);
-	m_view->SetShowItemOutline(&m_show_item_outline);
-	m_view->ShowWindow(SW_SHOW);
-	//³õÊ¼»¯Combo box
-	IniAlignComboBox(m_up_align_combo);
-	IniAlignComboBox(m_down_align_combo);
-	IniAlignComboBox(m_cpu_align_combo);
-	IniAlignComboBox(m_memory_align_combo);
+    //åˆå§‹åŒ–é¢„è§ˆè§†å›¾
+    m_view = (CDrawScrollView*)RUNTIME_CLASS(CDrawScrollView)->CreateObject();
+    CRect rect;
+    GetDlgItem(IDC_PREVIEW_GROUP_STATIC)->GetWindowRect(rect);      //è·å–â€œé¢„è§ˆâ€ group box çš„ä½ç½®
+    ScreenToClient(&rect);
+    CRect scroll_view_rect{ rect };
+    scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(25));   //é¢„è§ˆè§†å›¾ä¸¤ä¾§è·â€œé¢„è§ˆâ€group box 12ä¸ªåƒç´ ï¼Œåº•éƒ¨25ä¸ªåƒç´ 
+    GetDlgItem(IDC_PREVIEW_X_L_EDIT)->GetWindowRect(rect);      //è·å–â€œå¤§çª—å£ä½ç½®â€ä¸­â€œXâ€ Edit boxçš„ä½ç½®
+    ScreenToClient(&rect);
+    scroll_view_rect.top = rect.bottom + theApp.DPI(8);         //é¢„è§ˆè§†å›¾é¡¶éƒ¨è·Edit boxåº•éƒ¨8ä¸ªåƒç´ 
+    m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
+    m_view->InitialUpdate();
+    m_view->SetSkinData(&m_skin_data);
+    m_view->SetBackImage(&m_background_s, &m_background_l);
+    m_view->SetShowItemOutline(&m_show_item_outline);
+    m_view->ShowWindow(SW_SHOW);
+    //åˆå§‹åŒ–Combo box
+    IniAlignComboBox(m_up_align_combo);
+    IniAlignComboBox(m_down_align_combo);
+    IniAlignComboBox(m_cpu_align_combo);
+    IniAlignComboBox(m_memory_align_combo);
 
-	//
-	LoadSkin(wstring());
-	((CButton*)GetDlgItem(IDC_LARGE_WINDOW_RADIO))->SetCheck(TRUE);
-	((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->SetCheck(m_show_item_outline);
+    //
+    LoadSkin(wstring());
+    ((CButton*)GetDlgItem(IDC_LARGE_WINDOW_RADIO))->SetCheck(TRUE);
+    ((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->SetCheck(m_show_item_outline);
 
-	SetFontText();
-	SetViewFont();
+    SetFontText();
+    SetViewFont();
 
-	return TRUE;  // ³ı·Ç½«½¹µãÉèÖÃµ½¿Ø¼ş£¬·ñÔò·µ»Ø TRUE
+    return TRUE;  // é™¤éå°†ç„¦ç‚¹è®¾ç½®åˆ°æ§ä»¶ï¼Œå¦åˆ™è¿”å› TRUE
 }
 
 void CTrafficMonitorSkinEditorDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
-	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
-	{
-		CAboutDlg dlgAbout;
-		dlgAbout.DoModal();
-	}
-	else
-	{
-		CDialog::OnSysCommand(nID, lParam);
-	}
+    if ((nID & 0xFFF0) == IDM_ABOUTBOX)
+    {
+        CAboutDlg dlgAbout;
+        dlgAbout.DoModal();
+    }
+    else
+    {
+        CDialog::OnSysCommand(nID, lParam);
+    }
 }
 
-// Èç¹ûÏò¶Ô»°¿òÌí¼Ó×îĞ¡»¯°´Å¥£¬ÔòĞèÒªÏÂÃæµÄ´úÂë
-//  À´»æÖÆ¸ÃÍ¼±ê¡£  ¶ÔÓÚÊ¹ÓÃÎÄµµ/ÊÓÍ¼Ä£ĞÍµÄ MFC Ó¦ÓÃ³ÌĞò£¬
-//  Õâ½«ÓÉ¿ò¼Ü×Ô¶¯Íê³É¡£
+// å¦‚æœå‘å¯¹è¯æ¡†æ·»åŠ æœ€å°åŒ–æŒ‰é’®ï¼Œåˆ™éœ€è¦ä¸‹é¢çš„ä»£ç 
+//  æ¥ç»˜åˆ¶è¯¥å›¾æ ‡ã€‚  å¯¹äºä½¿ç”¨æ–‡æ¡£/è§†å›¾æ¨¡å‹çš„ MFC åº”ç”¨ç¨‹åºï¼Œ
+//  è¿™å°†ç”±æ¡†æ¶è‡ªåŠ¨å®Œæˆã€‚
 
 void CTrafficMonitorSkinEditorDlg::OnPaint()
 {
-	if (IsIconic())
-	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
+    if (IsIconic())
+    {
+        CPaintDC dc(this); // ç”¨äºç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 
-		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
+        SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØĞÎÖĞ¾ÓÖĞ
-		int cxIcon = GetSystemMetrics(SM_CXICON);
-		int cyIcon = GetSystemMetrics(SM_CYICON);
-		CRect rect;
-		GetClientRect(&rect);
-		int x = (rect.Width() - cxIcon + 1) / 2;
-		int y = (rect.Height() - cyIcon + 1) / 2;
+        // ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
+        int cxIcon = GetSystemMetrics(SM_CXICON);
+        int cyIcon = GetSystemMetrics(SM_CYICON);
+        CRect rect;
+        GetClientRect(&rect);
+        int x = (rect.Width() - cxIcon + 1) / 2;
+        int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// »æÖÆÍ¼±ê
-		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
-		CDialog::OnPaint();
-	}
+        // ç»˜åˆ¶å›¾æ ‡
+        dc.DrawIcon(x, y, m_hIcon);
+    }
+    else
+    {
+        CDialog::OnPaint();
+    }
 }
 
-//µ±ÓÃ»§ÍÏ¶¯×îĞ¡»¯´°¿ÚÊ±ÏµÍ³µ÷ÓÃ´Ëº¯ÊıÈ¡µÃ¹â±ê
-//ÏÔÊ¾¡£
+//å½“ç”¨æˆ·æ‹–åŠ¨æœ€å°åŒ–çª—å£æ—¶ç³»ç»Ÿè°ƒç”¨æ­¤å‡½æ•°å–å¾—å…‰æ ‡
+//æ˜¾ç¤ºã€‚
 HCURSOR CTrafficMonitorSkinEditorDlg::OnQueryDragIcon()
 {
-	return static_cast<HCURSOR>(m_hIcon);
+    return static_cast<HCURSOR>(m_hIcon);
 }
 
 
 
 afx_msg LRESULT CTrafficMonitorSkinEditorDlg::OnStaticClicked(WPARAM wParam, LPARAM lParam)
 {
-	CWnd* pWnd = (CWnd*)wParam;
-	if (pWnd == &m_text_color_static)
-	{
-		if (m_skin_data.specify_each_item_color)
-		{
-			CMainWndColorDlg dlg(m_skin_data.text_colors);
-			if (dlg.DoModal() == IDOK)
-			{
-				for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
-					m_skin_data.text_colors[i] = dlg.GetColors()[i];
-				SetTextColorPreview();
-				DrawPreview();
-				Modified();
-			}
-		}
-		else
-		{
-			CColorDialog dlg(m_skin_data.text_colors[0]);
-			if (dlg.DoModal() == IDOK)
-			{
-				m_skin_data.text_colors[0] = dlg.GetColor();
-				SetTextColorPreview();
-				DrawPreview();
-				Modified();
-			}
-		}
-	}
-	return 0;
+    CWnd* pWnd = (CWnd*)wParam;
+    if (pWnd == &m_text_color_static)
+    {
+        if (m_skin_data.specify_each_item_color)
+        {
+            CMainWndColorDlg dlg(m_skin_data.text_colors);
+            if (dlg.DoModal() == IDOK)
+            {
+                for (int i{}; i < MAIN_WND_COLOR_NUM; i++)
+                    m_skin_data.text_colors[i] = dlg.GetColors()[i];
+                SetTextColorPreview();
+                DrawPreview();
+                Modified();
+            }
+        }
+        else
+        {
+            CColorDialog dlg(m_skin_data.text_colors[0]);
+            if (dlg.DoModal() == IDOK)
+            {
+                m_skin_data.text_colors[0] = dlg.GetColor();
+                SetTextColorPreview();
+                DrawPreview();
+                Modified();
+            }
+        }
+    }
+    return 0;
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnAppAbout()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	CAboutDlg dlgAbout;
-	dlgAbout.DoModal();
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    CAboutDlg dlgAbout;
+    dlgAbout.DoModal();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnFileOpen()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	if (!SaveInquiry())
-		return;
-	CFolderPickerDialog dlg;
-	if (dlg.DoModal() == IDOK)
-	{
-		m_path = dlg.GetPathName();
-		LoadSkin(m_path);
-	}
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    if (!SaveInquiry())
+        return;
+    CFolderPickerDialog dlg;
+    if (dlg.DoModal() == IDOK)
+    {
+        m_path = dlg.GetPathName();
+        LoadSkin(m_path);
+    }
 }
 
 
 //void CTrafficMonitorSkinEditorDlg::OnBnClickedButton1()
 //{
-//	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-//	int v = m_text_height_edit.GetValue();
+//  // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+//  int v = m_text_height_edit.GetValue();
 //}
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeSkinAuthorEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_skin_author_edit.GetModify())
-	{
-		CString tmp;
-		m_skin_author_edit.GetWindowText(tmp);
-		m_skin_data.skin_author = tmp;
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_skin_author_edit.GetModify())
+    {
+        CString tmp;
+        m_skin_author_edit.GetWindowText(tmp);
+        m_skin_data.skin_author = tmp;
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedLargeWindowRadio()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	m_edit_small_window = false;
-	SetItemControlEnable();
-	LayoutDataToUI(m_edit_small_window);
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    m_edit_small_window = false;
+    SetItemControlEnable();
+    LayoutDataToUI(m_edit_small_window);
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedSmallWindowRadio()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	m_edit_small_window = true;
-	SetItemControlEnable();
-	LayoutDataToUI(m_edit_small_window);
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    m_edit_small_window = true;
+    SetItemControlEnable();
+    LayoutDataToUI(m_edit_small_window);
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedAssignTextCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	m_asign_item_text = (m_assign_text_chk.GetCheck() != 0);
-	EnableTextControl(m_asign_item_text);
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    m_asign_item_text = (m_assign_text_chk.GetCheck() != 0);
+    EnableTextControl(m_asign_item_text);
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeUploadEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_up_string_edit.GetModify())
-	{
-		CString tmp;
-		m_up_string_edit.GetWindowText(tmp);
-		m_skin_data.up_string = tmp;
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_up_string_edit.GetModify())
+    {
+        CString tmp;
+        m_up_string_edit.GetWindowText(tmp);
+        m_skin_data.up_string = tmp;
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeDownloadEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_down_string_edit.GetModify())
-	{
-		CString tmp;
-		m_down_string_edit.GetWindowText(tmp);
-		m_skin_data.down_string = tmp;
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_down_string_edit.GetModify())
+    {
+        CString tmp;
+        m_down_string_edit.GetWindowText(tmp);
+        m_skin_data.down_string = tmp;
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_cpu_string_edit.GetModify())
-	{
-		CString tmp;
-		m_cpu_string_edit.GetWindowText(tmp);
-		m_skin_data.cpu_string = tmp;
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_cpu_string_edit.GetModify())
+    {
+        CString tmp;
+        m_cpu_string_edit.GetWindowText(tmp);
+        m_skin_data.cpu_string = tmp;
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_memory_string_edit.GetModify())
-	{
-		CString tmp;
-		m_memory_string_edit.GetWindowText(tmp);
-		m_skin_data.memory_string = tmp;
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_memory_string_edit.GetModify())
+    {
+        CString tmp;
+        m_memory_string_edit.GetWindowText(tmp);
+        m_skin_data.memory_string = tmp;
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewWidthEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_preview_width_edit.GetModify() || m_spin_clicked)
-	{
-		m_skin_data.preview_width = m_preview_width_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_preview_width_edit.GetModify() || m_spin_clicked)
+    {
+        m_skin_data.preview_width = m_preview_width_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewHeightEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_preview_height_edit.GetModify() || m_spin_clicked)
-	{
-		m_skin_data.preview_height = m_preview_height_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_preview_height_edit.GetModify() || m_spin_clicked)
+    {
+        m_skin_data.preview_height = m_preview_height_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXSEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_preview_x_s_edit.GetModify() || m_spin_clicked)
-	{
-		m_skin_data.preview_x_s = m_preview_x_s_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_preview_x_s_edit.GetModify() || m_spin_clicked)
+    {
+        m_skin_data.preview_x_s = m_preview_x_s_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYSEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_preview_y_s_edit.GetModify() || m_spin_clicked)
-	{
-		m_skin_data.preview_y_s = m_preview_y_s_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_preview_y_s_edit.GetModify() || m_spin_clicked)
+    {
+        m_skin_data.preview_y_s = m_preview_y_s_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewXLEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_preview_x_l_edit.GetModify() || m_spin_clicked)
-	{
-		m_skin_data.preview_x_l = m_preview_x_l_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_preview_x_l_edit.GetModify() || m_spin_clicked)
+    {
+        m_skin_data.preview_x_l = m_preview_x_l_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangePreviewYLEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_preview_y_l_edit.GetModify() || m_spin_clicked)
-	{
-		m_skin_data.preview_y_l = m_preview_y_l_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_preview_y_l_edit.GetModify() || m_spin_clicked)
+    {
+        m_skin_data.preview_y_l = m_preview_y_l_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeTextHeightEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_text_height_edit.GetModify() || m_spin_clicked)
-	{
-		m_skin_data.text_height = m_text_height_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_text_height_edit.GetModify() || m_spin_clicked)
+    {
+        m_skin_data.text_height = m_text_height_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedNoItemTextCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	m_skin_data.no_text = (m_no_item_text_chk.GetCheck() != 0);
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    m_skin_data.no_text = (m_no_item_text_chk.GetCheck() != 0);
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeWndWidthEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_window_width_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.width_s = m_window_width_edit.GetValue();
-		else
-			m_skin_data.width_l = m_window_width_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_window_width_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.width_s = m_window_width_edit.GetValue();
+        else
+            m_skin_data.width_l = m_window_width_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeWndHeightEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_window_heitht_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.height_s = m_window_heitht_edit.GetValue();
-		else
-			m_skin_data.height_l = m_window_heitht_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_window_heitht_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.height_s = m_window_heitht_edit.GetValue();
+        else
+            m_skin_data.height_l = m_window_heitht_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeUpXEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_up_x_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.up_x_s = m_up_x_edit.GetValue();
-		else
-			m_skin_data.up_x_l = m_up_x_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_up_x_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.up_x_s = m_up_x_edit.GetValue();
+        else
+            m_skin_data.up_x_l = m_up_x_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeUpYEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_up_y_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.up_y_s = m_up_y_edit.GetValue();
-		else
-			m_skin_data.up_y_l = m_up_y_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_up_y_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.up_y_s = m_up_y_edit.GetValue();
+        else
+            m_skin_data.up_y_l = m_up_y_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeUpWidthEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_up_width_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.up_width_s = m_up_width_edit.GetValue();
-		else
-			m_skin_data.up_width_l = m_up_width_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_up_width_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.up_width_s = m_up_width_edit.GetValue();
+        else
+            m_skin_data.up_width_l = m_up_width_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeDownXEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_down_x_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.down_x_s = m_down_x_edit.GetValue();
-		else
-			m_skin_data.down_x_l = m_down_x_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_down_x_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.down_x_s = m_down_x_edit.GetValue();
+        else
+            m_skin_data.down_x_l = m_down_x_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeDownYEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_down_y_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.down_y_s = m_down_y_edit.GetValue();
-		else
-			m_skin_data.down_y_l = m_down_y_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_down_y_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.down_y_s = m_down_y_edit.GetValue();
+        else
+            m_skin_data.down_y_l = m_down_y_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeDownWidthEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_down_width_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.down_width_s = m_down_width_edit.GetValue();
-		else
-			m_skin_data.down_width_l = m_down_width_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_down_width_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.down_width_s = m_down_width_edit.GetValue();
+        else
+            m_skin_data.down_width_l = m_down_width_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuXEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_cpu_x_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.cpu_x_s = m_cpu_x_edit.GetValue();
-		else
-			m_skin_data.cpu_x_l = m_cpu_x_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_cpu_x_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.cpu_x_s = m_cpu_x_edit.GetValue();
+        else
+            m_skin_data.cpu_x_l = m_cpu_x_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuYEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_cpu_y_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.cpu_y_s = m_cpu_y_edit.GetValue();
-		else
-			m_skin_data.cpu_y_l = m_cpu_y_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_cpu_y_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.cpu_y_s = m_cpu_y_edit.GetValue();
+        else
+            m_skin_data.cpu_y_l = m_cpu_y_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeCpuWidthEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_cpu_width_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.cpu_width_s = m_cpu_width_edit.GetValue();
-		else
-			m_skin_data.cpu_width_l = m_cpu_width_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_cpu_width_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.cpu_width_s = m_cpu_width_edit.GetValue();
+        else
+            m_skin_data.cpu_width_l = m_cpu_width_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryXEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_memory_x_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.memory_x_s = m_memory_x_edit.GetValue();
-		else
-			m_skin_data.memory_x_l = m_memory_x_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_memory_x_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.memory_x_s = m_memory_x_edit.GetValue();
+        else
+            m_skin_data.memory_x_l = m_memory_x_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryYEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_memory_y_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.memory_y_s = m_memory_y_edit.GetValue();
-		else
-			m_skin_data.memory_y_l = m_memory_y_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_memory_y_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.memory_y_s = m_memory_y_edit.GetValue();
+        else
+            m_skin_data.memory_y_l = m_memory_y_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnEnChangeMemoryWidthEdit()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+    // TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+    // å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+    // å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+    // åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_memory_width_edit.GetModify() || m_spin_clicked)
-	{
-		if (m_edit_small_window)
-			m_skin_data.memory_width_s = m_memory_width_edit.GetValue();
-		else
-			m_skin_data.memory_width_l = m_memory_width_edit.GetValue();
-		Modified();
-	}
+    // TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_memory_width_edit.GetModify() || m_spin_clicked)
+    {
+        if (m_edit_small_window)
+            m_skin_data.memory_width_s = m_memory_width_edit.GetValue();
+        else
+            m_skin_data.memory_width_l = m_memory_width_edit.GetValue();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedNoUploadCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-	{
-		m_skin_data.show_up_s = (m_no_upload_chk.GetCheck() == 0);
-		EnableUpControl(m_skin_data.show_up_s);
-	}
-	else
-	{
-		m_skin_data.show_up_l = (m_no_upload_chk.GetCheck() == 0);
-		EnableUpControl(m_skin_data.show_up_l);
-	}
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+    {
+        m_skin_data.show_up_s = (m_no_upload_chk.GetCheck() == 0);
+        EnableUpControl(m_skin_data.show_up_s);
+    }
+    else
+    {
+        m_skin_data.show_up_l = (m_no_upload_chk.GetCheck() == 0);
+        EnableUpControl(m_skin_data.show_up_l);
+    }
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-	{
-		m_skin_data.show_down_s = (m_no_download_chk.GetCheck() == 0);
-		EnableDownControl(m_skin_data.show_down_s);
-	}
-	else
-	{
-		m_skin_data.show_down_l = (m_no_download_chk.GetCheck() == 0);
-		EnableDownControl(m_skin_data.show_down_l);
-	}
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+    {
+        m_skin_data.show_down_s = (m_no_download_chk.GetCheck() == 0);
+        EnableDownControl(m_skin_data.show_down_s);
+    }
+    else
+    {
+        m_skin_data.show_down_l = (m_no_download_chk.GetCheck() == 0);
+        EnableDownControl(m_skin_data.show_down_l);
+    }
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-	{
-		m_skin_data.show_cpu_s = (m_no_cpu_chk.GetCheck() == 0);
-		EnableCpuControl(m_skin_data.show_cpu_s);
-	}
-	else
-	{
-		m_skin_data.show_cpu_l = (m_no_cpu_chk.GetCheck() == 0);
-		EnableCpuControl(m_skin_data.show_cpu_l);
-	}
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+    {
+        m_skin_data.show_cpu_s = (m_no_cpu_chk.GetCheck() == 0);
+        EnableCpuControl(m_skin_data.show_cpu_s);
+    }
+    else
+    {
+        m_skin_data.show_cpu_l = (m_no_cpu_chk.GetCheck() == 0);
+        EnableCpuControl(m_skin_data.show_cpu_l);
+    }
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-	{
-		m_skin_data.show_memory_s = (m_no_memory_chk.GetCheck() == 0);
-		EnableMemoryControl(m_skin_data.show_memory_s);
-	}
-	else
-	{
-		m_skin_data.show_memory_l = (m_no_memory_chk.GetCheck() == 0);
-		EnableMemoryControl(m_skin_data.show_memory_l);
-	}
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+    {
+        m_skin_data.show_memory_s = (m_no_memory_chk.GetCheck() == 0);
+        EnableMemoryControl(m_skin_data.show_memory_s);
+    }
+    else
+    {
+        m_skin_data.show_memory_l = (m_no_memory_chk.GetCheck() == 0);
+        EnableMemoryControl(m_skin_data.show_memory_l);
+    }
+    Modified();
 }
 
-void CTrafficMonitorSkinEditorDlg::OnDeltaposSpin(NMHDR * pNMHDR, LRESULT * pResult)
+void CTrafficMonitorSkinEditorDlg::OnDeltaposSpin(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	//CSpinButtonCtrl* pSpin = (CSpinButtonCtrl*)CWnd::FromHandle(pNMHDR->hwndFrom);
-	//CEdit* pEdit = (CEdit*)(pSpin->GetBuddy());
-	//pEdit->SetModify();
-	m_spin_clicked = true;
-	*pResult = 0;
+    //CSpinButtonCtrl* pSpin = (CSpinButtonCtrl*)CWnd::FromHandle(pNMHDR->hwndFrom);
+    //CEdit* pEdit = (CEdit*)(pSpin->GetBuddy());
+    //pEdit->SetModify();
+    m_spin_clicked = true;
+    *pResult = 0;
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnFileNew()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	if (!SaveInquiry())
-		return;
-	m_modified = false;
-	m_path.clear();
-	LoadSkin(wstring());
-	SetTitle();
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    if (!SaveInquiry())
+        return;
+    m_modified = false;
+    m_path.clear();
+    LoadSkin(wstring());
+    SetTitle();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnFileSave()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	_OnFileSave();
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    _OnFileSave();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnFileSaveAs()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	_OnFileSaveAs();
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    _OnFileSaveAs();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnClose()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
-	//Ñ¯ÎÊÊÇ·ñ±£´æ
-	if (!SaveInquiry()) return;
+    // TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
+    //è¯¢é—®æ˜¯å¦ä¿å­˜
+    if (!SaveInquiry()) return;
 
-	CDialog::OnClose();
+    CDialog::OnClose();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnImportLargeBackImage()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	_OnImportBackImage(false);
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    _OnImportBackImage(false);
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnImportSmallBackImage()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	_OnImportBackImage(true);
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    _OnImportBackImage(true);
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnDropFiles(HDROP hDropInfo)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
-	if (!SaveInquiry())		//´ò¿ªĞÂÎÄ¼şÇ°Ñ¯ÎÊÓÃ»§ÊÇ·ñ±£´æ
-		return;
-	wchar_t file_path[MAX_PATH];
-	DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);
-	if (!CCommon::FolderExist(file_path))
-		return;
-	m_path = file_path;
-	LoadSkin(m_path);	//´ò¿ªÆ¤·ô
-	DragFinish(hDropInfo);  //ÍÏ·Å½áÊøºó,ÊÍ·ÅÄÚ´æ
+    // TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
+    if (!SaveInquiry())     //æ‰“å¼€æ–°æ–‡ä»¶å‰è¯¢é—®ç”¨æˆ·æ˜¯å¦ä¿å­˜
+        return;
+    wchar_t file_path[MAX_PATH];
+    DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);
+    if (!CCommon::FolderExist(file_path))
+        return;
+    m_path = file_path;
+    LoadSkin(m_path);   //æ‰“å¼€çš®è‚¤
+    DragFinish(hDropInfo);  //æ‹–æ”¾ç»“æŸå,é‡Šæ”¾å†…å­˜
 
-	CDialog::OnDropFiles(hDropInfo);
+    CDialog::OnDropFiles(hDropInfo);
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	m_show_item_outline = (((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->GetCheck() != 0);
-	DrawPreview();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    m_show_item_outline = (((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->GetCheck() != 0);
+    DrawPreview();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo1()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-		m_skin_data.up_align_s = static_cast<Alignment>(m_up_align_combo.GetCurSel());
-	else
-		m_skin_data.up_align_l = static_cast<Alignment>(m_up_align_combo.GetCurSel());
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+        m_skin_data.up_align_s = static_cast<Alignment>(m_up_align_combo.GetCurSel());
+    else
+        m_skin_data.up_align_l = static_cast<Alignment>(m_up_align_combo.GetCurSel());
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo2()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-		m_skin_data.down_align_s = static_cast<Alignment>(m_down_align_combo.GetCurSel());
-	else
-		m_skin_data.down_align_l = static_cast<Alignment>(m_down_align_combo.GetCurSel());
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+        m_skin_data.down_align_s = static_cast<Alignment>(m_down_align_combo.GetCurSel());
+    else
+        m_skin_data.down_align_l = static_cast<Alignment>(m_down_align_combo.GetCurSel());
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo3()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-		m_skin_data.cpu_align_s = static_cast<Alignment>(m_cpu_align_combo.GetCurSel());
-	else
-		m_skin_data.cpu_align_l = static_cast<Alignment>(m_cpu_align_combo.GetCurSel());
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+        m_skin_data.cpu_align_s = static_cast<Alignment>(m_cpu_align_combo.GetCurSel());
+    else
+        m_skin_data.cpu_align_l = static_cast<Alignment>(m_cpu_align_combo.GetCurSel());
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnCbnSelchangeCombo4()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (m_edit_small_window)
-		m_skin_data.memory_align_s = static_cast<Alignment>(m_memory_align_combo.GetCurSel());
-	else
-		m_skin_data.memory_align_l = static_cast<Alignment>(m_memory_align_combo.GetCurSel());
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    if (m_edit_small_window)
+        m_skin_data.memory_align_s = static_cast<Alignment>(m_memory_align_combo.GetCurSel());
+    else
+        m_skin_data.memory_align_l = static_cast<Alignment>(m_memory_align_combo.GetCurSel());
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedAssignFontCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	m_asing_font = (m_assign_font_chk.GetCheck() != 0);
-	EnableFontControl(m_asing_font);
-	SetViewFont();
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    m_asing_font = (m_assign_font_chk.GetCheck() != 0);
+    EnableFontControl(m_asing_font);
+    SetViewFont();
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedSetFontButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	LOGFONT lf{};
-	//lf.lfHeight = FONTSIZE_TO_LFHEIGHT(m_skin_data.font.size);
-	//lf.lfWeight = (m_skin_data.font.bold ? FW_BOLD : FW_NORMAL);
-	//lf.lfItalic = m_skin_data.font.italic;
-	//lf.lfUnderline = m_skin_data.font.underline;
-	//lf.lfStrikeOut = m_skin_data.font.strike_out;
-	//lf.lfPitchAndFamily = DEFAULT_PITCH | FF_SWISS;
-	//CCommon::WStringCopy(lf.lfFaceName, 32, m_skin_data.font.name.GetString());
-	m_font.GetLogFont(&lf);
-	CCommon::NormalizeFont(lf);
-	CFontDialog fontDlg(&lf);	//¹¹Ôì×ÖÌå¶Ô»°¿ò£¬³õÊ¼Ñ¡Ôñ×ÖÌåÎªÖ®Ç°×ÖÌå
-	if (IDOK == fontDlg.DoModal())     // ÏÔÊ¾×ÖÌå¶Ô»°¿ò
-	{
-		//»ñÈ¡×ÖÌåĞÅÏ¢
-		m_skin_data.font.name = fontDlg.GetFaceName();
-		m_skin_data.font.size = fontDlg.GetSize() / 10;
-		m_skin_data.font.bold = (fontDlg.IsBold() != FALSE);
-		m_skin_data.font.italic = (fontDlg.IsItalic() != FALSE);
-		m_skin_data.font.underline = (fontDlg.IsUnderline() != FALSE);
-		m_skin_data.font.strike_out = (fontDlg.IsStrikeOut() != FALSE);
-		//½«×ÖÌåĞÅÏ¢ÏÔÊ¾³öÀ´
-		SetFontText();
-		SetViewFont();
-		Modified();
-	}
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    LOGFONT lf{};
+    //lf.lfHeight = FONTSIZE_TO_LFHEIGHT(m_skin_data.font.size);
+    //lf.lfWeight = (m_skin_data.font.bold ? FW_BOLD : FW_NORMAL);
+    //lf.lfItalic = m_skin_data.font.italic;
+    //lf.lfUnderline = m_skin_data.font.underline;
+    //lf.lfStrikeOut = m_skin_data.font.strike_out;
+    //lf.lfPitchAndFamily = DEFAULT_PITCH | FF_SWISS;
+    //CCommon::WStringCopy(lf.lfFaceName, 32, m_skin_data.font.name.GetString());
+    m_font.GetLogFont(&lf);
+    CCommon::NormalizeFont(lf);
+    CFontDialog fontDlg(&lf);   //æ„é€ å­—ä½“å¯¹è¯æ¡†ï¼Œåˆå§‹é€‰æ‹©å­—ä½“ä¸ºä¹‹å‰å­—ä½“
+    if (IDOK == fontDlg.DoModal())     // æ˜¾ç¤ºå­—ä½“å¯¹è¯æ¡†
+    {
+        //è·å–å­—ä½“ä¿¡æ¯
+        m_skin_data.font.name = fontDlg.GetFaceName();
+        m_skin_data.font.size = fontDlg.GetSize() / 10;
+        m_skin_data.font.bold = (fontDlg.IsBold() != FALSE);
+        m_skin_data.font.italic = (fontDlg.IsItalic() != FALSE);
+        m_skin_data.font.underline = (fontDlg.IsUnderline() != FALSE);
+        m_skin_data.font.strike_out = (fontDlg.IsStrikeOut() != FALSE);
+        //å°†å­—ä½“ä¿¡æ¯æ˜¾ç¤ºå‡ºæ¥
+        SetFontText();
+        SetViewFont();
+        Modified();
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnBnClickedSpecifyEachItemColorCheck()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	m_skin_data.specify_each_item_color = (m_specify_each_item_color_chk.GetCheck() != 0);
-	SetTextColorPreview();
-	Modified();
+    // TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+    m_skin_data.specify_each_item_color = (m_specify_each_item_color_chk.GetCheck() != 0);
+    SetTextColorPreview();
+    Modified();
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnLanguageFollowingSystem()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	if (theApp.m_language != Language::FOLLOWING_SYSTEM)
-	{
-		theApp.m_language = Language::FOLLOWING_SYSTEM;
-		theApp.SaveConfig();
-		MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
-	}
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    if (theApp.m_language != Language::FOLLOWING_SYSTEM)
+    {
+        theApp.m_language = Language::FOLLOWING_SYSTEM;
+        theApp.SaveConfig();
+        MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnLanguageEnglish()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	if (theApp.m_language != Language::ENGLISH)
-	{
-		theApp.m_language = Language::ENGLISH;
-		theApp.SaveConfig();
-		MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
-	}
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    if (theApp.m_language != Language::ENGLISH)
+    {
+        theApp.m_language = Language::ENGLISH;
+        theApp.SaveConfig();
+        MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnLanguageSimplifiedChinese()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	if (theApp.m_language != Language::SIMPLIFIED_CHINESE)
-	{
-		theApp.m_language = Language::SIMPLIFIED_CHINESE;
-		theApp.SaveConfig();
-		MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
-	}
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    if (theApp.m_language != Language::SIMPLIFIED_CHINESE)
+    {
+        theApp.m_language = Language::SIMPLIFIED_CHINESE;
+        theApp.SaveConfig();
+        MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE), NULL, MB_ICONINFORMATION);
+    }
 }
 
 
 void CTrafficMonitorSkinEditorDlg::OnInitMenu(CMenu* pMenu)
 {
-	CDialog::OnInitMenu(pMenu);
-	switch (theApp.m_language)
-	{
-	case Language::ENGLISH: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_ENGLISH, MF_BYCOMMAND | MF_CHECKED); break;
-	case Language::SIMPLIFIED_CHINESE: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_SIMPLIFIED_CHINESE, MF_BYCOMMAND | MF_CHECKED); break;
-	default: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_FOLLOWING_SYSTEM, MF_BYCOMMAND | MF_CHECKED); break;
-	}
+    CDialog::OnInitMenu(pMenu);
+    switch (theApp.m_language)
+    {
+    case Language::ENGLISH: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_ENGLISH, MF_BYCOMMAND | MF_CHECKED); break;
+    case Language::SIMPLIFIED_CHINESE: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_SIMPLIFIED_CHINESE, MF_BYCOMMAND | MF_CHECKED); break;
+    default: pMenu->CheckMenuRadioItem(ID_LANGUAGE_FOLLOWING_SYSTEM, ID_LANGUAGE_SIMPLIFIED_CHINESE, ID_LANGUAGE_FOLLOWING_SYSTEM, MF_BYCOMMAND | MF_CHECKED); break;
+    }
 
 
-	// TODO: ÔÚ´Ë´¦Ìí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂë
+    // TODO: åœ¨æ­¤å¤„æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç 
 }

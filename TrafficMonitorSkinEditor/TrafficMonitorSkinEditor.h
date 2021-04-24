@@ -1,50 +1,51 @@
-
-// TrafficMonitorSkinEditor.h : PROJECT_NAME Ó¦ÓÃ³ÌĞòµÄÖ÷Í·ÎÄ¼ş
+ï»¿
+// TrafficMonitorSkinEditor.h : PROJECT_NAME åº”ç”¨ç¨‹åºçš„ä¸»å¤´æ–‡ä»¶
 //
 
 #pragma once
 
 #ifndef __AFXWIN_H__
-	#error "ÔÚ°üº¬´ËÎÄ¼şÖ®Ç°°üº¬¡°stdafx.h¡±ÒÔÉú³É PCH ÎÄ¼ş"
+#error "åœ¨åŒ…å«æ­¤æ–‡ä»¶ä¹‹å‰åŒ…å«â€œstdafx.hâ€ä»¥ç”Ÿæˆ PCH æ–‡ä»¶"
 #endif
 
-#include "resource.h"		// Ö÷·ûºÅ
-#include "Common.h"
+#include "resource.h"       // ä¸»ç¬¦å·
+#include "../CommonTools/Common.h"
+#include "../CommonTools/CommonData.h"
 
-// CTrafficMonitorSkinEditorApp: 
-// ÓĞ¹Ø´ËÀàµÄÊµÏÖ£¬Çë²ÎÔÄ TrafficMonitorSkinEditor.cpp
+// CTrafficMonitorSkinEditorApp:
+// æœ‰å…³æ­¤ç±»çš„å®ç°ï¼Œè¯·å‚é˜… TrafficMonitorSkinEditor.cpp
 //
 
 class CTrafficMonitorSkinEditorApp : public CWinApp
 {
 public:
-	CTrafficMonitorSkinEditorApp();
+    CTrafficMonitorSkinEditorApp();
 
-	int DPI(int pixel);
-	void DPI(CRect& rect);
-	void GetDPI(CWnd* pWnd);
+    int DPI(int pixel);
+    void DPI(CRect& rect);
+    void GetDPI(CWnd* pWnd);
 
-	void SaveConfig();
+    void SaveConfig();
 
 private:
-	void LoadConfig();
+    void LoadConfig();
 
 public:
-	Language m_language;
-	wstring m_config_path;
+    Language m_language;
+    wstring m_config_path;
 
 protected:
-	int m_dpi{ 96 };
+    int m_dpi{ 96 };
 
 
-// ÖØĞ´
+    // é‡å†™
 public:
-	virtual BOOL InitInstance();
+    virtual BOOL InitInstance();
 
-// ÊµÏÖ
+    // å®ç°
 
-	DECLARE_MESSAGE_MAP()
-	afx_msg void OnHelp();
+    DECLARE_MESSAGE_MAP()
+    afx_msg void OnHelp();
 };
 
 extern CTrafficMonitorSkinEditorApp theApp;

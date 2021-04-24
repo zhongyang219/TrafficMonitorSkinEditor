@@ -19,9 +19,6 @@
     <Filter Include="头文件和源文件\TrafficMonitorSkinEditor">
       <UniqueIdentifier>{c4cc0d6e-f333-4ccc-b900-588587563f0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件和源文件\公共的类">
-      <UniqueIdentifier>{d478c29e-c1d7-4608-8396-cc07d8e8490a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件和源文件\派生的控件类">
       <UniqueIdentifier>{8f007b90-e8f3-484e-b415-1b6cc515b610}</UniqueIdentifier>
     </Filter>
@@ -31,26 +28,17 @@
     <Filter Include="头文件和源文件\stdafx">
       <UniqueIdentifier>{b330f009-cff1-4161-8e46-d2f142e418e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件和源文件\公共的类\Common">
-      <UniqueIdentifier>{b8fce1f1-4852-48f0-b6ce-c2fcf33c7fba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\公共的类\SkinEditorHelper">
-      <UniqueIdentifier>{ee27f31c-a270-468c-8575-0683719cf0b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\公共的类\IniHelper">
-      <UniqueIdentifier>{7130f3c3-1f2e-489b-a02d-9896a568e052}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件和源文件\DrawScrollView">
       <UniqueIdentifier>{77c7b276-29d0-4242-adea-28930f4157a0}</UniqueIdentifier>
     </Filter>
     <Filter Include="头文件和源文件\派生的控件类\SpinEdit">
       <UniqueIdentifier>{8487b796-4b3a-4b78-9182-e38d309c0659}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件和源文件\公共的类\DrawCommon">
-      <UniqueIdentifier>{dd0d49b9-8444-4296-85f6-7ade6c308f9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件和源文件\颜色设置对话框">
       <UniqueIdentifier>{9e91ad31-b582-41c7-86af-63210196f3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\SkinEditorHelper">
+      <UniqueIdentifier>{d94923d3-04bb-4da8-99ab-117ca16d1420}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,26 +63,17 @@
     <ClInclude Include="TrafficMonitorSkinEditorDlg.h">
       <Filter>头文件和源文件\TrafficMonitorSkinEditorDlg</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>头文件和源文件\公共的类\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="SkinEditorHelper.h">
-      <Filter>头文件和源文件\公共的类\SkinEditorHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="IniHelper.h">
-      <Filter>头文件和源文件\公共的类\IniHelper</Filter>
-    </ClInclude>
     <ClInclude Include="DrawScrollView.h">
       <Filter>头文件和源文件\DrawScrollView</Filter>
     </ClInclude>
     <ClInclude Include="SpinEdit.h">
       <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
     </ClInclude>
-    <ClInclude Include="DrawCommon.h">
-      <Filter>头文件和源文件\公共的类\DrawCommon</Filter>
-    </ClInclude>
     <ClInclude Include="MainWndColorDlg.h">
       <Filter>头文件和源文件\颜色设置对话框</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinEditorHelper.h">
+      <Filter>头文件和源文件\SkinEditorHelper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,26 +89,17 @@
     <ClCompile Include="TrafficMonitorSkinEditor.cpp">
       <Filter>头文件和源文件\TrafficMonitorSkinEditor</Filter>
     </ClCompile>
-    <ClCompile Include="Common.cpp">
-      <Filter>头文件和源文件\公共的类\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="SkinEditorHelper.cpp">
-      <Filter>头文件和源文件\公共的类\SkinEditorHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="IniHelper.cpp">
-      <Filter>头文件和源文件\公共的类\IniHelper</Filter>
-    </ClCompile>
     <ClCompile Include="DrawScrollView.cpp">
       <Filter>头文件和源文件\DrawScrollView</Filter>
     </ClCompile>
     <ClCompile Include="SpinEdit.cpp">
       <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
     </ClCompile>
-    <ClCompile Include="DrawCommon.cpp">
-      <Filter>头文件和源文件\公共的类\DrawCommon</Filter>
-    </ClCompile>
     <ClCompile Include="MainWndColorDlg.cpp">
       <Filter>头文件和源文件\颜色设置对话框</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinEditorHelper.cpp">
+      <Filter>头文件和源文件\SkinEditorHelper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

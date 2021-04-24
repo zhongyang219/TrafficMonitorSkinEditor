@@ -1,92 +1,91 @@
-#pragma once
-#include "IniHelper.h"
-#include "Common.h"
+ï»¿#pragma once
+#include "../CommonTools/IniHelper.h"
+#include "../CommonTools/Common.h"
 
-//´°¿Ú²¼¾ÖÊı¾İ
+//çª—å£å¸ƒå±€æ•°æ®
 struct SkinData
 {
-	//Æ¤·ôÊı¾İ
-	COLORREF text_colors[MAIN_WND_COLOR_NUM]{};		//ÎÄ×ÖÑÕÉ«£¨·Ö±ğÎª¡°ÉÏ´«¡±¡¢¡°ÏÂÔØ¡±¡¢¡°CPU¡±¡¢¡°ÄÚ´æ¡±µÄÑÕÉ«£©
-	bool specify_each_item_color;		//ÊÇ·ñÖ¸¶¨Ã¿¸öÏîÄ¿µÄÑÕÉ«
-	wstring skin_author;
-	wstring up_string;
-	wstring down_string;
-	wstring cpu_string;
-	wstring memory_string;
-	FontInfo font;		//×ÖÌå
+    //çš®è‚¤æ•°æ®
+    COLORREF text_colors[MAIN_WND_COLOR_NUM]{};     //æ–‡å­—é¢œè‰²ï¼ˆåˆ†åˆ«ä¸ºâ€œä¸Šä¼ â€ã€â€œä¸‹è½½â€ã€â€œCPUâ€ã€â€œå†…å­˜â€çš„é¢œè‰²ï¼‰
+    bool specify_each_item_color;       //æ˜¯å¦æŒ‡å®šæ¯ä¸ªé¡¹ç›®çš„é¢œè‰²
+    wstring skin_author;
+    wstring up_string;
+    wstring down_string;
+    wstring cpu_string;
+    wstring memory_string;
+    FontInfo font;      //å­—ä½“
 
-	//²¼¾ÖÊı¾İ
-	int text_height;	//ÎÄ±¾ÇøÓòµÄ¸ß¶È
-	bool no_text;		//²»ÏÔÊ¾ÊıÖµÇ°µÄ¡°ÉÏ´«¡±¡¢¡°ÏÂÔØ¡±µÈÎÄ±¾
-	int preview_width;		//Ô¤ÀÀÇø»­²¼¿í¶È
-	int preview_height;		//Ô¤ÀÀÇø»­²¼¸ß¶È
+    //å¸ƒå±€æ•°æ®
+    int text_height;    //æ–‡æœ¬åŒºåŸŸçš„é«˜åº¦
+    bool no_text;       //ä¸æ˜¾ç¤ºæ•°å€¼å‰çš„â€œä¸Šä¼ â€ã€â€œä¸‹è½½â€ç­‰æ–‡æœ¬
+    int preview_width;      //é¢„è§ˆåŒºç”»å¸ƒå®½åº¦
+    int preview_height;     //é¢„è§ˆåŒºç”»å¸ƒé«˜åº¦
 
-	//´ó´°¿ÚÄ£Ê½£¨¹´Ñ¡¡°ÏÔÊ¾¸ü¶àĞÅÏ¢¡±Ê±µÄ²¼¾Ö£©
-	int width_l;	//´°¿ÚµÄ¿í¶È
-	int height_l;	//´°¿ÚµÄ¸ß¶È
-	int up_x_l;		//¡°ÉÏ´«¡±µÄx×ø±ê
-	int up_y_l;		//¡°ÉÏ´«¡±µÄy×ø±ê
-	int up_width_l;		//¡°ÉÏ´«¡±µÄ¿í¶È
-	Alignment up_align_l;	//¡°ÉÏ´«¡±µÄ¶ÔÆë·½Ê½
-	bool show_up_l;			//ÊÇ·ñÏÔÊ¾¡°ÉÏ´«¡±
-	int down_x_l;			//¡°ÏÂÔØ¡±µÄx×ø±ê
-	int down_y_l;			//¡°ÏÂÔØ¡±µÄy×ø±ê
-	int down_width_l;		//¡°ÏÂÔØ¡±µÄ¿í¶È
-	Alignment down_align_l;	//¡°ÏÂÔØ¡±µÄ¶ÔÆë·½Ê½
-	bool show_down_l;		//ÊÇ·ñÏÔÊ¾¡°ÏÂÔØ¡±
-	int cpu_x_l;			//¡°CPU¡±µÄx×ø±ê
-	int cpu_y_l;			//¡°CPU¡±µÄy×ø±ê
-	int cpu_width_l;		//¡°CPU¡±µÄ¿í¶È
-	Alignment cpu_align_l;	//¡°CPU¡±µÄ¶ÔÆë·½Ê½
-	bool show_cpu_l;		//ÊÇ·ñÏÔÊ¾¡°CPU¡±
-	int memory_x_l;			//¡°ÄÚ´æ¡±µÄx×ø±ê
-	int memory_y_l;			//¡°ÄÚ´æ¡±µÄy×ø±ê
-	int memory_width_l;		//¡°ÄÚ´æ¡±µÄ¿í¶È
-	Alignment memory_align_l;	//¡°ÄÚ´æ¡±µÄ¶ÔÆë·½Ê½
-	bool show_memory_l;		//ÊÇ·ñÏÔÊ¾¡°ÄÚ´æ¡±
-	int preview_x_l;		//ÔÚ¡°Ñ¡ÔñÆ¤·ô¡±½çÃæÖĞÔ¤ÀÀÍ¼µÄx×ø±ê
-	int preview_y_l;		//ÔÚ¡°Ñ¡ÔñÆ¤·ô¡±½çÃæÖĞÔ¤ÀÀÍ¼µÄy×ø±ê
+    //å¤§çª—å£æ¨¡å¼ï¼ˆå‹¾é€‰â€œæ˜¾ç¤ºæ›´å¤šä¿¡æ¯â€æ—¶çš„å¸ƒå±€ï¼‰
+    int width_l;    //çª—å£çš„å®½åº¦
+    int height_l;   //çª—å£çš„é«˜åº¦
+    int up_x_l;     //â€œä¸Šä¼ â€çš„xåæ ‡
+    int up_y_l;     //â€œä¸Šä¼ â€çš„yåæ ‡
+    int up_width_l;     //â€œä¸Šä¼ â€çš„å®½åº¦
+    Alignment up_align_l;   //â€œä¸Šä¼ â€çš„å¯¹é½æ–¹å¼
+    bool show_up_l;         //æ˜¯å¦æ˜¾ç¤ºâ€œä¸Šä¼ â€
+    int down_x_l;           //â€œä¸‹è½½â€çš„xåæ ‡
+    int down_y_l;           //â€œä¸‹è½½â€çš„yåæ ‡
+    int down_width_l;       //â€œä¸‹è½½â€çš„å®½åº¦
+    Alignment down_align_l; //â€œä¸‹è½½â€çš„å¯¹é½æ–¹å¼
+    bool show_down_l;       //æ˜¯å¦æ˜¾ç¤ºâ€œä¸‹è½½â€
+    int cpu_x_l;            //â€œCPUâ€çš„xåæ ‡
+    int cpu_y_l;            //â€œCPUâ€çš„yåæ ‡
+    int cpu_width_l;        //â€œCPUâ€çš„å®½åº¦
+    Alignment cpu_align_l;  //â€œCPUâ€çš„å¯¹é½æ–¹å¼
+    bool show_cpu_l;        //æ˜¯å¦æ˜¾ç¤ºâ€œCPUâ€
+    int memory_x_l;         //â€œå†…å­˜â€çš„xåæ ‡
+    int memory_y_l;         //â€œå†…å­˜â€çš„yåæ ‡
+    int memory_width_l;     //â€œå†…å­˜â€çš„å®½åº¦
+    Alignment memory_align_l;   //â€œå†…å­˜â€çš„å¯¹é½æ–¹å¼
+    bool show_memory_l;     //æ˜¯å¦æ˜¾ç¤ºâ€œå†…å­˜â€
+    int preview_x_l;        //åœ¨â€œé€‰æ‹©çš®è‚¤â€ç•Œé¢ä¸­é¢„è§ˆå›¾çš„xåæ ‡
+    int preview_y_l;        //åœ¨â€œé€‰æ‹©çš®è‚¤â€ç•Œé¢ä¸­é¢„è§ˆå›¾çš„yåæ ‡
 
-	//Ğ¡´°¿ÚÄ£Ê½£¨²»¹´Ñ¡¡°ÏÔÊ¾¸ü¶àĞÅÏ¢¡±Ê±µÄ²¼¾Ö£©
-	int width_s;	//´°¿ÚµÄ¿í¶È
-	int height_s;	//´°¿ÚµÄ¸ß¶È
-	int up_x_s;		//¡°ÉÏ´«¡±µÄx×ø±ê
-	int up_y_s;		//¡°ÉÏ´«¡±µÄy×ø±ê
-	int up_width_s;		//¡°ÉÏ´«¡±µÄ¿í¶È
-	Alignment up_align_s;	//¡°ÉÏ´«¡±µÄ¶ÔÆë·½Ê½
-	bool show_up_s;			//ÊÇ·ñÏÔÊ¾¡°ÉÏ´«¡±
-	int down_x_s;			//¡°ÏÂÔØ¡±µÄx×ø±ê
-	int down_y_s;			//¡°ÏÂÔØ¡±µÄy×ø±ê
-	int down_width_s;		//¡°ÏÂÔØ¡±µÄ¿í¶È
-	Alignment down_align_s;	//¡°ÏÂÔØ¡±µÄ¶ÔÆë·½Ê½
-	bool show_down_s;		//ÊÇ·ñÏÔÊ¾¡°ÏÂÔØ¡±
-	int cpu_x_s;			//¡°CPU¡±µÄx×ø±ê
-	int cpu_y_s;			//¡°CPU¡±µÄy×ø±ê
-	int cpu_width_s;		//¡°CPU¡±µÄ¿í¶È
-	Alignment cpu_align_s;	//¡°CPU¡±µÄ¶ÔÆë·½Ê½
-	bool show_cpu_s;		//ÊÇ·ñÏÔÊ¾¡°CPU¡±
-	int memory_x_s;			//¡°ÄÚ´æ¡±µÄx×ø±ê
-	int memory_y_s;			//¡°ÄÚ´æ¡±µÄy×ø±ê
-	int memory_width_s;		//¡°ÄÚ´æ¡±µÄ¿í¶È
-	Alignment memory_align_s;	//¡°ÄÚ´æ¡±µÄ¶ÔÆë·½Ê½
-	bool show_memory_s;		//ÊÇ·ñÏÔÊ¾¡°ÄÚ´æ¡±
-	int preview_x_s;	//ÔÚ¡°Ñ¡ÔñÆ¤·ô¡±½çÃæÖĞÔ¤ÀÀÍ¼µÄx×ø±ê
-	int preview_y_s;	//ÔÚ¡°Ñ¡ÔñÆ¤·ô¡±½çÃæÖĞÔ¤ÀÀÍ¼µÄy×ø±ê
+    //å°çª—å£æ¨¡å¼ï¼ˆä¸å‹¾é€‰â€œæ˜¾ç¤ºæ›´å¤šä¿¡æ¯â€æ—¶çš„å¸ƒå±€ï¼‰
+    int width_s;    //çª—å£çš„å®½åº¦
+    int height_s;   //çª—å£çš„é«˜åº¦
+    int up_x_s;     //â€œä¸Šä¼ â€çš„xåæ ‡
+    int up_y_s;     //â€œä¸Šä¼ â€çš„yåæ ‡
+    int up_width_s;     //â€œä¸Šä¼ â€çš„å®½åº¦
+    Alignment up_align_s;   //â€œä¸Šä¼ â€çš„å¯¹é½æ–¹å¼
+    bool show_up_s;         //æ˜¯å¦æ˜¾ç¤ºâ€œä¸Šä¼ â€
+    int down_x_s;           //â€œä¸‹è½½â€çš„xåæ ‡
+    int down_y_s;           //â€œä¸‹è½½â€çš„yåæ ‡
+    int down_width_s;       //â€œä¸‹è½½â€çš„å®½åº¦
+    Alignment down_align_s; //â€œä¸‹è½½â€çš„å¯¹é½æ–¹å¼
+    bool show_down_s;       //æ˜¯å¦æ˜¾ç¤ºâ€œä¸‹è½½â€
+    int cpu_x_s;            //â€œCPUâ€çš„xåæ ‡
+    int cpu_y_s;            //â€œCPUâ€çš„yåæ ‡
+    int cpu_width_s;        //â€œCPUâ€çš„å®½åº¦
+    Alignment cpu_align_s;  //â€œCPUâ€çš„å¯¹é½æ–¹å¼
+    bool show_cpu_s;        //æ˜¯å¦æ˜¾ç¤ºâ€œCPUâ€
+    int memory_x_s;         //â€œå†…å­˜â€çš„xåæ ‡
+    int memory_y_s;         //â€œå†…å­˜â€çš„yåæ ‡
+    int memory_width_s;     //â€œå†…å­˜â€çš„å®½åº¦
+    Alignment memory_align_s;   //â€œå†…å­˜â€çš„å¯¹é½æ–¹å¼
+    bool show_memory_s;     //æ˜¯å¦æ˜¾ç¤ºâ€œå†…å­˜â€
+    int preview_x_s;    //åœ¨â€œé€‰æ‹©çš®è‚¤â€ç•Œé¢ä¸­é¢„è§ˆå›¾çš„xåæ ‡
+    int preview_y_s;    //åœ¨â€œé€‰æ‹©çš®è‚¤â€ç•Œé¢ä¸­é¢„è§ˆå›¾çš„yåæ ‡
 };
 
 class CSkinEditorHelper
 {
 public:
-	CSkinEditorHelper();
-	~CSkinEditorHelper();
+    CSkinEditorHelper();
+    ~CSkinEditorHelper();
 
-	//ÔØÈëºÍ±£´æÆ¤·ô£¬²ÎÊıÎªÆ¤·ôÎÄ¼ş¼ĞµÄÂ·¾¶
-	SkinData LoadSkin();
-	bool SaveSkin(const SkinData& data, bool asign_item_text = false, bool assign_font = false);
+    //è½½å…¥å’Œä¿å­˜çš®è‚¤ï¼Œå‚æ•°ä¸ºçš®è‚¤æ–‡ä»¶å¤¹çš„è·¯å¾„
+    SkinData LoadSkin();
+    bool SaveSkin(const SkinData& data, bool asign_item_text = false, bool assign_font = false);
 
-	void SetSkinPath(const wstring& skin_path);
+    void SetSkinPath(const wstring& skin_path);
 
 protected:
-	wstring m_ini_path;
+    wstring m_ini_path;
 };
-

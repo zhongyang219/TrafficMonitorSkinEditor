@@ -1,51 +1,49 @@
-#pragma once
+ï»¿#pragma once
 #include "SkinEditorHelper.h"
-#include "DrawCommon.h"
+#include "../CommonTools/DrawCommon.h"
 
-// DrawScrollView ÊÓÍ¼
+// DrawScrollView è§†å›¾
 class CDrawScrollView : public CScrollView
 {
-	DECLARE_DYNCREATE(CDrawScrollView)
+    DECLARE_DYNCREATE(CDrawScrollView)
 
 protected:
-	CDrawScrollView();           // ¶¯Ì¬´´½¨ËùÊ¹ÓÃµÄÊÜ±£»¤µÄ¹¹Ôìº¯Êı
-	virtual ~CDrawScrollView();
+    CDrawScrollView();           // åŠ¨æ€åˆ›å»ºæ‰€ä½¿ç”¨çš„å—ä¿æŠ¤çš„æ„é€ å‡½æ•°
+    virtual ~CDrawScrollView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
+    virtual void AssertValid() const;
 #ifndef _WIN32_WCE
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 #endif
 
-//³ÉÔ±º¯Êı
+//æˆå‘˜å‡½æ•°
 public:
-	void InitialUpdate();
-	void SetSize(int width,int hight);
-	void SetSkinData(SkinData* skin_data) { m_skin_data = skin_data; }
-	void SetBackImage(CImage* background_s, CImage* background_l);
-	void SetShowItemOutline(bool* show_item_outline) { m_show_item_outline = show_item_outline; }
-	void SetFont(CFont* pfont) { m_font = pfont; }
+    void InitialUpdate();
+    void SetSize(int width,int hight);
+    void SetSkinData(SkinData* skin_data) { m_skin_data = skin_data; }
+    void SetBackImage(CImage* background_s, CImage* background_l);
+    void SetShowItemOutline(bool* show_item_outline) { m_show_item_outline = show_item_outline; }
+    void SetFont(CFont* pfont) { m_font = pfont; }
 
-//³ÉÔ±±äÁ¿
+//æˆå‘˜å˜é‡
 protected:
-	CSize m_size;
-	CPoint m_start_point;			//»æÍ¼µÄÆğÊ¼Î»ÖÃ
+    CSize m_size;
+    CPoint m_start_point;           //ç»˜å›¾çš„èµ·å§‹ä½ç½®
 
-	SkinData* m_skin_data;
-	CImage* m_background_s;
-	CImage* m_background_l;
-	bool* m_show_item_outline;
-	CFont* m_font;
+    SkinData* m_skin_data;
+    CImage* m_background_s;
+    CImage* m_background_l;
+    bool* m_show_item_outline;
+    CFont* m_font;
 
-	const COLORREF m_outline_color{ RGB(96,96,96) };
+    const COLORREF m_outline_color{ RGB(96,96,96) };
 
 protected:
-	virtual void OnDraw(CDC* pDC);      // ÖØĞ´ÒÔ»æÖÆ¸ÃÊÓÍ¼
-	virtual void OnInitialUpdate();     // ¹¹ÔìºóµÄµÚÒ»´Î
+    virtual void OnDraw(CDC* pDC);      // é‡å†™ä»¥ç»˜åˆ¶è¯¥è§†å›¾
+    virtual void OnInitialUpdate();     // æ„é€ åçš„ç¬¬ä¸€æ¬¡
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
-
-

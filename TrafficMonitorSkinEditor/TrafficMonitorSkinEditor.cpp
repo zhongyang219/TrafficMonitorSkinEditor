@@ -1,5 +1,5 @@
-
-// TrafficMonitorSkinEditor.cpp : ¶¨ÒåÓ¦ÓÃ³ÌĞòµÄÀàĞĞÎª¡£
+ï»¿
+// TrafficMonitorSkinEditor.cpp : å®šä¹‰åº”ç”¨ç¨‹åºçš„ç±»è¡Œä¸ºã€‚
 //
 
 #include "stdafx.h"
@@ -14,142 +14,141 @@
 // CTrafficMonitorSkinEditorApp
 
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorApp, CWinApp)
-	//ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
-	ON_COMMAND(ID_HELP, &CTrafficMonitorSkinEditorApp::OnHelp)
+    //ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+    ON_COMMAND(ID_HELP, &CTrafficMonitorSkinEditorApp::OnHelp)
 END_MESSAGE_MAP()
 
 
-// CTrafficMonitorSkinEditorApp ¹¹Ôì
+// CTrafficMonitorSkinEditorApp æ„é€ 
 
 CTrafficMonitorSkinEditorApp::CTrafficMonitorSkinEditorApp()
 {
-	// Ö§³ÖÖØĞÂÆô¶¯¹ÜÀíÆ÷
-	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
+    // æ”¯æŒé‡æ–°å¯åŠ¨ç®¡ç†å™¨
+    m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
 
-	// TODO:  ÔÚ´Ë´¦Ìí¼Ó¹¹Ôì´úÂë£¬
-	// ½«ËùÓĞÖØÒªµÄ³õÊ¼»¯·ÅÖÃÔÚ InitInstance ÖĞ
+    // TODO:  åœ¨æ­¤å¤„æ·»åŠ æ„é€ ä»£ç ï¼Œ
+    // å°†æ‰€æœ‰é‡è¦çš„åˆå§‹åŒ–æ”¾ç½®åœ¨ InitInstance ä¸­
 }
 
 int CTrafficMonitorSkinEditorApp::DPI(int pixel)
 {
-	return m_dpi * pixel / 96;
+    return m_dpi * pixel / 96;
 }
 
-void CTrafficMonitorSkinEditorApp::DPI(CRect & rect)
+void CTrafficMonitorSkinEditorApp::DPI(CRect& rect)
 {
-	rect.left = DPI(rect.left);
-	rect.right = DPI(rect.right);
-	rect.top = DPI(rect.top);
-	rect.bottom = DPI(rect.bottom);
+    rect.left = DPI(rect.left);
+    rect.right = DPI(rect.right);
+    rect.top = DPI(rect.top);
+    rect.bottom = DPI(rect.bottom);
 }
 
-void CTrafficMonitorSkinEditorApp::GetDPI(CWnd * pWnd)
+void CTrafficMonitorSkinEditorApp::GetDPI(CWnd* pWnd)
 {
-	CWindowDC dc(pWnd);
-	HDC hDC = dc.GetSafeHdc();
-	m_dpi = GetDeviceCaps(hDC, LOGPIXELSY);
+    CWindowDC dc(pWnd);
+    HDC hDC = dc.GetSafeHdc();
+    m_dpi = GetDeviceCaps(hDC, LOGPIXELSY);
 }
 
 void CTrafficMonitorSkinEditorApp::SaveConfig()
 {
-	CIniHelper ini;
-	ini.SetPath(theApp.m_config_path);
-	ini.WriteInt(_T("config"), _T("language"), static_cast<int>(m_language));
+    CIniHelper ini(theApp.m_config_path);
+    ini.WriteInt(_T("config"), _T("language"), static_cast<int>(m_language));
+    ini.Save();
 }
 
 void CTrafficMonitorSkinEditorApp::LoadConfig()
 {
-	CIniHelper ini;
-	ini.SetPath(theApp.m_config_path);
-	m_language = static_cast<Language>(ini.GetInt(_T("config"), _T("language"), 0));
+    CIniHelper ini(theApp.m_config_path);
+    m_language = static_cast<Language>(ini.GetInt(_T("config"), _T("language"), 0));
 }
 
 
-// Î¨Ò»µÄÒ»¸ö CTrafficMonitorSkinEditorApp ¶ÔÏó
+// å”¯ä¸€çš„ä¸€ä¸ª CTrafficMonitorSkinEditorApp å¯¹è±¡
 
 CTrafficMonitorSkinEditorApp theApp;
 
 
-// CTrafficMonitorSkinEditorApp ³õÊ¼»¯
+// CTrafficMonitorSkinEditorApp åˆå§‹åŒ–
 
 BOOL CTrafficMonitorSkinEditorApp::InitInstance()
 {
-	m_config_path = CCommon::GetModulePath() + L"config.ini";
+    m_config_path = CCommon::GetModuleDir() + L"config.ini";
 
-	//³õÊ¼»¯½çÃæÓïÑÔ
-	LoadConfig();
-	switch (m_language)
-	{
-	case Language::ENGLISH: SetThreadUILanguage(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)); break;
-	case Language::SIMPLIFIED_CHINESE: SetThreadUILanguage(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED)); break;
-	default: break;
-	}
+    //åˆå§‹åŒ–ç•Œé¢è¯­è¨€
+    LoadConfig();
+    switch (m_language)
+    {
+    case Language::ENGLISH: SetThreadUILanguage(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)); break;
+    case Language::SIMPLIFIED_CHINESE: SetThreadUILanguage(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED)); break;
+    default: break;
+    }
 
-	// Èç¹ûÒ»¸öÔËĞĞÔÚ Windows XP ÉÏµÄÓ¦ÓÃ³ÌĞòÇåµ¥Ö¸¶¨Òª
-	// Ê¹ÓÃ ComCtl32.dll °æ±¾ 6 »ò¸ü¸ß°æ±¾À´ÆôÓÃ¿ÉÊÓ»¯·½Ê½£¬
-	//ÔòĞèÒª InitCommonControlsEx()¡£  ·ñÔò£¬½«ÎŞ·¨´´½¨´°¿Ú¡£
-	INITCOMMONCONTROLSEX InitCtrls;
-	InitCtrls.dwSize = sizeof(InitCtrls);
-	// ½«ËüÉèÖÃÎª°üÀ¨ËùÓĞÒªÔÚÓ¦ÓÃ³ÌĞòÖĞÊ¹ÓÃµÄ
-	// ¹«¹²¿Ø¼şÀà¡£
-	InitCtrls.dwICC = ICC_WIN95_CLASSES;
-	InitCommonControlsEx(&InitCtrls);
+    // å¦‚æœä¸€ä¸ªè¿è¡Œåœ¨ Windows XP ä¸Šçš„åº”ç”¨ç¨‹åºæ¸…å•æŒ‡å®šè¦
+    // ä½¿ç”¨ ComCtl32.dll ç‰ˆæœ¬ 6 æˆ–æ›´é«˜ç‰ˆæœ¬æ¥å¯ç”¨å¯è§†åŒ–æ–¹å¼ï¼Œ
+    //åˆ™éœ€è¦ InitCommonControlsEx()ã€‚  å¦åˆ™ï¼Œå°†æ— æ³•åˆ›å»ºçª—å£ã€‚
+    INITCOMMONCONTROLSEX InitCtrls;
+    InitCtrls.dwSize = sizeof(InitCtrls);
+    // å°†å®ƒè®¾ç½®ä¸ºåŒ…æ‹¬æ‰€æœ‰è¦åœ¨åº”ç”¨ç¨‹åºä¸­ä½¿ç”¨çš„
+    // å…¬å…±æ§ä»¶ç±»ã€‚
+    InitCtrls.dwICC = ICC_WIN95_CLASSES;
+    InitCommonControlsEx(&InitCtrls);
 
-	CWinApp::InitInstance();
+    CWinApp::InitInstance();
 
 
-	AfxEnableControlContainer();
+    AfxEnableControlContainer();
 
-	// ´´½¨ shell ¹ÜÀíÆ÷£¬ÒÔ·À¶Ô»°¿ò°üº¬
-	// ÈÎºÎ shell Ê÷ÊÓÍ¼¿Ø¼ş»ò shell ÁĞ±íÊÓÍ¼¿Ø¼ş¡£
-	CShellManager *pShellManager = new CShellManager;
+    // åˆ›å»º shell ç®¡ç†å™¨ï¼Œä»¥é˜²å¯¹è¯æ¡†åŒ…å«
+    // ä»»ä½• shell æ ‘è§†å›¾æ§ä»¶æˆ– shell åˆ—è¡¨è§†å›¾æ§ä»¶ã€‚
+    CShellManager* pShellManager = new CShellManager;
 
-	// ¼¤»î¡°Windows Native¡±ÊÓ¾õ¹ÜÀíÆ÷£¬ÒÔ±ãÔÚ MFC ¿Ø¼şÖĞÆôÓÃÖ÷Ìâ
-	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
+    // æ¿€æ´»â€œWindows Nativeâ€è§†è§‰ç®¡ç†å™¨ï¼Œä»¥ä¾¿åœ¨ MFC æ§ä»¶ä¸­å¯ç”¨ä¸»é¢˜
+    CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
 
-	// ±ê×¼³õÊ¼»¯
-	// Èç¹ûÎ´Ê¹ÓÃÕâĞ©¹¦ÄÜ²¢Ï£Íû¼õĞ¡
-	// ×îÖÕ¿ÉÖ´ĞĞÎÄ¼şµÄ´óĞ¡£¬ÔòÓ¦ÒÆ³ıÏÂÁĞ
-	// ²»ĞèÒªµÄÌØ¶¨³õÊ¼»¯Àı³Ì
-	// ¸ü¸ÄÓÃÓÚ´æ´¢ÉèÖÃµÄ×¢²á±íÏî
-	// TODO:  Ó¦ÊÊµ±ĞŞ¸Ä¸Ã×Ö·û´®£¬
-	// ÀıÈçĞŞ¸ÄÎª¹«Ë¾»ò×éÖ¯Ãû
-	SetRegistryKey(_T("Ó¦ÓÃ³ÌĞòÏòµ¼Éú³ÉµÄ±¾µØÓ¦ÓÃ³ÌĞò"));
+    // æ ‡å‡†åˆå§‹åŒ–
+    // å¦‚æœæœªä½¿ç”¨è¿™äº›åŠŸèƒ½å¹¶å¸Œæœ›å‡å°
+    // æœ€ç»ˆå¯æ‰§è¡Œæ–‡ä»¶çš„å¤§å°ï¼Œåˆ™åº”ç§»é™¤ä¸‹åˆ—
+    // ä¸éœ€è¦çš„ç‰¹å®šåˆå§‹åŒ–ä¾‹ç¨‹
+    // æ›´æ”¹ç”¨äºå­˜å‚¨è®¾ç½®çš„æ³¨å†Œè¡¨é¡¹
+    // TODO:  åº”é€‚å½“ä¿®æ”¹è¯¥å­—ç¬¦ä¸²ï¼Œ
+    // ä¾‹å¦‚ä¿®æ”¹ä¸ºå…¬å¸æˆ–ç»„ç»‡å
+    SetRegistryKey(_T("åº”ç”¨ç¨‹åºå‘å¯¼ç”Ÿæˆçš„æœ¬åœ°åº”ç”¨ç¨‹åº"));
 
-	CTrafficMonitorSkinEditorDlg dlg;
-	m_pMainWnd = &dlg;
-	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		// TODO:  ÔÚ´Ë·ÅÖÃ´¦ÀíºÎÊ±ÓÃ
-		//  ¡°È·¶¨¡±À´¹Ø±Õ¶Ô»°¿òµÄ´úÂë
-	}
-	else if (nResponse == IDCANCEL)
-	{
-		// TODO:  ÔÚ´Ë·ÅÖÃ´¦ÀíºÎÊ±ÓÃ
-		//  ¡°È¡Ïû¡±À´¹Ø±Õ¶Ô»°¿òµÄ´úÂë
-	}
-	else if (nResponse == -1)
-	{
-		TRACE(traceAppMsg, 0, "¾¯¸æ: ¶Ô»°¿ò´´½¨Ê§°Ü£¬Ó¦ÓÃ³ÌĞò½«ÒâÍâÖÕÖ¹¡£\n");
-		TRACE(traceAppMsg, 0, "¾¯¸æ: Èç¹ûÄúÔÚ¶Ô»°¿òÉÏÊ¹ÓÃ MFC ¿Ø¼ş£¬ÔòÎŞ·¨ #define _AFX_NO_MFC_CONTROLS_IN_DIALOGS¡£\n");
-	}
+    CTrafficMonitorSkinEditorDlg dlg;
+    m_pMainWnd = &dlg;
+    INT_PTR nResponse = dlg.DoModal();
+    if (nResponse == IDOK)
+    {
+        // TODO:  åœ¨æ­¤æ”¾ç½®å¤„ç†ä½•æ—¶ç”¨
+        //  â€œç¡®å®šâ€æ¥å…³é—­å¯¹è¯æ¡†çš„ä»£ç 
+    }
+    else if (nResponse == IDCANCEL)
+    {
+        // TODO:  åœ¨æ­¤æ”¾ç½®å¤„ç†ä½•æ—¶ç”¨
+        //  â€œå–æ¶ˆâ€æ¥å…³é—­å¯¹è¯æ¡†çš„ä»£ç 
+    }
+    else if (nResponse == -1)
+    {
+        TRACE(traceAppMsg, 0, "è­¦å‘Š: å¯¹è¯æ¡†åˆ›å»ºå¤±è´¥ï¼Œåº”ç”¨ç¨‹åºå°†æ„å¤–ç»ˆæ­¢ã€‚\n");
+        TRACE(traceAppMsg, 0, "è­¦å‘Š: å¦‚æœæ‚¨åœ¨å¯¹è¯æ¡†ä¸Šä½¿ç”¨ MFC æ§ä»¶ï¼Œåˆ™æ— æ³• #define _AFX_NO_MFC_CONTROLS_IN_DIALOGSã€‚\n");
+    }
 
-	// É¾³ıÉÏÃæ´´½¨µÄ shell ¹ÜÀíÆ÷¡£
-	if (pShellManager != NULL)
-	{
-		delete pShellManager;
-	}
+    // åˆ é™¤ä¸Šé¢åˆ›å»ºçš„ shell ç®¡ç†å™¨ã€‚
+    if (pShellManager != NULL)
+    {
+        delete pShellManager;
+    }
 
-	// ÓÉÓÚ¶Ô»°¿òÒÑ¹Ø±Õ£¬ËùÒÔ½«·µ»Ø FALSE ÒÔ±ãÍË³öÓ¦ÓÃ³ÌĞò£¬
-	//  ¶ø²»ÊÇÆô¶¯Ó¦ÓÃ³ÌĞòµÄÏûÏ¢±Ã¡£
-	return FALSE;
+    // ç”±äºå¯¹è¯æ¡†å·²å…³é—­ï¼Œæ‰€ä»¥å°†è¿”å› FALSE ä»¥ä¾¿é€€å‡ºåº”ç”¨ç¨‹åºï¼Œ
+    //  è€Œä¸æ˜¯å¯åŠ¨åº”ç”¨ç¨‹åºçš„æ¶ˆæ¯æ³µã€‚
+    return FALSE;
 }
 
 
 
 void CTrafficMonitorSkinEditorApp::OnHelp()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	ShellExecute(NULL, _T("open"), L"https://github.com/zhongyang219/TrafficMonitorSkinEditor/blob/master/README.md", NULL, NULL, SW_SHOW);
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+    ShellExecute(NULL, _T("open"), L"https://github.com/zhongyang219/TrafficMonitorSkinEditor/blob/master/README.md", NULL, NULL, SW_SHOW);
 }

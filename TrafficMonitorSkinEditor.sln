@@ -1,22 +1,57 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrafficMonitorSkinEditor", "TrafficMonitorSkinEditor\TrafficMonitorSkinEditor.vcxproj", "{3826D783-E7FE-4DC2-868E-EBCBED7910CA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF} = {3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrafficMonitorSkinEditor2", "TrafficMonitorSkinEditor2\TrafficMonitorSkinEditor2.vcxproj", "{A09A92C1-0677-493E-A9DD-09F83D69AEBA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF} = {3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonTools", "CommonTools\CommonTools.vcxproj", "{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Debug|Win32.Build.0 = Debug|Win32
+		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Debug|x64.ActiveCfg = Debug|x64
+		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Debug|x64.Build.0 = Debug|x64
 		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Release|Win32.ActiveCfg = Release|Win32
 		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Release|Win32.Build.0 = Release|Win32
+		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Release|x64.ActiveCfg = Release|x64
+		{3826D783-E7FE-4DC2-868E-EBCBED7910CA}.Release|x64.Build.0 = Release|x64
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Debug|Win32.Build.0 = Debug|Win32
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Debug|x64.ActiveCfg = Debug|x64
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Debug|x64.Build.0 = Debug|x64
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Release|Win32.ActiveCfg = Release|Win32
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Release|Win32.Build.0 = Release|Win32
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Release|x64.ActiveCfg = Release|x64
+		{A09A92C1-0677-493E-A9DD-09F83D69AEBA}.Release|x64.Build.0 = Release|x64
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Debug|Win32.Build.0 = Debug|Win32
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Debug|x64.ActiveCfg = Debug|x64
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Debug|x64.Build.0 = Debug|x64
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Release|Win32.ActiveCfg = Release|Win32
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Release|Win32.Build.0 = Release|Win32
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Release|x64.ActiveCfg = Release|x64
+		{3BDB6656-4DDA-4BE5-AA27-0268FA00BFBF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {70612200-0444-42FF-9AEA-392077F8AA78}
 	EndGlobalSection
 EndGlobal
