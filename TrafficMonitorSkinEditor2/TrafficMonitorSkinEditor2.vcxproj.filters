@@ -25,6 +25,9 @@
     <Filter Include="ScintillaEditView">
       <UniqueIdentifier>{44a39311-8a9a-4272-9757-39efd76a3ecb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tinyxml2">
+      <UniqueIdentifier>{633cb111-e2f6-43be-8bf5-07e525468346}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TrafficMonitorSkinEditor2.h">
@@ -57,6 +60,9 @@
     <ClInclude Include="ScintillaEditView.h">
       <Filter>ScintillaEditView</Filter>
     </ClInclude>
+    <ClInclude Include="tinyxml2\tinyxml2.h">
+      <Filter>tinyxml2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitorSkinEditor2.cpp">
@@ -79,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="ScintillaEditView.cpp">
       <Filter>ScintillaEditView</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2\tinyxml2.cpp">
+      <Filter>tinyxml2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

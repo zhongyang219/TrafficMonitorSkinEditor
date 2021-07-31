@@ -86,7 +86,7 @@ void CTrafficMonitorSkinEditor2Dlg::LoadSkin()
 {
     m_skin.Load(m_file_path);
     std::string file_contents_raw;
-    CCommon::GetFileContent(m_file_path.c_str(), file_contents_raw, false);
+    CCommon::GetFileContent(m_file_path.c_str(), file_contents_raw, true);
     std::wstring file_contents = CCommon::StrToUnicode(file_contents_raw.c_str(), CodeType::UTF8_NO_BOM);
     m_view->SetText(file_contents);
     m_view->EmptyUndoBuffer();

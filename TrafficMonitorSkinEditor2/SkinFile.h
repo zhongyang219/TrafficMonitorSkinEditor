@@ -12,6 +12,8 @@ public:
     //从文件载入皮肤信息
     void Load(const std::wstring& file_path);
 
+    void LoadFromString(const std::wstring& file_contents);
+
     //皮肤信息
     struct SkinInfo
     {

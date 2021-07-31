@@ -86,6 +86,10 @@ void CSkinFile::Load(const std::wstring& file_path)
     last_background_path_l = background_path_l;
 }
 
+void CSkinFile::LoadFromString(const std::wstring& file_contents)
+{
+}
+
 void CSkinFile::LoadFromXml(const std::wstring& file_path)
 {
     m_skin_info = SkinInfo();

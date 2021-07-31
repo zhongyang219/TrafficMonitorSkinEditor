@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "tinyxml2.h"
+#include "tinyxml2/tinyxml2.h"
 #include <string>
 #include <functional>
 

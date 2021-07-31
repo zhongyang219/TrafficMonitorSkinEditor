@@ -108,7 +108,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>CommonTools.lib;tinyxml2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -131,7 +131,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>CommonTools.lib;tinyxml2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -158,7 +158,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>CommonTools.lib;tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -185,7 +185,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>CommonTools.lib;tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -207,6 +207,7 @@
     <ClInclude Include="SkinFile.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TinyXml2Helper.h" />
+    <ClInclude Include="tinyxml2\tinyxml2.h" />
     <ClInclude Include="TrafficMonitorSkinEditor2.h" />
     <ClInclude Include="TrafficMonitorSkinEditor2Dlg.h" />
   </ItemGroup>
@@ -221,6 +222,12 @@
     <ClCompile Include="ScintillaEditView.cpp" />
     <ClCompile Include="SkinFile.cpp" />
     <ClCompile Include="TinyXml2Helper.cpp" />
+    <ClCompile Include="tinyxml2\tinyxml2.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="TrafficMonitorSkinEditor2.cpp" />
     <ClCompile Include="TrafficMonitorSkinEditor2Dlg.cpp" />
   </ItemGroup>
