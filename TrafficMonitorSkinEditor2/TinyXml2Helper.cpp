@@ -12,6 +12,18 @@ bool CTinyXml2Helper::LoadXmlFile(tinyxml2::XMLDocument& doc, const wchar_t* fil
     return err == tinyxml2::XML_SUCCESS;
 }
 
+bool CTinyXml2Helper::LoadXml(tinyxml2::XMLDocument& doc, const wchar_t* file_contents)
+{
+    std::string contents_str = CCommon::UnicodeToStr(file_contents, true);
+    return LoadXml(doc, contents_str.c_str());
+}
+
+bool CTinyXml2Helper::LoadXml(tinyxml2::XMLDocument& doc, const char* file_contents)
+{
+    auto err = doc.Parse(file_contents);
+    return err == tinyxml2::XML_SUCCESS;
+}
+
 void CTinyXml2Helper::IterateChildNode(tinyxml2::XMLElement* ele, std::function<void(tinyxml2::XMLElement*)> fun)
 {
     if (ele == nullptr)

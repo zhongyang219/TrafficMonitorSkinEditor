@@ -93,6 +93,12 @@ void DrawScrollView::SetSkinFile(CSkinFile* skin)
         SetSize(skin->GetPreviewInfo().width, skin->GetPreviewInfo().height);
 }
 
+void DrawScrollView::UpdateSkin(const wchar_t* xml_contents)
+{
+    m_skin->LoadFromString(xml_contents);
+    Invalidate();
+}
+
 BOOL DrawScrollView::PreTranslateMessage(MSG* pMsg)
 {
     // TODO: 在此添加专用代码和/或调用基类

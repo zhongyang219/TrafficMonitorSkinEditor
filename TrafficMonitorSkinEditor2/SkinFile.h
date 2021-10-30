@@ -2,6 +2,7 @@
 #include <vector>
 #include "../CommonTools/Common.h"
 #include "../CommonTools/CommonData.h"
+#include "tinyxml2/tinyxml2.h"
 
 class CSkinFile
 {
@@ -107,6 +108,8 @@ public:
 private:
     void LoadFromXml(const std::wstring& file_path);     //从xml文件读取皮肤数据
     void LoadFromIni(const std::wstring& file_path);     //从ini文件读取皮肤数据（用于兼容旧版皮肤）
+
+    void ParseSkinData(tinyxml2::XMLDocument& doc);     //从xml文档解析皮肤数据
 
     //void DrawInfo(CDC* pDC, bool show_more_info, CFont& font);
 

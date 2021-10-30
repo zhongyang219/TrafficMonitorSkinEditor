@@ -25,6 +25,7 @@ public:
     void InitialUpdate();
     void SetSize(int width, int hight);
     void SetSkinFile(CSkinFile* skin);
+    void UpdateSkin(const wchar_t* xml_contents);
 
     //成员变量
 protected:

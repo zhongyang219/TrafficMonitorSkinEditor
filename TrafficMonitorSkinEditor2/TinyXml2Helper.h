@@ -10,6 +10,11 @@ public:
     //从文件读取XML内容
     static bool LoadXmlFile(tinyxml2::XMLDocument& doc, const wchar_t* file_path);
 
+    static bool LoadXml(tinyxml2::XMLDocument& doc, const wchar_t* file_contents);
+
+    static bool LoadXml(tinyxml2::XMLDocument& doc, const char* file_contents);
+
+
     //遍历一个XML节点
     //fun: 一个函数对象，遍历到一个节点时被调用
     static void IterateChildNode(tinyxml2::XMLElement* ele, std::function<void(tinyxml2::XMLElement*)> fun);

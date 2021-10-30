@@ -310,9 +310,9 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
             UINT marsk = (SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO);
             if ((notification->modificationType & marsk) != 0)
             {
-                //std::wstring edit_str;
-                //m_view->GetText(edit_str);
-
+                std::wstring edit_str;
+                m_view->GetText(edit_str);
+                m_skin_view->UpdateSkin(edit_str.c_str());
                 //m_skin.Load()
                 //    m_skin_view->SetSkinFile(&m_skin);
                 //m_skin_view->Invalidate();
