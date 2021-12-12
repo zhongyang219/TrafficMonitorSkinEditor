@@ -9,6 +9,7 @@
 #include "afxdialogex.h"
 #include<iostream>
 #include<fstream>
+#include "xmlMatchedTagsHighlighter/xmlMatchedTagsHighlighter.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -320,6 +321,16 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
                 std::wstring edit_str;
                 m_view->GetText(edit_str);
                 m_skin_view->UpdateSkin(edit_str.c_str());
+            }
+        }
+        else if (notification->nmhdr.code == SCN_UPDATEUI)
+        {
+            //选择区域变化
+            if ((notification->updated & SC_UPDATE_SELECTION) != 0)
+            {
+                //标记匹配的html标记
+                XmlMatchedTagsHighlighter highter(m_view);
+                highter.tagMatch(false);
             }
         }
     }

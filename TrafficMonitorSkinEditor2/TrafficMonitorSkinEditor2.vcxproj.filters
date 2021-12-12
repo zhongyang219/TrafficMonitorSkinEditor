@@ -28,6 +28,9 @@
     <Filter Include="tinyxml2">
       <UniqueIdentifier>{633cb111-e2f6-43be-8bf5-07e525468346}</UniqueIdentifier>
     </Filter>
+    <Filter Include="xmlMatchedTagsHighlighter">
+      <UniqueIdentifier>{ba63ae7c-30a9-4758-903e-f83eeab6f705}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TrafficMonitorSkinEditor2.h">
@@ -63,6 +66,9 @@
     <ClInclude Include="tinyxml2\tinyxml2.h">
       <Filter>tinyxml2</Filter>
     </ClInclude>
+    <ClInclude Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.h">
+      <Filter>xmlMatchedTagsHighlighter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitorSkinEditor2.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
       <Filter>tinyxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.cpp">
+      <Filter>xmlMatchedTagsHighlighter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

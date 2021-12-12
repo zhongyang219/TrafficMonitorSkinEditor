@@ -112,6 +112,11 @@ const char* CScintillaEditView::GetTextUtf8(int& size)
     return buf;
 }
 
+int CScintillaEditView::GetDocLength()
+{
+    return SendMessage(SCI_GETLENGTH);
+}
+
 void CScintillaEditView::SetFontFace(const wchar_t* font_face)
 {
     bool char_connot_convert;
@@ -347,6 +352,23 @@ void CScintillaEditView::SetFirstVisibleLine(int line)
     SendMessage(SCI_SETFIRSTVISIBLELINE, line);
 }
 
+void CScintillaEditView::SetMark(MarkStyle mark_style, int start, int length)
+{
+    SendMessage(SCI_SETINDICATORCURRENT, static_cast<WPARAM>(mark_style));
+    SendMessage(SCI_INDICATORFILLRANGE, start, length);
+}
+
+void CScintillaEditView::ClearMark(MarkStyle mark_style, int start, int length)
+{
+    SendMessage(SCI_SETINDICATORCURRENT, static_cast<WPARAM>(mark_style));
+    SendMessage(SCI_INDICATORCLEARRANGE, start, length);
+}
+
+void CScintillaEditView::ClearAllMark(MarkStyle mark_style)
+{
+    ClearMark(mark_style, 0, GetDocLength());
+}
+
 void CScintillaEditView::SetLexer(int lexer)
 {
     SendMessage(SCI_SETLEXER, lexer);
@@ -493,6 +515,23 @@ void CScintillaEditView::OnInitialUpdate()
 
     SendMessage(SCI_SETSCROLLWIDTH, 100);
     SendMessage(SCI_SETSCROLLWIDTHTRACKING, TRUE);
+
+    //设置标记样式
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::MARK_ALL), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::MARK_ALL), 140);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::MARK_ALL), RGB(255, 143, 107));
+
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), 110);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), RGB(140, 238, 20));
+
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), 110);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), RGB(255, 209, 62));
+
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::HTML_MARKS), 110);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), RGB(125, 146, 243));
 }
 
 

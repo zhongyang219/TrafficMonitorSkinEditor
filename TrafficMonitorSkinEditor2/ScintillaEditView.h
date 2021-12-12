@@ -48,6 +48,7 @@ public:
     void GetText(std::wstring& text);
     const wchar_t* GetText(int& size);      //获取文本（返回字符串指针，需要自行释放内存）
     const char* GetTextUtf8(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
+    int GetDocLength();
     void SetFontFace(const wchar_t* font_face);
     void SetFontSize(int font_size);
     void SetTabSize(int tab_size);
@@ -98,6 +99,18 @@ public:
 
     int GetFirstVisibleLine();
     void SetFirstVisibleLine(int line);
+
+    //标记样式
+    enum class MarkStyle
+    {
+        MARK_ALL = 1,       //使用“标记全部”功能时的标记样式
+        SELECTION_MARK,     //标记相同单词的标记样式
+        MATCHED_BRACKETS,      //匹配括号对的标记样式
+        HTML_MARKS          //匹配的HTML标签标记样式
+    };
+    void SetMark(MarkStyle mark_style, int start, int length);
+    void ClearMark(MarkStyle mark_style, int start, int length);
+    void ClearAllMark(MarkStyle mark_style);
 
     //语法解析
     void SetLexer(int lexer);
