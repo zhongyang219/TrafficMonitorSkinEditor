@@ -96,6 +96,41 @@ void CTrafficMonitorSkinEditor2Dlg::LoadSkin()
     m_skin_view->Invalidate();
 }
 
+void CTrafficMonitorSkinEditor2Dlg::UpdateLineNumberWidth(bool update /*= false*/)
+{
+    int current_line = m_view->GetFirstVisibleLine();
+    int leng_height = m_view->GetLineHeight();
+    int line_per_page = m_window_size.cy / leng_height;
+    int line_number = current_line + line_per_page;
+    static int last_line_number{ -1 };
+    if (update || last_line_number != line_number)
+    {
+        int width = m_view->GetTextWidth(std::to_string(line_number)) + theApp.DPI(8);
+        m_view->SetLineNumberWidth(width);
+    }
+    last_line_number = line_number;
+}
+
+void CTrafficMonitorSkinEditor2Dlg::LoadConfig()
+{
+    m_window_size.cx = theApp.GetProfileInt(_T("window_size"), _T("_width"), -1);
+    m_window_size.cy = theApp.GetProfileInt(_T("window_size"), _T("_height"), -1);
+    
+    m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 0) != 0);
+    m_font_name = theApp.GetProfileString(_T("config"), _T("font_name"), CCommon::LoadText(IDS_DEFAULT_FONT));
+    m_font_size = theApp.GetProfileInt(_T("config"), _T("font_size"), 9);
+}
+
+void CTrafficMonitorSkinEditor2Dlg::SaveConfig()
+{
+    theApp.WriteProfileInt(_T("window_size"), _T("_width"), m_window_size.cx);
+    theApp.WriteProfileInt(_T("window_size"), _T("_height"), m_window_size.cy);
+    
+    theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
+    theApp.WriteProfileString(_T("config"), _T("font_name"), m_font_name);
+    theApp.WriteProfileInt(L"config", L"font_size", m_font_size);
+}
+
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_WM_SYSCOMMAND()
     ON_WM_PAINT()
@@ -107,6 +142,10 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_COMMAND(ID_FILE_SAVE_AS, &CTrafficMonitorSkinEditor2Dlg::OnFileSaveAs)
     ON_COMMAND(ID_IMPORT_LARGE_BACK_IMAGE, &CTrafficMonitorSkinEditor2Dlg::OnImportLargeBackImage)
     ON_COMMAND(ID_IMPORT_SMALL_BACK_IMAGE, &CTrafficMonitorSkinEditor2Dlg::OnImportSmallBackImage)
+    ON_COMMAND(ID_EDIT_WRAP, &CTrafficMonitorSkinEditor2Dlg::OnEditWrap)
+    ON_COMMAND(ID_EDIT_FONT, &CTrafficMonitorSkinEditor2Dlg::OnEditFont)
+    ON_WM_DESTROY()
+    ON_WM_INITMENU()
 END_MESSAGE_MAP()
 
 
@@ -144,6 +183,14 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnInitDialog()
     // TODO: 在此添加额外的初始化代码
     theApp.DPIFromWindow(this);
 
+    LoadConfig();
+
+    //初始化窗口大小
+    if (m_window_size.cx > 0 && m_window_size.cy > 0)
+    {
+        SetWindowPos(nullptr, 0, 0, m_window_size.cx, m_window_size.cy, SWP_NOZORDER | SWP_NOMOVE);
+    }
+
     //创建子窗口
     m_skin_view = (DrawScrollView*)RUNTIME_CLASS(DrawScrollView)->CreateObject();
     CRect client_rect;
@@ -161,9 +208,14 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnInitDialog()
     m_view->ShowWindow(SW_SHOW);
     m_view->ShowLineNumber(true);
 
+    m_view->SetWordWrap(m_word_wrap);
+
     //初始化编辑区字体
-    m_view->SetFontFace(CCommon::LoadText(IDS_DEFAULT_FONT));
-    m_view->SetFontSize(9);
+    m_view->SetFontFace(m_font_name);
+    m_view->SetFontSize(m_font_size);
+
+    //设置制表符宽度
+    m_view->SetTabSize(4);
 
     return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -241,16 +293,14 @@ void CTrafficMonitorSkinEditor2Dlg::OnSize(UINT nType, int cx, int cy)
             m_view->MoveWindow(CalculateEditCtrlRect(cx, cy));
     }
 
-    ////窗口大小改变时保存窗口大小
-    //if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
-    //{
-    //    //m_window_width = cx;
-    //    //m_window_hight = cy;
-    //    CRect rect;
-    //    GetWindowRect(&rect);
-    //    m_window_width = rect.Width();
-    //    m_window_height = rect.Height();
-    //}
+    //窗口大小改变时保存窗口大小
+    if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
+    {
+        CRect rect;
+        GetWindowRect(&rect);
+        m_window_size.cx = rect.Width();
+        m_window_size.cy = rect.Height();
+    }
 
 }
 
@@ -325,6 +375,11 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
         }
         else if (notification->nmhdr.code == SCN_UPDATEUI)
         {
+            //垂直滚动条位置变化
+            if ((notification->updated & SC_UPDATE_V_SCROLL) != 0)
+            {
+                UpdateLineNumberWidth();
+            }
             //选择区域变化
             if ((notification->updated & SC_UPDATE_SELECTION) != 0)
             {
@@ -335,4 +390,47 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
         }
     }
     return CDialog::OnNotify(wParam, lParam, pResult);
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnEditWrap()
+{
+    m_word_wrap = !m_word_wrap;
+    m_view->SetWordWrap(m_word_wrap);
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnEditFont()
+{
+    LOGFONT lf{ 0 };
+    _tcscpy_s(lf.lfFaceName, LF_FACESIZE, m_font_name.GetString());	//将lf中的元素字体名设为“微软雅黑”
+    lf.lfHeight = theApp.FontSizeToLfHeight(m_font_size);
+    CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
+    if (IDOK == fontDlg.DoModal())     // 显示字体对话框
+    {
+        //获取字体信息
+        m_font_name = fontDlg.m_cf.lpLogFont->lfFaceName;
+        m_font_size = fontDlg.m_cf.iPointSize / 10;
+        //设置字体
+        m_view->SetFontFace(m_font_name.GetString());
+        m_view->SetFontSize(m_font_size);
+        UpdateLineNumberWidth(true);
+    }
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnDestroy()
+{
+    CDialog::OnDestroy();
+
+    // TODO: 在此处添加消息处理程序代码
+    SaveConfig();
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnInitMenu(CMenu* pMenu)
+{
+    CDialog::OnInitMenu(pMenu);
+
+    pMenu->CheckMenuItem(ID_EDIT_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 }

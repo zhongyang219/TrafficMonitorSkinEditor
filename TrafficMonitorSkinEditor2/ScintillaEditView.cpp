@@ -352,6 +352,11 @@ void CScintillaEditView::SetFirstVisibleLine(int line)
     SendMessage(SCI_SETFIRSTVISIBLELINE, line);
 }
 
+int CScintillaEditView::GetLineHeight()
+{
+    return SendMessage(SCI_TEXTHEIGHT, 0);
+}
+
 void CScintillaEditView::SetMark(MarkStyle mark_style, int start, int length)
 {
     SendMessage(SCI_SETINDICATORCURRENT, static_cast<WPARAM>(mark_style));
@@ -454,7 +459,7 @@ void CScintillaEditView::SetLexerXml()
     SetLexerNormalText();
     SetLexer(SCLEX_XML);
     SetKeywords(0, "");
-    SetSyntaxColor(SCE_H_DEFAULT, 0x225AD6);
+    SetSyntaxColor(SCE_H_DEFAULT, 0x2E2E2E);
     SetSyntaxColor(SCE_H_TAG, 0xDD5A19);
     SetSyntaxColor(SCE_H_TAGUNKNOWN, 0xB58476);
     SetSyntaxColor(SCE_H_ATTRIBUTE, 0x1A1A9E);
@@ -473,6 +478,11 @@ void CScintillaEditView::SetLexerXml()
     //设置当前行背景色
     SendMessage(SCI_SETCARETLINEVISIBLE, TRUE);
     SendMessage(SCI_SETCARETLINEBACK, 0xFFFFFF);
+}
+
+int CScintillaEditView::GetTextWidth(const std::string& str)
+{
+    return SendMessage(SCI_TEXTWIDTH, STYLE_DEFAULT, (sptr_t)str.c_str());
 }
 
 // CScintillaEditView 消息处理程序

@@ -45,6 +45,11 @@ bool CTrafficMonitorSkinEditor2App::IsScintillaLoaded() const
     return m_hScintillaModule != NULL;
 }
 
+int CTrafficMonitorSkinEditor2App::FontSizeToLfHeight(int font_size)
+{
+    return -MulDiv(font_size, m_dpi, 72);
+}
+
 // 唯一的 CTrafficMonitorSkinEditor2App 对象
 
 CTrafficMonitorSkinEditor2App theApp;
@@ -71,7 +76,11 @@ BOOL CTrafficMonitorSkinEditor2App::InitInstance()
     // 更改用于存储设置的注册表项
     // TODO: 应适当修改该字符串，
     // 例如修改为公司或组织名
-    SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
+    CString reg_key = _T("Apps By ZhongYang");
+#ifdef _DEBUG
+    reg_key += _T(" (Debug)");
+#endif
+    SetRegistryKey(reg_key);
 
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
 

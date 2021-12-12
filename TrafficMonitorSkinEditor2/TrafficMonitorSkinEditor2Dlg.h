@@ -25,6 +25,12 @@ protected:
     CRect CalculateScrollViewRect(int cx, int cy);
     CRect CalculateEditCtrlRect(int cx, int cy);
     void LoadSkin();
+    //数据当前行号的位数自动设置行号的宽度
+    void UpdateLineNumberWidth(bool update = false);
+
+private:
+    void LoadConfig();
+    void SaveConfig();
 
     // 实现
 protected:
@@ -33,7 +39,14 @@ protected:
     std::wstring m_file_path;
     CSkinFile m_skin;
     CScintillaEditView* m_view;     //Scintilla编辑控件
+    CSize m_window_size{ -1, -1 };
 
+    bool m_word_wrap{};		//是否自动换行
+    CString m_font_name;	//字体名称
+    int m_font_size{ 9 };		//字体大小
+
+
+protected:
     // 生成的消息映射函数
     virtual BOOL OnInitDialog();
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -52,4 +65,8 @@ public:
     afx_msg void OnImportLargeBackImage();
     afx_msg void OnImportSmallBackImage();
     virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    afx_msg void OnEditWrap();
+    afx_msg void OnEditFont();
+    afx_msg void OnDestroy();
+    afx_msg void OnInitMenu(CMenu* pMenu);
 };

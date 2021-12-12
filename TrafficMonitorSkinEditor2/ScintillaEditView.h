@@ -100,6 +100,8 @@ public:
     int GetFirstVisibleLine();
     void SetFirstVisibleLine(int line);
 
+    int GetLineHeight();
+
     //标记样式
     enum class MarkStyle
     {
@@ -125,7 +127,9 @@ public:
 
     void SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner);
 
-    void SetLexerXml();       //设置LRC语法解析
+    void SetLexerXml();       //设置XML语法解析
+
+    int GetTextWidth(const std::string& str);
 
 private:
 

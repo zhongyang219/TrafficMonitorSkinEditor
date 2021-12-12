@@ -24,6 +24,8 @@ public:
     void DPIFromWindow(CWnd* pWnd);
     bool IsScintillaLoaded() const;
 
+    int FontSizeToLfHeight(int font_size);
+
     // 重写
 public:
     virtual BOOL InitInstance();
