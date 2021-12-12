@@ -265,6 +265,13 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileOpen()
 
 void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
 {
+    m_file_path.clear();
+    m_skin.LoadFromString(std::wstring());
+    m_view->SetText(std::wstring());
+    m_view->EmptyUndoBuffer();
+    m_view->SetLexerXml();
+    m_skin_view->SetSkinFile(&m_skin);
+    m_skin_view->Invalidate();
 }
 
 void CTrafficMonitorSkinEditor2Dlg::OnFileSave()
@@ -313,10 +320,6 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
                 std::wstring edit_str;
                 m_view->GetText(edit_str);
                 m_skin_view->UpdateSkin(edit_str.c_str());
-                //m_skin.Load()
-                //    m_skin_view->SetSkinFile(&m_skin);
-                //m_skin_view->Invalidate();
-
             }
         }
     }
