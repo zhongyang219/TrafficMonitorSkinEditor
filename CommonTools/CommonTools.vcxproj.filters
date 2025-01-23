@@ -28,6 +28,9 @@
     <Filter Include="CVariant">
       <UniqueIdentifier>{126afd1d-087d-4dea-b463-f8f7dc774742}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HorizontalSplitter">
+      <UniqueIdentifier>{0698d1c6-69e4-4ecc-9c6d-dfd7efea576d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommonTools.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="DrawCommonEx.cpp">
       <Filter>DrawCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="HorizontalSplitter.cpp">
+      <Filter>HorizontalSplitter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="DrawCommonEx.h">
       <Filter>DrawCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="HorizontalSplitter.h">
+      <Filter>HorizontalSplitter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

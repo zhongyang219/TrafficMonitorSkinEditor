@@ -209,6 +209,7 @@
     <ClCompile Include="DrawCommon.cpp" />
     <ClCompile Include="DrawCommonEx.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />
+    <ClCompile Include="HorizontalSplitter.cpp" />
     <ClCompile Include="IniHelper.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -231,6 +232,7 @@
     <ClInclude Include="DrawCommonEx.h" />
     <ClInclude Include="FilePathHelper.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="HorizontalSplitter.h" />
     <ClInclude Include="IniHelper.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />

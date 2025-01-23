@@ -6,7 +6,7 @@
 #include "DrawScrollView.h"
 #include "SkinFile.h"
 #include "ScintillaEditView.h"
-
+#include "../CommonTools/HorizontalSplitter.h"
 
 // CTrafficMonitorSkinEditor2Dlg 对话框
 class CTrafficMonitorSkinEditor2Dlg : public CDialog
@@ -24,6 +24,7 @@ protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
     CRect CalculateScrollViewRect(int cx, int cy);
     CRect CalculateEditCtrlRect(int cx, int cy);
+    CRect CalculateSplitterRect(int cx, int cy);
     void LoadSkin();
     //数据当前行号的位数自动设置行号的宽度
     void UpdateLineNumberWidth(bool update = false);
@@ -45,6 +46,7 @@ protected:
     CString m_font_name;	//字体名称
     int m_font_size{ 9 };		//字体大小
 
+    CHorizontalSplitter m_splitter_ctrl;    //分隔条
 
 protected:
     // 生成的消息映射函数

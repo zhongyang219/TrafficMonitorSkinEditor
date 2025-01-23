@@ -63,6 +63,7 @@ CTrafficMonitorSkinEditor2Dlg::CTrafficMonitorSkinEditor2Dlg(CWnd* pParent /*=nu
 void CTrafficMonitorSkinEditor2Dlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_HSPLITER_STATIC, m_splitter_ctrl);
 }
 
 CRect CTrafficMonitorSkinEditor2Dlg::CalculateScrollViewRect(int cx, int cy)
@@ -81,6 +82,15 @@ CRect CTrafficMonitorSkinEditor2Dlg::CalculateEditCtrlRect(int cx, int cy)
     edit_size.cx = cx / 2;
     edit_size.cy = cy;
     return CRect{ start_point, edit_size };
+}
+
+CRect CTrafficMonitorSkinEditor2Dlg::CalculateSplitterRect(int cx, int cy)
+{
+    CSize splitter_size;
+    CPoint start_point{ cx / 2, MARGIN /*+ TOOLBAR_HEIGHT*/ };
+    splitter_size.cx = MARGIN;
+    splitter_size.cy = cy - start_point.y - MARGIN;
+    return CRect{ start_point, splitter_size };
 }
 
 void CTrafficMonitorSkinEditor2Dlg::LoadSkin()
@@ -217,6 +227,12 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnInitDialog()
     //设置制表符宽度
     m_view->SetTabSize(4);
 
+    //初始化分隔条
+    CRect splitter_rect = CalculateSplitterRect(client_rect.Width(), client_rect.Height());
+    m_splitter_ctrl.MoveWindow(splitter_rect);
+    m_splitter_ctrl.AttachCtrlAsLeftPane(m_view);
+    m_splitter_ctrl.AttachCtrlAsRightPane(m_skin_view);
+
     return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -286,11 +302,28 @@ void CTrafficMonitorSkinEditor2Dlg::OnSize(UINT nType, int cx, int cy)
     // TODO: 在此处添加消息处理程序代码
     if (nType != SIZE_MINIMIZED)
     {
-        if (m_skin_view != nullptr)
-            m_skin_view->MoveWindow(CalculateScrollViewRect(cx, cy));
+        //获取分隔条的大小
+        CRect splitter_rect;
+        if (IsWindow(m_splitter_ctrl.m_hWnd))
+        {
+            m_splitter_ctrl.GetWindowRect(splitter_rect);
+            ScreenToClient(splitter_rect);
+            int a = 0;
+        }
 
-        if (m_view != nullptr)
-            m_view->MoveWindow(CalculateEditCtrlRect(cx, cy));
+        if (m_skin_view != nullptr && !splitter_rect.IsRectEmpty())
+        {
+            int width = cx - splitter_rect.right - MARGIN;
+            int height = cy - 2 * MARGIN;
+            m_skin_view->SetWindowPos(nullptr, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
+        }
+
+        if (m_view != nullptr && !splitter_rect.IsRectEmpty())
+        {
+            int width = splitter_rect.left;
+            int height = cy;
+            m_view->SetWindowPos(nullptr, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
+        }
     }
 
     //窗口大小改变时保存窗口大小
