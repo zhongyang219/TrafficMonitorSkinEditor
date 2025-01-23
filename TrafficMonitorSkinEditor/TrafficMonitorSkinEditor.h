@@ -37,6 +37,8 @@ public:
 protected:
     int m_dpi{ 96 };
 
+private:
+    ULONG_PTR m_gdiplusToken{};
 
     // 重写
 public:

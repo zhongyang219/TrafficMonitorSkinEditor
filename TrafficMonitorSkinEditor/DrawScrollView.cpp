@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "TrafficMonitorSkinEditor.h"
 #include "DrawScrollView.h"
+#include "../CommonTools/DrawCommon.h"
+#include "../CommonTools/DrawCommonEx.h"
 
 
 // DrawScrollView
@@ -16,6 +18,8 @@ CDrawScrollView::CDrawScrollView()
 
 CDrawScrollView::~CDrawScrollView()
 {
+    SAFE_DELETE(m_background_png_s);
+    SAFE_DELETE(m_background_png_l);
 }
 
 
@@ -52,13 +56,22 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		CSize(theApp.DPI(m_skin_data->width_s), theApp.DPI(m_skin_data->height_s)));
 	CRect rect_l(CPoint(theApp.DPI(m_skin_data->preview_x_l), theApp.DPI(m_skin_data->preview_y_l)),
 		CSize(theApp.DPI(m_skin_data->width_l), theApp.DPI(m_skin_data->height_l)));
-	if (m_background_s->IsNull())
-		draw.FillRect(rect_s, RGB(230, 230, 230));
-	else
-		draw.DrawBitmap(*m_background_s, rect_s.TopLeft(), rect_s.Size());
-	if (m_background_l->IsNull())
-		draw.FillRect(rect_l, RGB(230, 230, 230));
-	draw.DrawBitmap(*m_background_l, rect_l.TopLeft(), rect_l.Size());
+    if (m_is_png)    //png背景使用GDI+绘制
+    {
+        CDrawCommonEx gdiplus_drawer(pDC);
+        gdiplus_drawer.DrawImage(m_background_png_s, rect_s.TopLeft(), rect_s.Size(), CDrawCommon::StretchMode::STRETCH);
+        gdiplus_drawer.DrawImage(m_background_png_l, rect_l.TopLeft(), rect_l.Size(), CDrawCommon::StretchMode::STRETCH);
+    }
+    else
+    {
+        if (m_background_s.IsNull())
+            draw.FillRect(rect_s, RGB(230, 230, 230));
+        else
+            draw.DrawBitmap(m_background_s, rect_s.TopLeft(), rect_s.Size());
+        if (m_background_l.IsNull())
+            draw.FillRect(rect_l, RGB(230, 230, 230));
+        draw.DrawBitmap(m_background_l, rect_l.TopLeft(), rect_l.Size());
+    }
 
 	//绘制文本
 	CString up_str;
@@ -202,12 +215,39 @@ void CDrawScrollView::SetSize(int width,int hight)
 	SetScrollSizes(MM_TEXT, m_size);
 }
 
-void CDrawScrollView::SetBackImage(CImage * background_s, CImage * background_l)
+void CDrawScrollView::LoadBackgroundImage(const std::wstring& path)
 {
-	m_background_s = background_s;
-	m_background_l = background_l;
-}
+    m_background_l.Destroy();
+    m_background_s.Destroy();
+    SAFE_DELETE(m_background_png_s);
+    SAFE_DELETE(m_background_png_l);
 
+    //载入png背景图
+    m_is_png = true;
+    //先尝试加载png格式，失败则加载bmp格式
+    SAFE_DELETE(m_background_png_s);
+    m_background_png_s = new Gdiplus::Image((path + BACKGROUND_IMAGE_S_PNG).c_str());
+    if (m_background_png_s->GetLastStatus() != Gdiplus::Ok)
+    {
+        m_is_png = false;
+    }
+    SAFE_DELETE(m_background_png_l);
+    m_background_png_l = new Gdiplus::Image((path + BACKGROUND_IMAGE_L_PNG).c_str());
+    if (m_background_png_l->GetLastStatus() != Gdiplus::Ok)
+    {
+        m_is_png = false;
+    }
+
+    //png背景图加载失败，使用bmp背景图
+    if (!m_is_png)
+    {
+        m_background_s.Destroy();
+        m_background_s.Load((path + BACKGROUND_IMAGE_S).c_str());
+        m_background_l.Destroy();
+        m_background_l.Load((path + BACKGROUND_IMAGE_L).c_str());
+    }
+
+}
 
 
 BOOL CDrawScrollView::OnEraseBkgnd(CDC* pDC)

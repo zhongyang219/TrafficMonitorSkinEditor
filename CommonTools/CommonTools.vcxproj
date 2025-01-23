@@ -29,14 +29,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -44,14 +44,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -110,6 +110,7 @@
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>.\CommonTools.def</ModuleDefinitionFile>
       <ImportLibrary>$(SolutionDir)lib\$(Platform)_$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>gdiplus.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -133,6 +134,7 @@
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>.\CommonTools.def</ModuleDefinitionFile>
       <ImportLibrary>$(SolutionDir)lib\$(Platform)_$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>gdiplus.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -160,6 +162,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\CommonTools.def</ModuleDefinitionFile>
       <ImportLibrary>$(SolutionDir)lib\$(Platform)_$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>gdiplus.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -187,6 +190,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\CommonTools.def</ModuleDefinitionFile>
       <ImportLibrary>$(SolutionDir)lib\$(Platform)_$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>gdiplus.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -203,6 +207,7 @@
     <ClCompile Include="CommonTools.cpp" />
     <ClCompile Include="CVariant.cpp" />
     <ClCompile Include="DrawCommon.cpp" />
+    <ClCompile Include="DrawCommonEx.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />
     <ClCompile Include="IniHelper.cpp" />
     <ClCompile Include="pch.cpp">
@@ -223,6 +228,7 @@
     <ClInclude Include="CommonTools.h" />
     <ClInclude Include="CVariant.h" />
     <ClInclude Include="DrawCommon.h" />
+    <ClInclude Include="DrawCommonEx.h" />
     <ClInclude Include="FilePathHelper.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IniHelper.h" />

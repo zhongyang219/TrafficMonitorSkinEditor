@@ -39,3 +39,15 @@ private:
     CWnd* m_pMainWnd{}; //绘图窗口的句柄
     CFont* m_pfont{};
 };
+
+namespace DrawCommonHelper
+{
+
+    //根据图片拉伸模式，计算绘制图片的实际位置
+    //image_size[int]：图片的原始大小
+    //start_point[int][out]：绘制区域的起始位置
+    //size[int][out]：绘制区域的大小
+    //stretch_mode[int]：拉伸模式
+    void ImageDrawAreaConvert(CSize image_size, CPoint& start_point, CSize& size, CDrawCommon::StretchMode stretch_mode);
+
+}

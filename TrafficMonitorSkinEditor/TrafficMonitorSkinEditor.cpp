@@ -115,6 +115,10 @@ BOOL CTrafficMonitorSkinEditorApp::InitInstance()
     // 例如修改为公司或组织名
     SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
 
+    //初始化GDI+
+    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+    GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
+
     CTrafficMonitorSkinEditorDlg dlg;
     m_pMainWnd = &dlg;
     INT_PTR nResponse = dlg.DoModal();
@@ -139,6 +143,9 @@ BOOL CTrafficMonitorSkinEditorApp::InitInstance()
     {
         delete pShellManager;
     }
+
+    // 释放GDI+
+    Gdiplus::GdiplusShutdown(m_gdiplusToken);
 
     // 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
     //  而不是启动应用程序的消息泵。

@@ -290,20 +290,6 @@ void CTrafficMonitorSkinEditorDlg::AllToUI()
     m_assign_font_chk.SetCheck(m_asing_font);
 }
 
-void CTrafficMonitorSkinEditorDlg::LoadBackImage(const wstring& path, bool small_image)
-{
-    if (small_image)
-    {
-        m_background_s.Destroy();
-        m_background_s.Load((path + BACKGROUND_IMAGE_S).c_str());
-    }
-    else
-    {
-        m_background_l.Destroy();
-        m_background_l.Load((path + BACKGROUND_IMAGE_L).c_str());
-    }
-}
-
 void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring& path)
 {
     //载入皮肤布局
@@ -311,8 +297,7 @@ void CTrafficMonitorSkinEditorDlg::LoadSkin(const wstring& path)
     skin_editor.SetSkinPath(path);
     m_skin_data = skin_editor.LoadSkin();
     //载入背景图
-    LoadBackImage(path, true);
-    LoadBackImage(path, false);
+    m_view->LoadBackgroundImage(path);
     //确定是否指定显示文本
     m_asign_item_text = !(m_skin_data.up_string == CCommon::LoadText(IDS_UPLOAD_DISP, _T(": ")).GetString() && m_skin_data.down_string == CCommon::LoadText(IDS_DOWNLOAD_DISP, _T(": ")).GetString()
         && m_skin_data.cpu_string == L"CPU: " && m_skin_data.memory_string == CCommon::LoadText(IDS_MEMORY_DISP, _T(": ")).GetString());
@@ -586,8 +571,7 @@ bool CTrafficMonitorSkinEditorDlg::_OnFileSaveAs()
             m_modified = true;
             _OnFileSave();                  //在新的位置保存皮肤文件
             SetTitle();                 //设置标题
-            LoadBackImage(m_path, true);
-            LoadBackImage(m_path, false);
+            m_view->LoadBackgroundImage(m_path);
             DrawPreview();
             return true;
         }
@@ -642,15 +626,16 @@ void CTrafficMonitorSkinEditorDlg::_OnImportBackImage(bool small_image)
         {
             return;
         }
-        if (!(small_image ? m_background_s : m_background_l).IsNull())      //如果背景图已经加载，弹出警告对话框
-        {
-            if (MessageBox(CCommon::LoadText(IDS_BACK_IMAGE_OVERWRITE_WARNING), NULL, MB_YESNO | MB_ICONWARNING) != IDYES)
-                return;
-        }
+        //TODO: 这里需要判断文件是否存在
+        //if (!(small_image ? m_background_s : m_background_l).IsNull())      //如果背景图已经加载，弹出警告对话框
+        //{
+        //    if (MessageBox(CCommon::LoadText(IDS_BACK_IMAGE_OVERWRITE_WARNING), NULL, MB_YESNO | MB_ICONWARNING) != IDYES)
+        //        return;
+        //}
         //将要载入的背景图复制到皮肤文件夹，并覆盖已经存在的文件
         CopyFile(fileDlg.GetPathName(), current_back_image.c_str(), FALSE);
         //重新载入背景图
-        LoadBackImage(m_path, small_image);
+        m_view->LoadBackgroundImage(m_path);
         DrawPreview();
     }
 }
@@ -703,7 +688,6 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
     m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
     m_view->InitialUpdate();
     m_view->SetSkinData(&m_skin_data);
-    m_view->SetBackImage(&m_background_s, &m_background_l);
     m_view->SetShowItemOutline(&m_show_item_outline);
     m_view->ShowWindow(SW_SHOW);
     //初始化Combo box
@@ -714,8 +698,8 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 
     //
     LoadSkin(wstring());
-    ((CButton*)GetDlgItem(IDC_LARGE_WINDOW_RADIO))->SetCheck(TRUE);
-    ((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->SetCheck(m_show_item_outline);
+    CheckDlgButton(IDC_LARGE_WINDOW_RADIO, TRUE);
+    CheckDlgButton(IDC_SHOW_ITEM_OUTLINE_CHECK, m_show_item_outline);
 
     SetFontText();
     SetViewFont();
@@ -1485,7 +1469,7 @@ void CTrafficMonitorSkinEditorDlg::OnDropFiles(HDROP hDropInfo)
 void CTrafficMonitorSkinEditorDlg::OnBnClickedShowItemOutlineCheck()
 {
     // TODO: 在此添加控件通知处理程序代码
-    m_show_item_outline = (((CButton*)GetDlgItem(IDC_SHOW_ITEM_OUTLINE_CHECK))->GetCheck() != 0);
+    m_show_item_outline = (IsDlgButtonChecked(IDC_SHOW_ITEM_OUTLINE_CHECK) != 0);
     DrawPreview();
 }
 

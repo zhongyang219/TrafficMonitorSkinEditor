@@ -51,6 +51,9 @@
     <ClCompile Include="CVariant.cpp">
       <Filter>CVariant</Filter>
     </ClCompile>
+    <ClCompile Include="DrawCommonEx.cpp">
+      <Filter>DrawCommon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommonTools.def">
@@ -96,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="CommonData.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawCommonEx.h">
+      <Filter>DrawCommon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

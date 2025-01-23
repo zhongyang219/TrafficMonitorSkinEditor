@@ -36,8 +36,6 @@ protected:
     bool m_asign_item_text{ false };
     bool m_asing_font{ false };
     bool m_show_item_outline{ true };
-    CImage m_background_s;
-    CImage m_background_l;
     CFont m_font;
 
     bool m_modified{ false };
@@ -88,7 +86,6 @@ protected:
     void DrawPreview();
     void LayoutDataToUI(bool small_window);
     void AllToUI();
-    void LoadBackImage(const wstring& path, bool small_image);      //载入背景图，path为皮肤所在路径；small_image指定载入小背景图还是大背景图
     void LoadSkin(const wstring& path);     //载入皮肤，path为皮肤所在路径
     void SetTitle();
     void Modified();    //有改动时的处理

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "SkinEditorHelper.h"
-#include "../CommonTools/DrawCommon.h"
 
 // DrawScrollView 视图
 class CDrawScrollView : public CScrollView
@@ -22,7 +21,7 @@ public:
     void InitialUpdate();
     void SetSize(int width,int hight);
     void SetSkinData(SkinData* skin_data) { m_skin_data = skin_data; }
-    void SetBackImage(CImage* background_s, CImage* background_l);
+    void LoadBackgroundImage(const std::wstring& path);
     void SetShowItemOutline(bool* show_item_outline) { m_show_item_outline = show_item_outline; }
     void SetFont(CFont* pfont) { m_font = pfont; }
 
@@ -32,8 +31,11 @@ protected:
     CPoint m_start_point;           //绘图的起始位置
 
     SkinData* m_skin_data;
-    CImage* m_background_s;
-    CImage* m_background_l;
+    CImage m_background_s;
+    CImage m_background_l;
+    bool m_is_png{};
+    Gdiplus::Image* m_background_png_s{};
+    Gdiplus::Image* m_background_png_l{};
     bool* m_show_item_outline;
     CFont* m_font;
 

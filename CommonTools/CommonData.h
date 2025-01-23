@@ -124,3 +124,5 @@ struct FontInfo
 
 #define BACKGROUND_IMAGE_S L"\\background.bmp"
 #define BACKGROUND_IMAGE_L L"\\background_l.bmp"
+#define BACKGROUND_IMAGE_S_PNG L"\\background.png"
+#define BACKGROUND_IMAGE_L_PNG L"\\background_l.png"
