@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "ScintillaEditView.h"
 #include "../CommonTools/Common.h"
-
+#include "EditorHelper.h"
 
 // CScintillaEditView
 
@@ -52,7 +52,7 @@ void CScintillaEditView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-void CScintillaEditView::SetText(const std::wstring& text)
+void CScintillaEditView::SetTextW(const std::wstring& text)
 {
     m_change_notification_enable = false;       //确保正在执行SetText时不响应文本改变消息
     bool is_read_onle = IsReadOnly();
@@ -77,18 +77,18 @@ void CScintillaEditView::SetText(const std::wstring& text)
     m_change_notification_enable = true;
 }
 
-void CScintillaEditView::GetText(std::wstring& text)
+void CScintillaEditView::GetTextW(std::wstring& text)
 {
     text.clear();
     int size{};
-    const wchar_t* str_unicode = GetText(size);
+    const wchar_t* str_unicode = GetTextW(size);
     if (size == 0)
         return;
     text.assign(str_unicode, size);
     delete[] str_unicode;
 }
 
-const wchar_t* CScintillaEditView::GetText(int& size)
+const wchar_t* CScintillaEditView::GetTextW(int& size)
 {
     auto length = SendMessage(SCI_GETLENGTH);
     char* buf = new char[length + 1];
@@ -104,12 +104,34 @@ const wchar_t* CScintillaEditView::GetText(int& size)
     return str_unicode;
 }
 
-const char* CScintillaEditView::GetTextUtf8(int& size)
+const char* CScintillaEditView::GetText(int& size)
 {
     size = SendMessage(SCI_GETLENGTH);
     char* buf = new char[size + 1];
     SendMessage(SCI_GETTEXT, size + 1, reinterpret_cast<LPARAM>(buf));
     return buf;
+}
+
+std::string CScintillaEditView::GetText(int start, int end)
+{
+    if (start == end)
+        return std::string();
+    Sci_TextRange text_range;
+    //获取选中范围
+    text_range.chrg.cpMin = start;
+    text_range.chrg.cpMax = end;
+    if (text_range.chrg.cpMax < text_range.chrg.cpMin)
+        std::swap(text_range.chrg.cpMin, text_range.chrg.cpMax);
+    //选中范围长度
+    int length = text_range.chrg.cpMax - text_range.chrg.cpMin;
+    //初始化接收字符串缓冲区
+    char* buff = new char[length + 1];
+    text_range.lpstrText = buff;
+    //获取选中部分文本
+    SendMessage(SCI_GETTEXTRANGE, 0, (LPARAM)&text_range);
+    std::string str_selected(buff, length);
+    delete[] buff;
+    return str_selected;
 }
 
 int CScintillaEditView::GetDocLength()
@@ -153,7 +175,7 @@ void CScintillaEditView::GetSel(int& start, int& end)
     if (byte_end < byte_start)
         std::swap(byte_start, byte_end);
     int size{};
-    const char* str = GetTextUtf8(size);
+    const char* str = GetText(size);
     start = BytePosToCharactorPos(byte_start, str, size);
     end = BytePosToCharactorPos(byte_end, str, size);
     delete[] str;
@@ -173,6 +195,17 @@ void CScintillaEditView::SetReadOnly(bool read_only)
 bool CScintillaEditView::IsReadOnly()
 {
     return (SendMessage(SCI_GETREADONLY) != 0);
+}
+
+int CScintillaEditView::GetCurrentIndex()
+{
+    return SendMessage(SCI_GETCURRENTPOS);
+}
+
+char CScintillaEditView::At(int index)
+{
+    int ch = SendMessage(SCI_GETCHARAT, index);
+    return static_cast<char>(ch);
 }
 
 void CScintillaEditView::Undo()
@@ -200,6 +233,15 @@ void CScintillaEditView::Paste()
     SendMessage(SCI_PASTE);
 }
 
+void CScintillaEditView::Paste(const std::string& text)
+{
+    //判断是否有选中文本
+    if (IsSelectionEmpty())
+        InserText(text, -1);
+    else
+        ReplaceSelection(text);
+}
+
 void CScintillaEditView::SelectAll()
 {
     SendMessage(SCI_SELECTALL);
@@ -208,6 +250,16 @@ void CScintillaEditView::SelectAll()
 void CScintillaEditView::EmptyUndoBuffer()
 {
     SendMessage(SCI_EMPTYUNDOBUFFER);
+}
+
+void CScintillaEditView::ReplaceSelection(const std::string& replace_str)
+{
+    SendMessage(SCI_REPLACESEL, 0, (sptr_t)replace_str.c_str());
+}
+
+void CScintillaEditView::InserText(const std::string& str, int pos)
+{
+    SendMessage(SCI_INSERTTEXT, pos, (sptr_t)str.c_str());
 }
 
 void CScintillaEditView::SetWordWrap(bool word_wrap)
@@ -453,9 +505,28 @@ void CScintillaEditView::SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner)
 
 }
 
+int CScintillaEditView::Find(std::string str, int start, int end)
+{
+    if (end < 0)
+        end = GetDocLength();
+    Sci_TextToFind ttf;
+    ttf.chrg.cpMin = start;
+    ttf.chrg.cpMax = end;
+    ttf.lpstrText = str.c_str();
+    return SendMessage(SCI_FINDTEXT, SCFIND_MATCHCASE, (LPARAM)&ttf);
+}
+
+void CScintillaEditView::GotoPos(int pos)
+{
+    SendMessage(SCI_GOTOPOS, pos);
+}
+
 void CScintillaEditView::SetLexerXml()
 {
-    //设置LRC歌词的语法解析
+    //设置关键字
+    SetKeywords(0, SKIN_KEY_WORDS);
+
+    //设置xml文件的语法解析
     SetLexerNormalText();
     SetLexer(SCLEX_XML);
     SetKeywords(0, "");

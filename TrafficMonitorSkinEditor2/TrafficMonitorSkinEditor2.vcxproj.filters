@@ -22,14 +22,20 @@
     <Filter Include="TinyXml2Helper">
       <UniqueIdentifier>{4b04a8bf-accf-400c-8956-3d56ed0aa634}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ScintillaEditView">
-      <UniqueIdentifier>{44a39311-8a9a-4272-9757-39efd76a3ecb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="tinyxml2">
       <UniqueIdentifier>{633cb111-e2f6-43be-8bf5-07e525468346}</UniqueIdentifier>
     </Filter>
-    <Filter Include="xmlMatchedTagsHighlighter">
+    <Filter Include="Editor">
+      <UniqueIdentifier>{084bd237-7bbf-4cef-bc0d-a7d9f694c16d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ScintillaEditView">
+      <UniqueIdentifier>{44a39311-8a9a-4272-9757-39efd76a3ecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\xmlMatchedTagsHighlighter">
       <UniqueIdentifier>{ba63ae7c-30a9-4758-903e-f83eeab6f705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorHelper">
+      <UniqueIdentifier>{ace00d38-0151-434a-ba18-f614f5c5cdc7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,13 +67,16 @@
       <Filter>TinyXml2Helper</Filter>
     </ClInclude>
     <ClInclude Include="ScintillaEditView.h">
-      <Filter>ScintillaEditView</Filter>
+      <Filter>Editor\ScintillaEditView</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml2\tinyxml2.h">
       <Filter>tinyxml2</Filter>
     </ClInclude>
     <ClInclude Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.h">
-      <Filter>xmlMatchedTagsHighlighter</Filter>
+      <Filter>Editor\xmlMatchedTagsHighlighter</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorHelper.h">
+      <Filter>Editor\EditorHelper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -90,13 +99,16 @@
       <Filter>TinyXml2Helper</Filter>
     </ClCompile>
     <ClCompile Include="ScintillaEditView.cpp">
-      <Filter>ScintillaEditView</Filter>
+      <Filter>Editor\ScintillaEditView</Filter>
     </ClCompile>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
       <Filter>tinyxml2</Filter>
     </ClCompile>
     <ClCompile Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.cpp">
-      <Filter>xmlMatchedTagsHighlighter</Filter>
+      <Filter>Editor\xmlMatchedTagsHighlighter</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorHelper.cpp">
+      <Filter>Editor\EditorHelper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

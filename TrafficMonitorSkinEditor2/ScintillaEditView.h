@@ -44,10 +44,11 @@ public:
 #endif
 #endif
 
-    void SetText(const std::wstring& text);
-    void GetText(std::wstring& text);
-    const wchar_t* GetText(int& size);      //获取文本（返回字符串指针，需要自行释放内存）
-    const char* GetTextUtf8(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
+    void SetTextW(const std::wstring& text);
+    void GetTextW(std::wstring& text);
+    const wchar_t* GetTextW(int& size);      //获取文本（返回字符串指针，需要自行释放内存）
+    const char* GetText(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
+    std::string GetText(int start, int end);
     int GetDocLength();
     void SetFontFace(const wchar_t* font_face);
     void SetFontSize(int font_size);
@@ -57,14 +58,20 @@ public:
     void SetBackgroundColor(COLORREF color);
     void SetReadOnly(bool read_only);
     bool IsReadOnly();
+    int GetCurrentIndex();       //获取光标位置
+    char At(int index);         //获取指定位置的一个字符
 
     void Undo();
     void Redo();
     void Cut();
     void Copy();
     void Paste();
+    void Paste(const std::string& text);
     void SelectAll();
     void EmptyUndoBuffer();     //清空撤销缓存
+
+    void ReplaceSelection(const std::string& replace_str);   //替换选中的字符串
+    void InserText(const std::string& str, int pos);
 
     void SetWordWrap(bool word_wrap);
 
@@ -126,6 +133,9 @@ public:
     static int BytePosToCharactorPos(int pos, const char* str, size_t size);     //将字节的位置转换成字符的位置（使用UTF8编码）
 
     void SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner);
+
+    int Find(std::string str, int start, int end = -1);     //在指定范围内查找一个字符串，返回位置
+    void GotoPos(int pos);
 
     void SetLexerXml();       //设置XML语法解析
 

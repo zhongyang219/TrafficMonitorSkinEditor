@@ -64,8 +64,6 @@ public:
     afx_msg void OnFileNew();
     afx_msg void OnFileSave();
     afx_msg void OnFileSaveAs();
-    afx_msg void OnImportLargeBackImage();
-    afx_msg void OnImportSmallBackImage();
     virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
     afx_msg void OnEditWrap();
     afx_msg void OnEditFont();

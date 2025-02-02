@@ -10,6 +10,7 @@
 #include<iostream>
 #include<fstream>
 #include "xmlMatchedTagsHighlighter/xmlMatchedTagsHighlighter.h"
+#include "EditorHelper.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -99,7 +100,7 @@ void CTrafficMonitorSkinEditor2Dlg::LoadSkin()
     std::string file_contents_raw;
     CCommon::GetFileContent(m_file_path.c_str(), file_contents_raw, true);
     std::wstring file_contents = CCommon::StrToUnicode(file_contents_raw.c_str(), CodeType::UTF8_NO_BOM);
-    m_view->SetText(file_contents);
+    m_view->SetTextW(file_contents);
     m_view->EmptyUndoBuffer();
     m_view->SetLexerXml();
     m_skin_view->SetSkinFile(&m_skin);
@@ -150,8 +151,6 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_COMMAND(ID_FILE_NEW, &CTrafficMonitorSkinEditor2Dlg::OnFileNew)
     ON_COMMAND(ID_FILE_SAVE, &CTrafficMonitorSkinEditor2Dlg::OnFileSave)
     ON_COMMAND(ID_FILE_SAVE_AS, &CTrafficMonitorSkinEditor2Dlg::OnFileSaveAs)
-    ON_COMMAND(ID_IMPORT_LARGE_BACK_IMAGE, &CTrafficMonitorSkinEditor2Dlg::OnImportLargeBackImage)
-    ON_COMMAND(ID_IMPORT_SMALL_BACK_IMAGE, &CTrafficMonitorSkinEditor2Dlg::OnImportSmallBackImage)
     ON_COMMAND(ID_EDIT_WRAP, &CTrafficMonitorSkinEditor2Dlg::OnEditWrap)
     ON_COMMAND(ID_EDIT_FONT, &CTrafficMonitorSkinEditor2Dlg::OnEditFont)
     ON_WM_DESTROY()
@@ -351,7 +350,7 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
 {
     m_file_path.clear();
     m_skin.LoadFromString(std::wstring());
-    m_view->SetText(std::wstring());
+    m_view->SetTextW(std::wstring());
     m_view->EmptyUndoBuffer();
     m_view->SetLexerXml();
     m_skin_view->SetSkinFile(&m_skin);
@@ -361,7 +360,7 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
 void CTrafficMonitorSkinEditor2Dlg::OnFileSave()
 {
     std::wstring edit_str;
-    m_view->GetText(edit_str);
+    m_view->GetTextW(edit_str);
     std::ofstream file_stream{ m_file_path };
     if (!file_stream.fail())
     {
@@ -380,14 +379,6 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileSaveAs()
 {
 }
 
-void CTrafficMonitorSkinEditor2Dlg::OnImportLargeBackImage()
-{
-}
-
-void CTrafficMonitorSkinEditor2Dlg::OnImportSmallBackImage()
-{
-}
-
 
 BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
@@ -402,8 +393,16 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
             if ((notification->modificationType & marsk) != 0)
             {
                 std::wstring edit_str;
-                m_view->GetText(edit_str);
+                m_view->GetTextW(edit_str);
                 m_skin_view->UpdateSkin(edit_str.c_str());
+            }
+            //当删除了字符时
+            if (notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER)
+                || notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER | SC_STARTACTION))
+            {
+                CEditorHelper helper(m_view);
+                //显示自动完成列表
+                helper.AutoShowCompList();
             }
         }
         else if (notification->nmhdr.code == SCN_UPDATEUI)
@@ -419,6 +418,18 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
                 //标记匹配的html标记
                 XmlMatchedTagsHighlighter highter(m_view);
                 highter.tagMatch(false);
+            }
+        }
+        else if (notification->nmhdr.code == SCN_CHARADDED)
+        {
+            if (notification->characterSource == SC_CHARACTERSOURCE_DIRECT_INPUT)
+            {
+                char ch = static_cast<char>(notification->ch);
+                CEditorHelper helper(m_view);
+                //HTML标记自动完成
+                helper.HtmlMarkAutoComp(ch);
+                //显示自动完成列表
+                helper.AutoShowCompList();
             }
         }
     }
@@ -448,6 +459,8 @@ void CTrafficMonitorSkinEditor2Dlg::OnEditFont()
         m_view->SetFontFace(m_font_name.GetString());
         m_view->SetFontSize(m_font_size);
         UpdateLineNumberWidth(true);
+        //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
+        m_view->SetLexerXml();
     }
 }
 
