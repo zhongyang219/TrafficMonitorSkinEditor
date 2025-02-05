@@ -8,6 +8,10 @@
 #define IDD_TRAFFICMONITORSKINEDITOR2_DIALOG 102
 #define IDS_SKIN_FILE_FILTER            102
 #define IDS_DEFAULT_FONT                103
+#define IDS_SAVE_INQUERY_INFO           104
+#define IDS_SAVE_INQUERY_INFO2          105
+#define IDS_APP_NAME                    106
+#define IDS_NO_TITLE                    107
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       130
 #define IDC_HSPLITER_STATIC             1001

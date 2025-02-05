@@ -78,6 +78,9 @@
     <ClInclude Include="EditorHelper.h">
       <Filter>Editor\EditorHelper</Filter>
     </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitorSkinEditor2.cpp">

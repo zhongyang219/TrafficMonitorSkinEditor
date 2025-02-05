@@ -95,8 +95,11 @@ void DrawScrollView::SetSkinFile(CSkinFile* skin)
 
 void DrawScrollView::UpdateSkin(const wchar_t* xml_contents)
 {
-    m_skin->LoadFromString(xml_contents);
-    Invalidate();
+    if (m_skin != nullptr)
+    {
+        m_skin->LoadFromString(xml_contents);
+        Invalidate();
+    }
 }
 
 BOOL DrawScrollView::PreTranslateMessage(MSG* pMsg)

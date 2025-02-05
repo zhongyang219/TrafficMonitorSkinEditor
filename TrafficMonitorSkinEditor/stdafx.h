@@ -35,10 +35,7 @@
 
 #include <string>
 #include <afxwin.h>
-using std::string;
-using std::wstring;
 #include <vector>
-using std::vector;
 
 #include "resource.h"
 

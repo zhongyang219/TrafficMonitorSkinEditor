@@ -122,6 +122,35 @@ void CTrafficMonitorSkinEditor2Dlg::UpdateLineNumberWidth(bool update /*= false*
     last_line_number = line_number;
 }
 
+bool CTrafficMonitorSkinEditor2Dlg::SaveInquiry()
+{
+    if (m_view->IsModified())
+    {
+        ShowWindow(SW_SHOW);
+        SetActiveWindow();
+
+        CString text;
+        if (m_file_path.empty())
+            text = CCommon::LoadText(IDS_SAVE_INQUERY_INFO);
+        else
+            text = CCommon::LoadTextFormat(IDS_SAVE_INQUERY_INFO2, { m_file_path });
+
+        int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
+        switch (rtn)
+        {
+        case IDYES:
+            return _OnFileSave();
+        case IDNO:
+            m_view->SetSavePoint();
+            SetTitle();
+            break;
+        default:
+            return false;
+        }
+    }
+    return true;
+}
+
 void CTrafficMonitorSkinEditor2Dlg::LoadConfig()
 {
     m_window_size.cx = theApp.GetProfileInt(_T("window_size"), _T("_width"), -1);
@@ -142,6 +171,83 @@ void CTrafficMonitorSkinEditor2Dlg::SaveConfig()
     theApp.WriteProfileInt(L"config", L"font_size", m_font_size);
 }
 
+bool CTrafficMonitorSkinEditor2Dlg::SaveFile(const std::wstring& file_path)
+{
+    std::wstring edit_str;
+    m_view->GetTextW(edit_str);
+    std::ofstream file_stream{ file_path };
+    if (!file_stream.fail())
+    {
+        bool char_connot_convert;
+        std::string file_contents = CCommon::UnicodeToStr(edit_str.c_str(), char_connot_convert, CodeType::UTF8_NO_BOM);
+        file_stream << file_contents;
+
+        //保存后刷新预览图
+        m_skin.Load(file_path);
+        m_skin_view->SetSkinFile(&m_skin);
+        m_skin_view->Invalidate();
+        return true;
+    }
+    return false;
+}
+
+bool CTrafficMonitorSkinEditor2Dlg::_OnFileSave()
+{
+    if (m_view->IsModified())		//只有在已更改过之后才保存
+    {
+        //已经打开过一个文件时就直接保存，还没有打开一个文件就弹出“另存为”对话框
+        if (!m_file_path.empty())
+        {
+            if (SaveFile(m_file_path))
+                return true;
+            else
+                return _OnFileSaveAs();		//文件无法保存时弹出“另存为”对话框
+        }
+        else
+        {
+            return _OnFileSaveAs();
+        }
+    }
+    return false;
+}
+
+bool CTrafficMonitorSkinEditor2Dlg::_OnFileSaveAs()
+{
+    //设置过滤器
+    CString szFilter = CCommon::LoadText(IDS_SKIN_FILE_FILTER);
+    //构造保存文件对话框
+    CFileDialog fileDlg(FALSE, _T("xml"), _T("skin.xml"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    //显示保存文件对话框
+    if (IDOK == fileDlg.DoModal())
+    {
+        if (SaveFile(fileDlg.GetPathName().GetString()))
+        {
+            m_file_path = fileDlg.GetPathName().GetString();	//另存为后，当前文件名为保存的文件名
+            SetTitle();					//用新的文件名设置标题
+            return true;
+        }
+    }
+    return false;
+}
+
+void CTrafficMonitorSkinEditor2Dlg::SetTitle()
+{
+    CString str_title;
+    if (m_view->IsModified())
+        str_title += _T('*');
+    if (!m_file_path.empty())
+        str_title += m_file_path.c_str();
+    else
+        str_title += CCommon::LoadText(IDS_NO_TITLE);
+    str_title += _T(" - ");
+    str_title += CCommon::LoadText(IDS_APP_NAME);
+
+#ifdef _DEBUG
+    str_title += _T(" (Debug)");
+#endif
+    SetWindowText(str_title);
+}
+
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_WM_SYSCOMMAND()
     ON_WM_PAINT()
@@ -155,6 +261,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_COMMAND(ID_EDIT_FONT, &CTrafficMonitorSkinEditor2Dlg::OnEditFont)
     ON_WM_DESTROY()
     ON_WM_INITMENU()
+    ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -226,11 +333,15 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnInitDialog()
     //设置制表符宽度
     m_view->SetTabSize(4);
 
+    SetTitle();
+
     //初始化分隔条
     CRect splitter_rect = CalculateSplitterRect(client_rect.Width(), client_rect.Height());
     m_splitter_ctrl.MoveWindow(splitter_rect);
     m_splitter_ctrl.AttachCtrlAsLeftPane(m_view);
     m_splitter_ctrl.AttachCtrlAsRightPane(m_skin_view);
+
+    m_text_change_thread = AfxBeginThread(TextChangeThreadCallback, nullptr);
 
     return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -294,6 +405,28 @@ HCURSOR CTrafficMonitorSkinEditor2Dlg::OnQueryDragIcon()
 //    }
 //}
 
+UINT CTrafficMonitorSkinEditor2Dlg::TextChangeThreadCallback(LPVOID dwUser)
+{
+    CTrafficMonitorSkinEditor2Dlg* pThis = dynamic_cast<CTrafficMonitorSkinEditor2Dlg*>(theApp.m_pMainWnd);
+    while (true)
+    {
+        if (pThis->m_text_changed_thread_exit)
+            break;
+
+        //响应编辑器文本变化
+        if (pThis->m_text_changed)
+        {
+            std::wstring edit_str;
+            pThis->m_view->GetTextW(edit_str);
+            pThis->m_skin_view->UpdateSkin(edit_str.c_str());
+            pThis->SetTitle();
+            pThis->m_text_changed = false;
+        }
+        Sleep(100);
+    }
+    return 0;
+}
+
 void CTrafficMonitorSkinEditor2Dlg::OnSize(UINT nType, int cx, int cy)
 {
     CDialog::OnSize(nType, cx, cy);
@@ -338,16 +471,24 @@ void CTrafficMonitorSkinEditor2Dlg::OnSize(UINT nType, int cx, int cy)
 
 void CTrafficMonitorSkinEditor2Dlg::OnFileOpen()
 {
+    //打开新文件前询问用户是否保存
+    if (!SaveInquiry())
+        return;
     CFileDialog dlg(TRUE, _T("xml"), _T("skin.xml"), 0, CCommon::LoadText(IDS_SKIN_FILE_FILTER), this);
     if (dlg.DoModal() == IDOK)
     {
         m_file_path = dlg.GetPathName();
         LoadSkin();
+        SetTitle();     //设置窗口标题
     }
 }
 
 void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
 {
+    //询问是否保存
+    if (!SaveInquiry())
+        return;
+
     m_file_path.clear();
     m_skin.LoadFromString(std::wstring());
     m_view->SetTextW(std::wstring());
@@ -355,28 +496,18 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
     m_view->SetLexerXml();
     m_skin_view->SetSkinFile(&m_skin);
     m_skin_view->Invalidate();
+
+    SetTitle();
 }
 
 void CTrafficMonitorSkinEditor2Dlg::OnFileSave()
 {
-    std::wstring edit_str;
-    m_view->GetTextW(edit_str);
-    std::ofstream file_stream{ m_file_path };
-    if (!file_stream.fail())
-    {
-        bool char_connot_convert;
-        std::string file_contents = CCommon::UnicodeToStr(edit_str.c_str(), char_connot_convert, CodeType::UTF8_NO_BOM);
-        file_stream << file_contents;
-
-        //保存后刷新预览图
-        m_skin.Load(m_file_path);
-        m_skin_view->SetSkinFile(&m_skin);
-        m_skin_view->Invalidate();
-    }
+    _OnFileSave();
 }
 
 void CTrafficMonitorSkinEditor2Dlg::OnFileSaveAs()
 {
+    _OnFileSaveAs();
 }
 
 
@@ -392,9 +523,7 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESU
             UINT marsk = (SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO);
             if ((notification->modificationType & marsk) != 0)
             {
-                std::wstring edit_str;
-                m_view->GetTextW(edit_str);
-                m_skin_view->UpdateSkin(edit_str.c_str());
+                m_text_changed = true;
             }
             //当删除了字符时
             if (notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER)
@@ -471,6 +600,10 @@ void CTrafficMonitorSkinEditor2Dlg::OnDestroy()
 
     // TODO: 在此处添加消息处理程序代码
     SaveConfig();
+
+    m_text_changed_thread_exit = true;
+    if (m_text_change_thread != nullptr)
+        WaitForSingleObject(m_text_change_thread->m_hThread, 2000);   //等待线程退出
 }
 
 
@@ -479,4 +612,14 @@ void CTrafficMonitorSkinEditor2Dlg::OnInitMenu(CMenu* pMenu)
     CDialog::OnInitMenu(pMenu);
 
     pMenu->CheckMenuItem(ID_EDIT_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnClose()
+{
+    //询问是否保存
+    if (!SaveInquiry())
+        return;
+
+    CDialog::OnClose();
 }

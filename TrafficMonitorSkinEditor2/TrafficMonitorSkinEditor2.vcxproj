@@ -199,6 +199,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="define.h" />
     <ClInclude Include="DrawScrollView.h" />
     <ClInclude Include="EditorHelper.h" />
     <ClInclude Include="framework.h" />

@@ -28,10 +28,17 @@ protected:
     void LoadSkin();
     //数据当前行号的位数自动设置行号的宽度
     void UpdateLineNumberWidth(bool update = false);
+    bool SaveInquiry();	//询问用户是否保存，用户点击了取消后返回false，否则返回true
+
 
 private:
     void LoadConfig();
     void SaveConfig();
+
+    bool SaveFile(const std::wstring& file_path);
+    bool _OnFileSave();		//如果已经执行了保存操作，则返回true，否则返回false
+    bool _OnFileSaveAs();	//
+    void SetTitle();				//设置窗口标题
 
     // 实现
 protected:
@@ -48,6 +55,10 @@ protected:
 
     CHorizontalSplitter m_splitter_ctrl;    //分隔条
 
+    bool m_text_changed{ false };           //如果已收到文本更改消息，则为true
+    bool m_text_changed_thread_exit{ false };   //如果为true，则退出响应文本改变的线程
+    CWinThread* m_text_change_thread{};         //响应文本改变的线程
+
 protected:
     // 生成的消息映射函数
     virtual BOOL OnInitDialog();
@@ -57,7 +68,9 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    void AdjustUI(int cx, int cy);
+    //void AdjustUI(int cx, int cy);
+    static UINT TextChangeThreadCallback(LPVOID dwUser);
+
 public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnFileOpen();
@@ -69,4 +82,5 @@ public:
     afx_msg void OnEditFont();
     afx_msg void OnDestroy();
     afx_msg void OnInitMenu(CMenu* pMenu);
+    afx_msg void OnClose();
 };
