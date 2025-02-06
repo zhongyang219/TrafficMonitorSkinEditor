@@ -194,6 +194,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
     ON_WM_INITMENU()
     ON_MESSAGE(WM_SPIN_EDIT_POS_CHANGED, &CTrafficMonitorSkinEditorDlg::OnSpinEditPosChanged)
     ON_WM_SIZE()
+    ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 
@@ -684,7 +685,16 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
     SetIcon(m_hIcon, FALSE);        // 设置小图标
 
     // TODO:  在此添加额外的初始化代码
-    theApp.GetDPI(this);
+    theApp.DPIFromWindow(this);
+
+    //获取初始时窗口的大小
+    if (m_min_size.cx <= 0 || m_min_size.cy <= 0)
+    {
+        CRect rect;
+        GetWindowRect(rect);
+        m_min_size.cx = rect.Width() * 96 / theApp.GetDpi();
+        m_min_size.cy = rect.Height() * 96 / theApp.GetDpi();
+    }
 
     //m_text_color_static.SetFillColor(RGB(255, 192, 0));
     m_text_color_static.SetLinkCursor(true);
@@ -1636,4 +1646,14 @@ void CTrafficMonitorSkinEditorDlg::OnSize(UINT nType, int cx, int cy)
         }
 
     }
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+    //限制窗口最小大小
+    lpMMI->ptMinTrackSize.x = theApp.DPI(m_min_size.cx);		//设置最小宽度
+    lpMMI->ptMinTrackSize.y = theApp.DPI(m_min_size.cy);		//设置最小高度
+
+    CDialog::OnGetMinMaxInfo(lpMMI);
 }

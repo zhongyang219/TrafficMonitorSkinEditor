@@ -40,6 +40,7 @@ protected:
 
     bool m_modified{ false };
     bool m_spin_clicked{ false };
+    CSize m_min_size{};     //窗口的最小大小
 
     //控件变量
     CColorStatic m_text_color_static;
@@ -178,4 +179,5 @@ protected:
     afx_msg LRESULT OnSpinEditPosChanged(WPARAM wParam, LPARAM lParam);
 public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 };

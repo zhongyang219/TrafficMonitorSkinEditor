@@ -43,7 +43,7 @@ void CTrafficMonitorSkinEditorApp::DPI(CRect& rect)
     rect.bottom = DPI(rect.bottom);
 }
 
-void CTrafficMonitorSkinEditorApp::GetDPI(CWnd* pWnd)
+void CTrafficMonitorSkinEditorApp::DPIFromWindow(CWnd* pWnd)
 {
     CWindowDC dc(pWnd);
     HDC hDC = dc.GetSafeHdc();

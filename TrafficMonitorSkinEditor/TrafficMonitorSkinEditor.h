@@ -23,7 +23,8 @@ public:
 
     int DPI(int pixel);
     void DPI(CRect& rect);
-    void GetDPI(CWnd* pWnd);
+    void DPIFromWindow(CWnd* pWnd);
+    int GetDpi() const { return m_dpi; }
 
     void SaveConfig();
 
