@@ -93,6 +93,7 @@ protected:
     void SetFontText();     //设置字体编辑框中的文本
     void SetViewFont();     //设置预览图中的字体
     void SetTextColorPreview();     //设置文本颜色控件中的预览颜色
+    CRect CalculateScrollViewRect();
 
     //设置控件的启用和禁用
     void EnableTextControl(bool enable);
@@ -154,7 +155,6 @@ public:
     afx_msg void OnBnClickedCnoDownloadHeck();
     afx_msg void OnBnClickedNoCpuCheck();
     afx_msg void OnBnClickedNoMemoryCheck();
-    afx_msg void OnDeltaposSpin(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnFileNew();
     afx_msg void OnFileSave();
     afx_msg void OnFileSaveAs();
@@ -174,4 +174,8 @@ public:
     afx_msg void OnLanguageEnglish();
     afx_msg void OnLanguageSimplifiedChinese();
     afx_msg void OnInitMenu(CMenu* pMenu);
+protected:
+    afx_msg LRESULT OnSpinEditPosChanged(WPARAM wParam, LPARAM lParam);
+public:
+    afx_msg void OnSize(UINT nType, int cx, int cy);
 };

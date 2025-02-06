@@ -173,7 +173,6 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
     ON_BN_CLICKED(IDC_CNO_DOWNLOAD_HECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedCnoDownloadHeck)
     ON_BN_CLICKED(IDC_NO_CPU_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoCpuCheck)
     ON_BN_CLICKED(IDC_NO_MEMORY_CHECK, &CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck)
-    ON_NOTIFY(UDN_DELTAPOS, SPIN_ID, &CTrafficMonitorSkinEditorDlg::OnDeltaposSpin)     //响应所有文本编辑控件微调按钮的点击事件（每个微调按钮的ID都一样）
     ON_COMMAND(ID_FILE_NEW, &CTrafficMonitorSkinEditorDlg::OnFileNew)
     ON_COMMAND(ID_FILE_SAVE, &CTrafficMonitorSkinEditorDlg::OnFileSave)
     ON_COMMAND(ID_FILE_SAVE_AS, &CTrafficMonitorSkinEditorDlg::OnFileSaveAs)
@@ -193,6 +192,8 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditorDlg, CDialog)
     ON_COMMAND(ID_LANGUAGE_ENGLISH, &CTrafficMonitorSkinEditorDlg::OnLanguageEnglish)
     ON_COMMAND(ID_LANGUAGE_SIMPLIFIED_CHINESE, &CTrafficMonitorSkinEditorDlg::OnLanguageSimplifiedChinese)
     ON_WM_INITMENU()
+    ON_MESSAGE(WM_SPIN_EDIT_POS_CHANGED, &CTrafficMonitorSkinEditorDlg::OnSpinEditPosChanged)
+    ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -400,6 +401,19 @@ void CTrafficMonitorSkinEditorDlg::SetTextColorPreview()
     {
         m_text_color_static.SetFillColor(m_skin_data.text_colors[0]);
     }
+}
+
+CRect CTrafficMonitorSkinEditorDlg::CalculateScrollViewRect()
+{
+    CRect rect;
+    GetDlgItem(IDC_PREVIEW_GROUP_STATIC)->GetWindowRect(rect);      //获取“预览” group box 的位置
+    ScreenToClient(&rect);
+    CRect scroll_view_rect{ rect };
+    scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(25));   //预览视图两侧距“预览”group box 12个像素，底部25个像素
+    GetDlgItem(IDC_PREVIEW_X_L_EDIT)->GetWindowRect(rect);      //获取“大窗口位置”中“X” Edit box的位置
+    ScreenToClient(&rect);
+    scroll_view_rect.top = rect.bottom + theApp.DPI(8);         //预览视图顶部距Edit box底部8个像素
+    return scroll_view_rect;
 }
 
 void CTrafficMonitorSkinEditorDlg::EnableTextControl(bool enable)
@@ -677,15 +691,7 @@ BOOL CTrafficMonitorSkinEditorDlg::OnInitDialog()
 
     //初始化预览视图
     m_view = (CDrawScrollView*)RUNTIME_CLASS(CDrawScrollView)->CreateObject();
-    CRect rect;
-    GetDlgItem(IDC_PREVIEW_GROUP_STATIC)->GetWindowRect(rect);      //获取“预览” group box 的位置
-    ScreenToClient(&rect);
-    CRect scroll_view_rect{ rect };
-    scroll_view_rect.DeflateRect(theApp.DPI(12), theApp.DPI(25));   //预览视图两侧距“预览”group box 12个像素，底部25个像素
-    GetDlgItem(IDC_PREVIEW_X_L_EDIT)->GetWindowRect(rect);      //获取“大窗口位置”中“X” Edit box的位置
-    ScreenToClient(&rect);
-    scroll_view_rect.top = rect.bottom + theApp.DPI(8);         //预览视图顶部距Edit box底部8个像素
-    m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
+    m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, CalculateScrollViewRect(), this, 3000);
     m_view->InitialUpdate();
     m_view->SetSkinData(&m_skin_data);
     m_view->SetShowItemOutline(&m_show_item_outline);
@@ -1389,15 +1395,6 @@ void CTrafficMonitorSkinEditorDlg::OnBnClickedNoMemoryCheck()
     Modified();
 }
 
-void CTrafficMonitorSkinEditorDlg::OnDeltaposSpin(NMHDR* pNMHDR, LRESULT* pResult)
-{
-    //CSpinButtonCtrl* pSpin = (CSpinButtonCtrl*)CWnd::FromHandle(pNMHDR->hwndFrom);
-    //CEdit* pEdit = (CEdit*)(pSpin->GetBuddy());
-    //pEdit->SetModify();
-    m_spin_clicked = true;
-    *pResult = 0;
-}
-
 
 void CTrafficMonitorSkinEditorDlg::OnFileNew()
 {
@@ -1616,4 +1613,27 @@ void CTrafficMonitorSkinEditorDlg::OnInitMenu(CMenu* pMenu)
 
 
     // TODO: 在此处添加消息处理程序代码
+}
+
+
+afx_msg LRESULT CTrafficMonitorSkinEditorDlg::OnSpinEditPosChanged(WPARAM wParam, LPARAM lParam)
+{
+    m_spin_clicked = true;
+    return 0;
+}
+
+
+void CTrafficMonitorSkinEditorDlg::OnSize(UINT nType, int cx, int cy)
+{
+    CDialog::OnSize(nType, cx, cy);
+
+    if (nType != SIZE_MINIMIZED)
+    {
+        if (m_view != nullptr && IsWindow(m_view->GetSafeHwnd()))
+        {
+            CRect scroll_view_rect = CalculateScrollViewRect();
+            m_view->SetWindowPos(nullptr, 0, 0, scroll_view_rect.Width(), scroll_view_rect.Height(), SWP_NOMOVE | SWP_NOZORDER);
+        }
+
+    }
 }
