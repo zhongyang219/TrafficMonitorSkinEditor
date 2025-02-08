@@ -145,7 +145,7 @@ void CSkinFile::LoadFromString(const std::wstring& file_contents)
     m_skin_info = SkinInfo();
     m_layout_info = LayoutInfo();
     m_preview_info = PreviewInfo();
-    std::map<std::string, std::wstring> display_text_map;  //显示项目的文本和xml节点的映射关系。key是xml节点，value是显示文本
+    m_plugin_map.clear();
 
     tinyxml2::XMLDocument doc;
     if (CTinyXml2Helper::LoadXml(doc, file_contents.c_str()))

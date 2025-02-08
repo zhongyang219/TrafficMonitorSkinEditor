@@ -41,6 +41,7 @@ private:
     DECLARE_MESSAGE_MAP()
 public:
     virtual int ExitInstance();
+    afx_msg void OnAppAbout();
 };
 
 extern CTrafficMonitorSkinEditor2App theApp;

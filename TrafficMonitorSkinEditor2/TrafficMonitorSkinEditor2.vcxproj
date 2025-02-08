@@ -199,6 +199,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="DrawScrollView.h" />
     <ClInclude Include="EditorHelper.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="DrawScrollView.cpp" />
     <ClCompile Include="EditorHelper.cpp" />
     <ClCompile Include="pch.cpp">

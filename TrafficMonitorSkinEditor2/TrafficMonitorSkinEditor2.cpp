@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "TrafficMonitorSkinEditor2.h"
 #include "TrafficMonitorSkinEditor2Dlg.h"
+#include "AboutDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -16,6 +17,7 @@
 
 BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2App, CWinApp)
     ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+    ON_COMMAND(ID_APP_ABOUT, &CTrafficMonitorSkinEditor2App::OnAppAbout)
 END_MESSAGE_MAP()
 
 
@@ -129,4 +131,11 @@ int CTrafficMonitorSkinEditor2App::ExitInstance()
     Gdiplus::GdiplusShutdown(m_gdiplusToken);
 
     return CWinApp::ExitInstance();
+}
+
+
+void CTrafficMonitorSkinEditor2App::OnAppAbout()
+{
+    CAboutDlg dlg;
+    dlg.DoModal();
 }
