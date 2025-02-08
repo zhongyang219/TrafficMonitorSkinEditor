@@ -1,4 +1,4 @@
-// DrawScrollView.cpp : ÊµÏÖÎÄ¼ş
+ï»¿// DrawScrollView.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -28,13 +28,13 @@ BEGIN_MESSAGE_MAP(CDrawScrollView, CScrollView)
 END_MESSAGE_MAP()
 
 
-// DrawScrollView »æÍ¼
+// DrawScrollView ç»˜å›¾
 
 void CDrawScrollView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
-	// TODO: ¼ÆËã´ËÊÓÍ¼µÄºÏ¼Æ´óĞ¡
+	// TODO: è®¡ç®—æ­¤è§†å›¾çš„åˆè®¡å¤§å°
 	m_size.cx = 0;	
 	m_size.cy = 0;	
 	SetScrollSizes(MM_TEXT, m_size);
@@ -43,20 +43,49 @@ void CDrawScrollView::OnInitialUpdate()
 void CDrawScrollView::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
-	// TODO: ÔÚ´ËÌí¼Ó»æÖÆ´úÂë
+    CDrawCommon draw;
+    draw.Create(pDC, nullptr);
+    draw.SetFont(m_font);
+    CRect draw_rect(CPoint(0, 0), m_size);
 
-	CDrawCommon draw;
-	draw.Create(pDC, nullptr);
-	draw.SetFont(m_font);
-	CRect draw_rect(CPoint(0, 0), m_size);
-	draw.SetDrawRect(draw_rect);
-	draw.FillRect(draw_rect, RGB(255, 255, 255));
-	//»æÖÆ±³¾°
+    //å¦‚æœçš®è‚¤æ˜¯pngæ ¼å¼ï¼Œç»˜åˆ¶10x10çš„æ£‹ç›˜èƒŒæ™¯
+    if (m_is_png)
+    {
+        int grid_size = theApp.DPI(10);
+
+        // æ£€æŸ¥ç”»å¸ƒå¤§å°
+        int rows = draw_rect.Height() / grid_size + 1;  // è¡Œæ•°
+        int cols = draw_rect.Width() / grid_size + 1;  // åˆ—æ•°
+
+        // éå†æ¯ä¸ªç½‘æ ¼
+        for (int row = 0; row < rows; ++row)
+        {
+            for (int col = 0; col < cols; ++col)
+            {
+                // è®¡ç®—å½“å‰ç½‘æ ¼çš„çŸ©å½¢åŒºåŸŸ
+                CRect rect(col * grid_size, row * grid_size,
+                    (col + 1) * grid_size, (row + 1) * grid_size);
+
+                // åˆ¤æ–­å½“å‰ç½‘æ ¼é¢œè‰²ï¼ˆäº¤æ›¿å¡«å……ï¼‰
+                COLORREF color = ((row + col) % 2 == 0) ? RGB(204, 204, 204) : RGB(254, 254, 254);
+
+                // å¡«å……çŸ©å½¢
+                draw.FillRect(rect, color);
+            }
+        }
+    }
+    //ç»˜åˆ¶çº¯è‰²èƒŒæ™¯
+    else
+    {
+        draw.FillRect(draw_rect, GetSysColor(COLOR_WINDOW));
+    }
+
+	//ç»˜åˆ¶èƒŒæ™¯å›¾
 	CRect rect_s(CPoint(theApp.DPI(m_skin_data->preview_x_s), theApp.DPI(m_skin_data->preview_y_s)),
 		CSize(theApp.DPI(m_skin_data->width_s), theApp.DPI(m_skin_data->height_s)));
 	CRect rect_l(CPoint(theApp.DPI(m_skin_data->preview_x_l), theApp.DPI(m_skin_data->preview_y_l)),
 		CSize(theApp.DPI(m_skin_data->width_l), theApp.DPI(m_skin_data->height_l)));
-    if (m_is_png)    //png±³¾°Ê¹ÓÃGDI+»æÖÆ
+    if (m_is_png)    //pngèƒŒæ™¯ä½¿ç”¨GDI+ç»˜åˆ¶
     {
         CDrawCommonEx gdiplus_drawer(pDC);
         gdiplus_drawer.DrawImage(m_background_png_s, rect_s.TopLeft(), rect_s.Size(), CDrawCommon::StretchMode::STRETCH);
@@ -73,7 +102,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
         draw.DrawBitmap(m_background_l, rect_l.TopLeft(), rect_l.Size());
     }
 
-	//»æÖÆÎÄ±¾
+	//ç»˜åˆ¶æ–‡æœ¬
 	CString up_str;
 	CString down_str;
 	CString cpu_str;
@@ -95,8 +124,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 			text_colors[i] = m_skin_data->text_colors[0];
 	}
 	CPoint point;
-	//»æÖÆĞ¡Ô¤ÀÀÍ¼ÎÄ±¾
-	//»æÖÆ¡°ÉÏ´«¡±ÎÄ±¾
+	//ç»˜åˆ¶å°é¢„è§ˆå›¾æ–‡æœ¬
+	//ç»˜åˆ¶â€œä¸Šä¼ â€æ–‡æœ¬
 	if (m_skin_data->show_up_s)
 	{
 		point.SetPoint(m_skin_data->up_x_s, m_skin_data->up_y_s);
@@ -107,7 +136,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//»æÖÆ¡°ÏÂÔØ¡±ÎÄ±¾
+	//ç»˜åˆ¶â€œä¸‹è½½â€æ–‡æœ¬
 	if (m_skin_data->show_down_s)
 	{
 		point.SetPoint(m_skin_data->down_x_s, m_skin_data->down_y_s);
@@ -118,7 +147,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//»æÖÆ¡°CPU¡±ÎÄ±¾
+	//ç»˜åˆ¶â€œCPUâ€æ–‡æœ¬
 	if (m_skin_data->show_cpu_s)
 	{
 		point.SetPoint(m_skin_data->cpu_x_s, m_skin_data->cpu_y_s);
@@ -129,7 +158,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//»æÖÆ¡°ÄÚ´æ¡±ÎÄ±¾
+	//ç»˜åˆ¶â€œå†…å­˜â€æ–‡æœ¬
 	if (m_skin_data->show_memory_s)
 	{
 		point.SetPoint(m_skin_data->memory_x_s, m_skin_data->memory_y_s);
@@ -141,8 +170,8 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
 
-	//»æÖÆ´óÔ¤ÀÀÍ¼ÎÄ±¾
-	//»æÖÆ¡°ÉÏ´«¡±ÎÄ±¾
+	//ç»˜åˆ¶å¤§é¢„è§ˆå›¾æ–‡æœ¬
+	//ç»˜åˆ¶â€œä¸Šä¼ â€æ–‡æœ¬
 	if (m_skin_data->show_up_l)
 	{
 		point.SetPoint(m_skin_data->up_x_l, m_skin_data->up_y_l);
@@ -153,7 +182,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//»æÖÆ¡°ÏÂÔØ¡±ÎÄ±¾
+	//ç»˜åˆ¶â€œä¸‹è½½â€æ–‡æœ¬
 	if (m_skin_data->show_down_l)
 	{
 		point.SetPoint(m_skin_data->down_x_l, m_skin_data->down_y_l);
@@ -164,7 +193,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//»æÖÆ¡°CPU¡±ÎÄ±¾
+	//ç»˜åˆ¶â€œCPUâ€æ–‡æœ¬
 	if (m_skin_data->show_cpu_l)
 	{
 		point.SetPoint(m_skin_data->cpu_x_l, m_skin_data->cpu_y_l);
@@ -175,7 +204,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 		if (*m_show_item_outline)
 			draw.DrawRectOutLine(rect, m_outline_color, true);
 	}
-	//»æÖÆ¡°ÄÚ´æ¡±ÎÄ±¾
+	//ç»˜åˆ¶â€œå†…å­˜â€æ–‡æœ¬
 	if (m_skin_data->show_memory_l)
 	{
 		point.SetPoint(m_skin_data->memory_x_l, m_skin_data->memory_y_l);
@@ -189,7 +218,7 @@ void CDrawScrollView::OnDraw(CDC* pDC)
 }
 
 
-// DrawScrollView Õï¶Ï
+// DrawScrollView è¯Šæ–­
 #ifdef _DEBUG
 void CDrawScrollView::AssertValid() const
 {
@@ -222,9 +251,9 @@ void CDrawScrollView::LoadBackgroundImage(const std::wstring& path)
     SAFE_DELETE(m_background_png_s);
     SAFE_DELETE(m_background_png_l);
 
-    //ÔØÈëpng±³¾°Í¼
+    //è½½å…¥pngèƒŒæ™¯å›¾
     m_is_png = true;
-    //ÏÈ³¢ÊÔ¼ÓÔØpng¸ñÊ½£¬Ê§°ÜÔò¼ÓÔØbmp¸ñÊ½
+    //å…ˆå°è¯•åŠ è½½pngæ ¼å¼ï¼Œå¤±è´¥åˆ™åŠ è½½bmpæ ¼å¼
     SAFE_DELETE(m_background_png_s);
     m_background_png_s = new Gdiplus::Image((path + BACKGROUND_IMAGE_S_PNG).c_str());
     if (m_background_png_s->GetLastStatus() != Gdiplus::Ok)
@@ -238,7 +267,7 @@ void CDrawScrollView::LoadBackgroundImage(const std::wstring& path)
         m_is_png = false;
     }
 
-    //png±³¾°Í¼¼ÓÔØÊ§°Ü£¬Ê¹ÓÃbmp±³¾°Í¼
+    //pngèƒŒæ™¯å›¾åŠ è½½å¤±è´¥ï¼Œä½¿ç”¨bmpèƒŒæ™¯å›¾
     if (!m_is_png)
     {
         m_background_s.Destroy();
@@ -252,7 +281,7 @@ void CDrawScrollView::LoadBackgroundImage(const std::wstring& path)
 
 BOOL CDrawScrollView::OnEraseBkgnd(CDC* pDC)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	CRect rect;
 	CBrush brush;
 	brush.CreateSolidBrush(RGB(235,235,235));
