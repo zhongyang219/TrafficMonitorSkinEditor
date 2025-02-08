@@ -26,13 +26,15 @@
 #define ID_32775                        32775
 #define ID_EDIT_WRAP                    32776
 #define ID_EDIT_FONT                    32777
+#define ID_FILE_RELOAD                  32783
+#define ID_FILE_BROWSE                  32785
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        133
-#define _APS_NEXT_COMMAND_VALUE         32783
+#define _APS_NEXT_COMMAND_VALUE         32788
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

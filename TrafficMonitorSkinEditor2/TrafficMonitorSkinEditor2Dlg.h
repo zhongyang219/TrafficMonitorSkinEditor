@@ -85,4 +85,6 @@ public:
     afx_msg void OnInitMenu(CMenu* pMenu);
     afx_msg void OnClose();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
+    afx_msg void OnFileReload();
+    afx_msg void OnFileBrowse();
 };

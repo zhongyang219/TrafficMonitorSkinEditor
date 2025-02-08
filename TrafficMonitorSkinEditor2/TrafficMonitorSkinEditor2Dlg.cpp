@@ -235,6 +235,8 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_WM_DESTROY()
     ON_WM_INITMENU()
     ON_WM_CLOSE()
+    ON_COMMAND(ID_FILE_RELOAD, &CTrafficMonitorSkinEditor2Dlg::OnFileReload)
+    ON_COMMAND(ID_FILE_BROWSE, &CTrafficMonitorSkinEditor2Dlg::OnFileBrowse)
 END_MESSAGE_MAP()
 
 
@@ -585,6 +587,9 @@ void CTrafficMonitorSkinEditor2Dlg::OnInitMenu(CMenu* pMenu)
 {
     CDialog::OnInitMenu(pMenu);
 
+    pMenu->EnableMenuItem(ID_FILE_BROWSE, m_file_path.empty() ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_FILE_RELOAD, m_file_path.empty() ? MF_GRAYED : MF_ENABLED);
+
     pMenu->CheckMenuItem(ID_EDIT_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 }
 
@@ -609,4 +614,25 @@ BOOL CTrafficMonitorSkinEditor2Dlg::PreTranslateMessage(MSG* pMsg)
     }
 
     return CDialog::PreTranslateMessage(pMsg);
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnFileReload()
+{
+    if (!m_file_path.empty())
+    {
+        if (SaveInquiry())
+        {
+            CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+            LoadSkin();
+        }
+    }
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnFileBrowse()
+{
+    CString str;
+    str.Format(_T("/select,\"%s\""), m_file_path.c_str());
+    ShellExecute(NULL, _T("open"), _T("explorer"), str, NULL, SW_SHOWNORMAL);
 }
