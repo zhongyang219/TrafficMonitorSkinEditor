@@ -504,6 +504,7 @@ void CSkinFile::DrawPreview(CDC* pDC, CRect rect)
         //绘制插件项目
         for (const auto& item : m_plugin_map)
         {
+            std::wstring plugin_node_name = CCommon::StrToUnicode(item.first.c_str(), true);
             std::wstring plugin_id = CCommon::StrToUnicode(item.second.c_str(), true);
             CommonDisplayItem plugin_item(plugin_id);
             LayoutItem layout_item = layout.GetItem(plugin_item);
@@ -524,7 +525,7 @@ void CSkinFile::DrawPreview(CDC* pDC, CRect rect)
                 //绘制文本
                 DrawStr draw_str;
                 draw_str.label = m_skin_info.display_text.Get(plugin_item).c_str();
-                draw_str.value = plugin_id.c_str();
+                draw_str.value = plugin_node_name.c_str();
                 DrawSkinText(draw, draw_str, rect, cl, layout_item.align);
             }
         }
