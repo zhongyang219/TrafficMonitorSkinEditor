@@ -187,10 +187,10 @@ bool CTrafficMonitorSkinEditor2Dlg::SaveFile(const std::wstring& file_path)
         m_view->SetSavePoint();
         SetTitle();
 
-        //保存后刷新预览图
-        m_skin.Load(file_path);
-        m_skin_view->SetSkinFile(&m_skin);
-        m_skin_view->Invalidate();
+        ////保存后刷新预览图
+        //m_skin.Load(file_path);
+        //m_skin_view->SetSkinFile(&m_skin);
+        //m_skin_view->Invalidate();
         return true;
     }
     return false;
