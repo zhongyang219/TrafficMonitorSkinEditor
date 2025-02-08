@@ -178,7 +178,7 @@ bool CTrafficMonitorSkinEditor2Dlg::SaveFile(const std::wstring& file_path)
 {
     std::wstring edit_str;
     m_view->GetTextW(edit_str);
-    std::ofstream file_stream{ file_path };
+    std::ofstream file_stream{ file_path, std::ios::binary };
     if (!file_stream.fail())
     {
         bool char_connot_convert;
