@@ -102,6 +102,9 @@ void CTrafficMonitorSkinEditor2Dlg::LoadSkin()
     std::wstring file_contents = CCommon::StrToUnicode(file_contents_raw.c_str(), CodeType::UTF8_NO_BOM);
     m_view->SetTextW(file_contents);
     m_view->EmptyUndoBuffer();
+    CScintillaEditView::eEolMode eol_mode = CScintillaEditView::JudgeEolMode(file_contents);
+    m_view->SetEolMode(eol_mode);
+
     m_view->SetLexerXml();
     m_skin_view->SetSkinFile(&m_skin);
     m_skin_view->Invalidate();
@@ -181,6 +184,8 @@ bool CTrafficMonitorSkinEditor2Dlg::SaveFile(const std::wstring& file_path)
         bool char_connot_convert;
         std::string file_contents = CCommon::UnicodeToStr(edit_str.c_str(), char_connot_convert, CodeType::UTF8_NO_BOM);
         file_stream << file_contents;
+        m_view->SetSavePoint();
+        SetTitle();
 
         //保存后刷新预览图
         m_skin.Load(file_path);
@@ -299,6 +304,7 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnInitDialog()
     // TODO: 在此添加额外的初始化代码
     theApp.DPIFromWindow(this);
 
+    m_hAccel = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_ACCELERATOR1));
     LoadConfig();
 
     //初始化窗口大小
@@ -622,4 +628,17 @@ void CTrafficMonitorSkinEditor2Dlg::OnClose()
         return;
 
     CDialog::OnClose();
+}
+
+
+BOOL CTrafficMonitorSkinEditor2Dlg::PreTranslateMessage(MSG* pMsg)
+{
+    if (WM_KEYFIRST <= pMsg->message && pMsg->message <= WM_KEYLAST)
+    {
+        //响应Accelerator中设置的快捷键
+        if (m_hAccel && ::TranslateAccelerator(m_hWnd, m_hAccel, pMsg))
+            return TRUE;
+    }
+
+    return CDialog::PreTranslateMessage(pMsg);
 }

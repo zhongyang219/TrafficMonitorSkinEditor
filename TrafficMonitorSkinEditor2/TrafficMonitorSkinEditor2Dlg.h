@@ -43,6 +43,7 @@ private:
     // 实现
 protected:
     HICON m_hIcon;
+    HACCEL m_hAccel;
     DrawScrollView* m_skin_view{};
     std::wstring m_file_path;
     CSkinFile m_skin;
@@ -83,4 +84,5 @@ public:
     afx_msg void OnDestroy();
     afx_msg void OnInitMenu(CMenu* pMenu);
     afx_msg void OnClose();
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

@@ -14,6 +14,7 @@
 #define IDS_NO_TITLE                    107
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       130
+#define IDR_ACCELERATOR1                131
 #define IDC_HSPLITER_STATIC             1001
 #define ID_FILE_TXT_RESOURCE_SAVE_AS    32771
 #define ID_IMPORT_SMALL_BACK_IMAGE      32772
@@ -27,8 +28,8 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        131
-#define _APS_NEXT_COMMAND_VALUE         32778
+#define _APS_NEXT_RESOURCE_VALUE        132
+#define _APS_NEXT_COMMAND_VALUE         32783
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
