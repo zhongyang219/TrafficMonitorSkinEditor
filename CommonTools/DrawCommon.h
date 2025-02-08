@@ -34,6 +34,8 @@ public:
 
     void FillRect(CRect rect, COLORREF color);
 
+    int GetTextWidth(LPCTSTR lpszString);
+
 private:
     CDC* m_pDC{};       //用于绘图的CDC类的指针
     CWnd* m_pMainWnd{}; //绘图窗口的句柄

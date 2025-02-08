@@ -35,7 +35,12 @@ protected:
     int m_dpi{ 96 };
     HMODULE m_hScintillaModule{};
 
+private:
+    ULONG_PTR m_gdiplusToken{};
+
     DECLARE_MESSAGE_MAP()
+public:
+    virtual int ExitInstance();
 };
 
 extern CTrafficMonitorSkinEditor2App theApp;

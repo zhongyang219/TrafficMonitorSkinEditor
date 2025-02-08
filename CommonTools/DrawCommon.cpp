@@ -122,6 +122,11 @@ void CDrawCommon::FillRect(CRect rect, COLORREF color)
     m_pDC->FillSolidRect(rect, color);
 }
 
+int CDrawCommon::GetTextWidth(LPCTSTR lpszString)
+{
+    return m_pDC->GetTextExtent(lpszString).cx;
+}
+
 void DrawCommonHelper::ImageDrawAreaConvert(CSize image_size, CPoint& start_point, CSize& size, CDrawCommon::StretchMode stretch_mode)
 {
     if (size.cx == 0 || size.cy == 0)       //如果指定的size为0，则使用位图的实际大小绘制

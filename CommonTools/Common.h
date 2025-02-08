@@ -8,7 +8,8 @@ enum class Alignment
 {
     LEFT,
     RIGHT,
-    CENTER
+    CENTER,
+    SIDE        //两端对齐
 };
 
 enum class CodeType

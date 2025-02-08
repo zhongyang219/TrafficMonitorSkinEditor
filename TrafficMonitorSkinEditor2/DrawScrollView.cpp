@@ -46,9 +46,44 @@ void DrawScrollView::OnDraw(CDC* pDC)
 {
     CDocument* pDoc = GetDocument();
     // TODO: 在此添加绘制代码
-
+    
     //设置图片位置
     CRect draw_rect{ m_start_point, m_size };
+    CDrawCommon drawer;
+    drawer.Create(pDC, nullptr);
+    //如果皮肤是png格式，绘制10x10的棋盘背景
+    if (m_skin != nullptr && m_skin->IsPNG())
+    {
+        int grid_size = theApp.DPI(10);
+
+        // 检查画布大小
+        int rows = draw_rect.Height() / grid_size + 1;  // 行数
+        int cols = draw_rect.Width() / grid_size + 1;  // 列数
+
+        // 遍历每个网格
+        for (int row = 0; row < rows; ++row)
+        {
+            for (int col = 0; col < cols; ++col)
+            {
+                // 计算当前网格的矩形区域
+                CRect rect(col * grid_size, row * grid_size,
+                    (col + 1) * grid_size, (row + 1) * grid_size);
+
+                // 判断当前网格颜色（交替填充）
+                COLORREF color = ((row + col) % 2 == 0) ? RGB(204, 204, 204) : RGB(254, 254, 254);
+
+                // 填充矩形
+                drawer.FillRect(rect, color);
+            }
+        }
+    }
+    //绘制纯色背景
+    else
+    {
+        drawer.FillRect(draw_rect, GetSysColor(COLOR_WINDOW));
+    }
+
+    //绘制预览图
     if (m_skin != nullptr)
         m_skin->DrawPreview(pDC, draw_rect);
 }

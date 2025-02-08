@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "IniHelper.h"
 
-
 CIniHelper::CIniHelper(const wstring& file_path)
 {
     m_file_path = file_path;

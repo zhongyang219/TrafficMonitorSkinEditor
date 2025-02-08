@@ -206,6 +206,7 @@
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="CommonTools.cpp" />
     <ClCompile Include="CVariant.cpp" />
+    <ClCompile Include="DisplayItem.cpp" />
     <ClCompile Include="DrawCommon.cpp" />
     <ClCompile Include="DrawCommonEx.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="CommonData.h" />
     <ClInclude Include="CommonTools.h" />
     <ClInclude Include="CVariant.h" />
+    <ClInclude Include="DisplayItem.h" />
     <ClInclude Include="DrawCommon.h" />
     <ClInclude Include="DrawCommonEx.h" />
     <ClInclude Include="FilePathHelper.h" />

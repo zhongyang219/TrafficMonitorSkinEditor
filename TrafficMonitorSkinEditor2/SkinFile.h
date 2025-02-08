@@ -1,8 +1,12 @@
 ﻿#pragma once
 #include <vector>
 #include "../CommonTools/Common.h"
-#include "../CommonTools/CommonData.h"
 #include "tinyxml2/tinyxml2.h"
+#include <gdiplus.h>
+#include "../CommonTools/DisplayItem.h"
+#include "../CommonTools/CommonData.h"
+
+class CDrawCommon;
 
 class CSkinFile
 {
@@ -50,8 +54,8 @@ public:
     {
         int width{};        //宽度
         int height{};       //高度
-        std::map<DisplayItem, LayoutItem> layout_items; //每一项的布局信息
-        LayoutItem GetItem(DisplayItem display_item) const
+        std::map<CommonDisplayItem, LayoutItem> layout_items; //每一项的布局信息
+        LayoutItem GetItem(CommonDisplayItem display_item) const
         {
             auto iter = layout_items.find(display_item);
             if (iter != layout_items.end())
@@ -90,19 +94,13 @@ public:
     const CImage& GetBackgroundL() const { return m_background_l; }
     const CImage& GetBackgroundS() const { return m_background_s; }
 
+    bool IsPNG() const { return m_is_png; }
     //绘制预览图
     //pDC: 绘图的CDC
     //rect: 绘图区域
     void DrawPreview(CDC* pDC, CRect rect);
 
-    ////绘制主界面（勾选“显示更多信息”）
-    //void DrawInfoL(CDC* pDC, CFont& font);
-
-    ////绘制主界面（不勾选“显示更多信息”）
-    //void DrawInfoS(CDC* pDC, CFont& font);
-
     static std::string GetDisplayItemXmlNodeName(DisplayItem display_item);
-
     static std::wstring GetDefaultDisplayText(DisplayItem display_item);
 
 private:
@@ -110,16 +108,32 @@ private:
     void LoadFromIni(const std::wstring& file_path);     //从ini文件读取皮肤数据（用于兼容旧版皮肤）
 
     void ParseSkinData(tinyxml2::XMLDocument& doc);     //从xml文档解析皮肤数据
+    CSkinFile::Layout LayoutFromXmlNode(tinyxml2::XMLElement* ele);
 
-    //void DrawInfo(CDC* pDC, bool show_more_info, CFont& font);
+    struct DrawStr
+    {
+        CString label;
+        CString value;
+        CString GetStr() const
+        {
+            return label + value;
+        }
+    };
+
+    static void DrawSkinText(CDrawCommon& drawer, DrawStr draw_str, CRect rect, COLORREF color, Alignment align);
+
+    std::set<CommonDisplayItem> AllDisplayItemsWithPlugins() const;
 
 private:
     SkinInfo m_skin_info;
     LayoutInfo m_layout_info;
     PreviewInfo m_preview_info;
+    std::map<std::string, std::string> m_plugin_map;  //插件名称与xml节点名称的映射关系。key是xml节点名称，value是插件ID
 
     CFont m_font;
     CImage m_background_s;
     CImage m_background_l;
-
+    bool m_is_png{};
+    Gdiplus::Image* m_background_png_s{};
+    Gdiplus::Image* m_background_png_l{};
 };

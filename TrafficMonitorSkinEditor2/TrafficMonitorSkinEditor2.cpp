@@ -82,6 +82,10 @@ BOOL CTrafficMonitorSkinEditor2App::InitInstance()
 #endif
     SetRegistryKey(reg_key);
 
+    //初始化GDI+
+    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+    GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
+
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
 
     CTrafficMonitorSkinEditor2Dlg dlg;
@@ -116,4 +120,13 @@ BOOL CTrafficMonitorSkinEditor2App::InitInstance()
     // 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
     //  而不是启动应用程序的消息泵。
     return FALSE;
+}
+
+
+int CTrafficMonitorSkinEditor2App::ExitInstance()
+{
+    // 释放GDI+
+    Gdiplus::GdiplusShutdown(m_gdiplusToken);
+
+    return CWinApp::ExitInstance();
 }

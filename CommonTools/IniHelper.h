@@ -6,6 +6,8 @@
 #include <CommonToolsGloble.h>
 #include "CommonData.h"
 #include "Common.h"
+#include <map>
+#include "DisplayItem.h"
 
 class CCOMMONTOOLS_EXPORT CIniHelper
 {
