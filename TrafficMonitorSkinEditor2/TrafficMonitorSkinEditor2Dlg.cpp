@@ -235,6 +235,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_WM_CLOSE()
     ON_COMMAND(ID_FILE_RELOAD, &CTrafficMonitorSkinEditor2Dlg::OnFileReload)
     ON_COMMAND(ID_FILE_BROWSE, &CTrafficMonitorSkinEditor2Dlg::OnFileBrowse)
+    ON_COMMAND(ID_EDIT_INSERT_COLOR, &CTrafficMonitorSkinEditor2Dlg::OnEditInsertColor)
 END_MESSAGE_MAP()
 
 
@@ -644,4 +645,16 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileBrowse()
     CString str;
     str.Format(_T("/select,\"%s\""), m_file_path.c_str());
     ShellExecute(NULL, _T("open"), _T("explorer"), str, NULL, SW_SHOWNORMAL);
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnEditInsertColor()
+{
+    COLORREF color{};
+    CColorDialog color_dlg(color, 0, this);
+    if (color_dlg.DoModal() == IDOK)
+    {
+        color = color_dlg.GetColor();
+        m_view->Paste(std::to_string(static_cast<int>(color)));
+    }
 }

@@ -87,4 +87,5 @@ public:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     afx_msg void OnFileReload();
     afx_msg void OnFileBrowse();
+    afx_msg void OnEditInsertColor();
 };
