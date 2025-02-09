@@ -49,6 +49,7 @@ protected:
     CSkinFile m_skin;
     CScintillaEditView* m_view;     //Scintilla编辑控件
     CSize m_window_size{ -1, -1 };
+    int m_splitter_pos{ -1 };       //分隔条的水平位置
 
     bool m_word_wrap{};		//是否自动换行
     CString m_font_name;	//字体名称
@@ -88,4 +89,8 @@ public:
     afx_msg void OnFileReload();
     afx_msg void OnFileBrowse();
     afx_msg void OnEditInsertColor();
+protected:
+    afx_msg LRESULT OnSplitterChanged(WPARAM wParam, LPARAM lParam);
+public:
+    afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 };

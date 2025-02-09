@@ -38,7 +38,8 @@ void CTrafficMonitorSkinEditor2Dlg::DoDataExchange(CDataExchange* pDX)
 CRect CTrafficMonitorSkinEditor2Dlg::CalculateScrollViewRect(int cx, int cy)
 {
     CSize scroll_view_size;
-    CPoint start_point{ cx / 2 + MARGIN, MARGIN /*+ TOOLBAR_HEIGHT*/ };
+    int splitter_x_pos = m_splitter_pos > 0 ? m_splitter_pos : cx / 2;
+    CPoint start_point{ splitter_x_pos + MARGIN, MARGIN /*+ TOOLBAR_HEIGHT*/ };
     scroll_view_size.cx = cx - start_point.x - MARGIN;
     scroll_view_size.cy = cy - start_point.y - MARGIN;
     return CRect{ start_point, scroll_view_size };
@@ -48,7 +49,8 @@ CRect CTrafficMonitorSkinEditor2Dlg::CalculateEditCtrlRect(int cx, int cy)
 {
     CSize edit_size;
     CPoint start_point{ 0, 0 /*+ TOOLBAR_HEIGHT*/ };
-    edit_size.cx = cx / 2;
+    int splitter_x_pos = m_splitter_pos > 0 ? m_splitter_pos : cx / 2;
+    edit_size.cx = splitter_x_pos;
     edit_size.cy = cy;
     return CRect{ start_point, edit_size };
 }
@@ -56,7 +58,8 @@ CRect CTrafficMonitorSkinEditor2Dlg::CalculateEditCtrlRect(int cx, int cy)
 CRect CTrafficMonitorSkinEditor2Dlg::CalculateSplitterRect(int cx, int cy)
 {
     CSize splitter_size;
-    CPoint start_point{ cx / 2, MARGIN /*+ TOOLBAR_HEIGHT*/ };
+    int splitter_x_pos = m_splitter_pos > 0 ? m_splitter_pos : cx / 2;
+    CPoint start_point{ splitter_x_pos, MARGIN /*+ TOOLBAR_HEIGHT*/ };
     splitter_size.cx = MARGIN;
     splitter_size.cy = cy - start_point.y - MARGIN;
     return CRect{ start_point, splitter_size };
@@ -125,7 +128,14 @@ void CTrafficMonitorSkinEditor2Dlg::LoadConfig()
 {
     m_window_size.cx = theApp.GetProfileInt(_T("window_size"), _T("_width"), -1);
     m_window_size.cy = theApp.GetProfileInt(_T("window_size"), _T("_height"), -1);
-    
+    m_splitter_pos = theApp.GetProfileInt(_T("window_size"), _T("splitter_pos"), -1);
+    const int MIN_PANEL_WIDTH = theApp.DPI(100);        //左右两个面板的最小宽度
+    //确保分割条的位置不会使左右两个面板的宽度小于最小宽度
+    if (m_splitter_pos < MIN_PANEL_WIDTH)
+        m_splitter_pos = MIN_PANEL_WIDTH;
+    if (m_splitter_pos > m_window_size.cx - MARGIN - MIN_PANEL_WIDTH)
+        m_splitter_pos = m_window_size.cx - MARGIN - MIN_PANEL_WIDTH;
+
     m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 0) != 0);
     m_font_name = theApp.GetProfileString(_T("config"), _T("font_name"), CCommon::LoadText(IDS_DEFAULT_FONT));
     m_font_size = theApp.GetProfileInt(_T("config"), _T("font_size"), 9);
@@ -135,6 +145,7 @@ void CTrafficMonitorSkinEditor2Dlg::SaveConfig()
 {
     theApp.WriteProfileInt(_T("window_size"), _T("_width"), m_window_size.cx);
     theApp.WriteProfileInt(_T("window_size"), _T("_height"), m_window_size.cy);
+    theApp.WriteProfileInt(_T("window_size"), _T("splitter_pos"), m_splitter_pos);
     
     theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
     theApp.WriteProfileString(_T("config"), _T("font_name"), m_font_name);
@@ -236,6 +247,8 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_COMMAND(ID_FILE_RELOAD, &CTrafficMonitorSkinEditor2Dlg::OnFileReload)
     ON_COMMAND(ID_FILE_BROWSE, &CTrafficMonitorSkinEditor2Dlg::OnFileBrowse)
     ON_COMMAND(ID_EDIT_INSERT_COLOR, &CTrafficMonitorSkinEditor2Dlg::OnEditInsertColor)
+    ON_MESSAGE(WM_SPLITTER_CHANGED, &CTrafficMonitorSkinEditor2Dlg::OnSplitterChanged)
+    ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 
@@ -423,7 +436,6 @@ void CTrafficMonitorSkinEditor2Dlg::OnSize(UINT nType, int cx, int cy)
         {
             m_splitter_ctrl.GetWindowRect(splitter_rect);
             ScreenToClient(splitter_rect);
-            int a = 0;
         }
 
         if (m_skin_view != nullptr && !splitter_rect.IsRectEmpty())
@@ -657,4 +669,28 @@ void CTrafficMonitorSkinEditor2Dlg::OnEditInsertColor()
         color = color_dlg.GetColor();
         m_view->Paste(std::to_string(static_cast<int>(color)));
     }
+}
+
+
+afx_msg LRESULT CTrafficMonitorSkinEditor2Dlg::OnSplitterChanged(WPARAM wParam, LPARAM lParam)
+{
+    if ((CHorizontalSplitter*)wParam == &m_splitter_ctrl)
+    {
+        CRect* pRect = (CRect*)lParam;
+        if (pRect != nullptr)
+        {
+            //分隔条位置改变时保存分隔条的位置
+            m_splitter_pos = pRect->left;
+        }
+    }
+    return 0;
+}
+
+
+void CTrafficMonitorSkinEditor2Dlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+    lpMMI->ptMinTrackSize.x = theApp.DPI(400);		//设置最小宽度
+    lpMMI->ptMinTrackSize.y = theApp.DPI(200);		//设置最小高度
+
+    CDialog::OnGetMinMaxInfo(lpMMI);
 }

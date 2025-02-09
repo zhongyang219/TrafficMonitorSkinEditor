@@ -222,6 +222,10 @@ void CHorizontalSplitter::OnLButtonUp(UINT nFlags, CPoint point)
             m_pAdjLayoutFunc(m_rcOldRect);
         else
             AdjustLayout();
+
+        CWnd* pWnd = AfxGetMainWnd();
+        if (pWnd != nullptr)
+            pWnd->SendMessage(WM_SPLITTER_CHANGED, (WPARAM)this, (LPARAM)&m_rcOldRect);
     }
     ::ClipCursor(NULL);
 }

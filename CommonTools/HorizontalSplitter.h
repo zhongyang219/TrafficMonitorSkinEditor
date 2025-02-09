@@ -9,6 +9,8 @@
 //rect 分割条的矩形区域
 typedef void(*pfAdjustLayout)(CRect rect);
 
+#define WM_SPLITTER_CHANGED (WM_USER+220)
+
 class CCOMMONTOOLS_EXPORT CHorizontalSplitter : public CStatic
 {
 	DECLARE_DYNAMIC(CHorizontalSplitter)
