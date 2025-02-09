@@ -96,7 +96,7 @@ void DrawScrollView::OnDraw(CDC* pDC)
 #ifdef _DEBUG
 void DrawScrollView::AssertValid() const
 {
-    CScrollView::AssertValid();
+    //CScrollView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
@@ -136,6 +136,7 @@ void DrawScrollView::UpdateSkin(const wchar_t* xml_contents)
     if (m_skin != nullptr)
     {
         m_skin->LoadFromString(xml_contents);
+        SetSize(m_skin->GetPreviewInfo().width, m_skin->GetPreviewInfo().height);
         Invalidate();
     }
 }

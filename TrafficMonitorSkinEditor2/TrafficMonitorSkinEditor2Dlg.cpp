@@ -74,7 +74,6 @@ void CTrafficMonitorSkinEditor2Dlg::LoadSkin()
     m_view->SetEolMode(eol_mode);
 
     m_view->SetLexerXml();
-    m_skin_view->SetSkinFile(&m_skin);
     m_skin_view->Invalidate();
 }
 
@@ -157,7 +156,6 @@ bool CTrafficMonitorSkinEditor2Dlg::SaveFile(const std::wstring& file_path)
 
         ////保存后刷新预览图
         //m_skin.Load(file_path);
-        //m_skin_view->SetSkinFile(&m_skin);
         //m_skin_view->Invalidate();
         return true;
     }
@@ -290,6 +288,7 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnInitDialog()
     CRect scroll_view_rect = CalculateScrollViewRect(client_rect.Width(), client_rect.Height());
     m_skin_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, scroll_view_rect, this, 3000);
     m_skin_view->InitialUpdate();
+    m_skin_view->SetSkinFile(&m_skin);
 
     // 使用CreateView创建的视图不会自动显示并且激活，需要人工操作
     m_skin_view->ShowWindow(SW_SHOW);
@@ -308,6 +307,13 @@ BOOL CTrafficMonitorSkinEditor2Dlg::OnInitDialog()
 
     //设置制表符宽度
     m_view->SetTabSize(4);
+
+    //获取皮肤模板
+    CString skin_template = CCommon::GetTextResource(IDR_SKIN_TEMPLATE, 1);
+    m_view->SetTextW(skin_template.GetString());
+    m_text_changed = true;
+    m_view->EmptyUndoBuffer();
+    m_view->SetLexerXml();
 
     SetTitle();
 
@@ -471,9 +477,9 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
     //获取皮肤模板
     CString skin_template = CCommon::GetTextResource(IDR_SKIN_TEMPLATE, 1);
     m_view->SetTextW(skin_template.GetString());
+    m_text_changed = true;
     m_view->EmptyUndoBuffer();
     m_view->SetLexerXml();
-    m_skin_view->SetSkinFile(&m_skin);
     m_skin_view->Invalidate();
 
     SetTitle();

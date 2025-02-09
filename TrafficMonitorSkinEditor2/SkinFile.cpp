@@ -152,6 +152,16 @@ void CSkinFile::LoadFromString(const std::wstring& file_contents)
     {
         ParseSkinData(doc);
     }
+    static FontInfo last_font_info;
+    if (last_font_info != m_skin_info.font_info)
+    {
+        if (m_font.m_hObject)
+            m_font.DeleteObject();
+
+        //创建字体对象
+        m_skin_info.font_info.Create(m_font);
+    }
+    last_font_info = m_skin_info.font_info;
 }
 
 void CSkinFile::Clear()
@@ -165,6 +175,7 @@ void CSkinFile::Clear()
     m_background_s.Destroy();
     SAFE_DELETE(m_background_png_s);
     SAFE_DELETE(m_background_png_l);
+    m_is_png = false;
 }
 
 void CSkinFile::LoadFromXml(const std::wstring& file_path)

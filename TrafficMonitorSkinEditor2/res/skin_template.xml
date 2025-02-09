@@ -25,7 +25,7 @@
 			<cpu x="6" y="22" width="108" align="0" show="1"/>
 			<memory x="114" y="22" width="110" align="0" show="1"/>
 		</layout_l>
-		<layout_s width="232" height="50">
+		<layout_s width="220" height="28">
 			<up x="6" y="4" width="108" align="0" show="1"/>
 			<down x="114" y="4" width="110" align="0" show="1"/>
 		</layout_s>
