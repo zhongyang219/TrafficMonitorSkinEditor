@@ -18,6 +18,7 @@ public:
     void Load(const std::wstring& file_path);
 
     void LoadFromString(const std::wstring& file_contents);
+    void Clear();
 
     //皮肤信息
     struct SkinInfo

@@ -466,7 +466,7 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
         return;
 
     m_file_path.clear();
-    m_skin.LoadFromString(std::wstring());
+    m_skin.Clear();
     m_view->SetTextW(std::wstring());
     m_view->EmptyUndoBuffer();
     m_view->SetLexerXml();

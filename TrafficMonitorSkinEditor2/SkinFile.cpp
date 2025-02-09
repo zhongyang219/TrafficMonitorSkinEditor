@@ -154,6 +154,19 @@ void CSkinFile::LoadFromString(const std::wstring& file_contents)
     }
 }
 
+void CSkinFile::Clear()
+{
+    m_skin_info = SkinInfo();
+    m_layout_info = LayoutInfo();
+    m_preview_info = PreviewInfo();
+    m_plugin_map.clear();
+
+    m_background_l.Destroy();
+    m_background_s.Destroy();
+    SAFE_DELETE(m_background_png_s);
+    SAFE_DELETE(m_background_png_l);
+}
+
 void CSkinFile::LoadFromXml(const std::wstring& file_path)
 {
     m_skin_info = SkinInfo();

@@ -47,6 +47,9 @@ void DrawScrollView::OnDraw(CDC* pDC)
     CDocument* pDoc = GetDocument();
     // TODO: 在此添加绘制代码
     
+    if (m_size.cx <= 0 || m_size.cy <= 0)
+        return;
+
     //设置图片位置
     CRect draw_rect{ m_start_point, m_size };
     CDrawCommon drawer;

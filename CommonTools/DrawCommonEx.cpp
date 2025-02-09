@@ -33,9 +33,12 @@ void CDrawCommonEx::SetFont(CFont * pFont)
 
 void CDrawCommonEx::DrawImage(Gdiplus::Image* pImage, CPoint start_point, CSize size, CDrawCommon::StretchMode stretch_mode)
 {
-    m_pGraphics->SetInterpolationMode(Gdiplus::InterpolationMode::InterpolationModeHighQuality);
-    DrawCommonHelper::ImageDrawAreaConvert(CSize(pImage->GetWidth(), pImage->GetHeight()), start_point, size, stretch_mode);
-    m_pGraphics->DrawImage(pImage, INT(start_point.x), INT(start_point.y), INT(size.cx), INT(size.cy));
+    if (pImage != nullptr)
+    {
+        m_pGraphics->SetInterpolationMode(Gdiplus::InterpolationMode::InterpolationModeHighQuality);
+        DrawCommonHelper::ImageDrawAreaConvert(CSize(pImage->GetWidth(), pImage->GetHeight()), start_point, size, stretch_mode);
+        m_pGraphics->DrawImage(pImage, INT(start_point.x), INT(start_point.y), INT(size.cx), INT(size.cy));
+    }
 }
 
 void CDrawCommonEx::SetBackColor(COLORREF back_color, BYTE alpha)
