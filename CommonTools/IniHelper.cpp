@@ -202,15 +202,16 @@ void CIniHelper::LoadMainWndColors(const wchar_t* AppName, const wchar_t* KeyNam
     std::vector<wstring> split_result;
     CCommon::StringSplit(str, L',', split_result);
     size_t index = 0;
-    for (auto iter = AllDisplayItems.begin(); iter != AllDisplayItems.end(); ++iter)
+    for (int i = 0; i < TDI_MAX; i++)
     {
+        DisplayItem display_item = static_cast<DisplayItem>(i);
         if (index < split_result.size())
         {
-            text_colors[*iter] = _wtoi(split_result[index].c_str());
+            text_colors[display_item] = _wtoi(split_result[index].c_str());
         }
         else
         {
-            text_colors[*iter] = default_color;
+            text_colors[display_item] = default_color;
         }
         index++;
     }

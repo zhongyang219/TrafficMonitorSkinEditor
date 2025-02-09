@@ -38,8 +38,9 @@ CSkinFile::Layout CSkinFile::LayoutFromXmlNode(tinyxml2::XMLElement* ele)
     CTinyXml2Helper::IterateChildNode(ele, [&](tinyxml2::XMLElement* ele_layout_item) {
         std::string str_layout_item = CTinyXml2Helper::ElementName(ele_layout_item);
         bool item_found = false;
-        for (auto display_item : AllDisplayItems)
+        for (int i = 0; i < TDI_MAX; i++)
         {
+            DisplayItem display_item = static_cast<DisplayItem>(i);
             if (str_layout_item == CSkinFile::GetDisplayItemXmlNodeName(display_item))
             {
                 layout.layout_items[display_item] = LayoutItemFromXmlNode(ele_layout_item);
@@ -81,8 +82,9 @@ void CSkinFile::DrawSkinText(CDrawCommon& drawer, DrawStr draw_str, CRect rect, 
 std::set<CommonDisplayItem> CSkinFile::AllDisplayItemsWithPlugins() const
 {
     std::set<CommonDisplayItem> all_display_items;
-    for (const auto& display_item : AllDisplayItems)
+    for (int i = 0; i <TDI_MAX; i++)
     {
+        DisplayItem display_item = static_cast<DisplayItem>(i);
         all_display_items.insert(display_item);
     }
     for (const auto& display_item : m_plugin_map)
@@ -392,8 +394,9 @@ void CSkinFile::ParseSkinData(tinyxml2::XMLDocument& doc)
         std::string node_name = display_text_item.first;
         std::wstring item_text = display_text_item.second;
         //查找内建显示项目
-        for (auto display_item : AllDisplayItems)
+        for (int i = 0; i < TDI_MAX; i++)
         {
+            DisplayItem display_item = static_cast<DisplayItem>(i);
             if (node_name == CSkinFile::GetDisplayItemXmlNodeName(display_item))
             {
                 m_skin_info.display_text.Get(display_item) = item_text;
@@ -443,13 +446,11 @@ void CSkinFile::DrawPreview(CDC* pDC, CRect rect)
 
     //获取每个项目显示的文本
     std::map<DisplayItem, DrawStr> map_str;
-    for (auto iter = AllDisplayItems.begin(); iter != AllDisplayItems.end(); ++iter)
+    for (int i = 0; i < TDI_MAX; i++)
     {
-        //wstring disp_text = m_skin_info.display_text.Get(*iter);
-        //if (disp_text == NONE_STR)
-        //    disp_text = theApp.m_main_wnd_data.disp_str.Get(*iter);
+        DisplayItem display_item = static_cast<DisplayItem>(i);
         DrawStr draw_str;
-        switch (*iter)
+        switch (display_item)
         {
         case TDI_UP:
             draw_str.value = _T("88.8 KB/s");
@@ -479,11 +480,11 @@ void CSkinFile::DrawPreview(CDC* pDC, CRect rect)
             draw_str.value = _T("99");
             break;
         }
-        if (m_skin_info.display_text.Get(*iter) == NONE_STR)
-            m_skin_info.display_text.Get(*iter) = GetDefaultDisplayText(*iter);
+        if (m_skin_info.display_text.Get(display_item) == NONE_STR)
+            m_skin_info.display_text.Get(display_item) = GetDefaultDisplayText(display_item);
         if (!m_layout_info.no_label)
-            draw_str.label = m_skin_info.display_text.Get(*iter).c_str();
-        map_str[*iter] = draw_str;
+            draw_str.label = m_skin_info.display_text.Get(display_item).c_str();
+        map_str[display_item] = draw_str;
     }
 
     //获取文本颜色
