@@ -1,0 +1,37 @@
+<root>
+	<skin>
+		<text_color>0</text_color>
+		<specify_each_item_color>0</specify_each_item_color>
+		<skin_author></skin_author>
+		<font name="Microsoft YaHei" size="9" style="0"/>
+		<display_text>
+			<up>上传: </up>
+			<down>下载: </down>
+			<cpu>CPU: </cpu>
+			<memory>内存: </memory>
+			<gpu>显卡: </gpu>
+			<cpu_temperature></cpu_temperature>
+			<gpu_temperature></gpu_temperature>
+			<total_speed>↑↓: </total_speed>
+			<cpu_freq></cpu_freq>
+		</display_text>
+	</skin>
+	<plugin_map>
+	</plugin_map>
+	<layout text_height="20" no_label="0">
+		<layout_l width="220" height="43">
+			<up x="6" y="2" width="108" align="0" show="1"/>
+			<down x="114" y="2" width="110" align="0" show="1"/>
+			<cpu x="6" y="22" width="108" align="0" show="1"/>
+			<memory x="114" y="22" width="110" align="0" show="1"/>
+		</layout_l>
+		<layout_s width="232" height="50">
+			<up x="6" y="4" width="108" align="0" show="1"/>
+			<down x="114" y="4" width="110" align="0" show="1"/>
+		</layout_s>
+	</layout>
+	<preview width="238" height="116">
+		<l x="0" y="0"/>
+		<s x="0" y="47"/>
+	</preview>
+</root>

@@ -12,11 +12,11 @@
 #define IDS_SAVE_INQUERY_INFO2          105
 #define IDS_APP_NAME                    106
 #define IDS_NO_TITLE                    107
-#define IDS_STRING108                   108
 #define IDS_DLL_LOAD_FAILD_ERROR        108
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       130
 #define IDR_ACCELERATOR1                131
+#define IDR_SKIN_TEMPLATE               133
 #define IDC_HSPLITER_STATIC             1001
 #define IDC_VERSION_STATIC              1002
 #define IDC_GITHUB_SYSLINK              1038
@@ -35,7 +35,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         32788
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101

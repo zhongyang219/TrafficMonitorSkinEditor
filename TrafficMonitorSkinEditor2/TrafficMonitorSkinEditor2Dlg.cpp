@@ -467,7 +467,10 @@ void CTrafficMonitorSkinEditor2Dlg::OnFileNew()
 
     m_file_path.clear();
     m_skin.Clear();
-    m_view->SetTextW(std::wstring());
+
+    //获取皮肤模板
+    CString skin_template = CCommon::GetTextResource(IDR_SKIN_TEMPLATE, 1);
+    m_view->SetTextW(skin_template.GetString());
     m_view->EmptyUndoBuffer();
     m_view->SetLexerXml();
     m_skin_view->SetSkinFile(&m_skin);

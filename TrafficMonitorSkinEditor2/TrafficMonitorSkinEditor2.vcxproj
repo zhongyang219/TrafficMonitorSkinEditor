@@ -247,6 +247,9 @@
   <ItemGroup>
     <Image Include="res\TrafficMonitorSkinEditor2.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="res\skin_template.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
