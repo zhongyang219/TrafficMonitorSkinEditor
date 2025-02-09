@@ -89,6 +89,11 @@ BOOL CTrafficMonitorSkinEditor2App::InitInstance()
     GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
 
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
+    if (m_hScintillaModule == NULL)
+    {
+        AfxMessageBox(CCommon::LoadText(IDS_DLL_LOAD_FAILD_ERROR), MB_ICONERROR | MB_OK);
+        return FALSE;
+    }
 
     CTrafficMonitorSkinEditor2Dlg dlg;
     m_pMainWnd = &dlg;

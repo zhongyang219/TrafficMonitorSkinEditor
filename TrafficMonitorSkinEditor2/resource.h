@@ -12,6 +12,8 @@
 #define IDS_SAVE_INQUERY_INFO2          105
 #define IDS_APP_NAME                    106
 #define IDS_NO_TITLE                    107
+#define IDS_STRING108                   108
+#define IDS_DLL_LOAD_FAILD_ERROR        108
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       130
 #define IDR_ACCELERATOR1                131
