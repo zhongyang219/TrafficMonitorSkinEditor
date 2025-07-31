@@ -27,6 +27,7 @@ public:
     void DrawRectOutLine(CRect rect, COLORREF color, bool dot_line = false);    //绘制矩形边框。如果dot_line为true，则为虚线
 
     void SetDrawRect(CRect rect);
+    static void SetDrawRect(CDC* pDC, CRect rect);
 
     void DrawBitmap(CBitmap& bitmap, CPoint start_point, CSize size, StretchMode stretch_mode = StretchMode::STRETCH);
     void DrawBitmap(UINT bitmap_id, CPoint start_point, CSize size, StretchMode stretch_mode = StretchMode::STRETCH);
@@ -40,6 +41,45 @@ private:
     CDC* m_pDC{};       //用于绘图的CDC类的指针
     CWnd* m_pMainWnd{}; //绘图窗口的句柄
     CFont* m_pfont{};
+};
+
+//用于双缓冲绘图的类
+class CDrawDoubleBuffer
+{
+public:
+    CDrawDoubleBuffer(CDC* pDC, CRect rect)
+        : m_pDC(pDC), m_rect(rect)
+    {
+        if (m_pDC != nullptr)
+        {
+            m_memDC.CreateCompatibleDC(NULL);
+            m_memBitmap.CreateCompatibleBitmap(pDC, rect.Width(), rect.Height());
+            m_pOldBit = m_memDC.SelectObject(&m_memBitmap);
+        }
+    }
+
+    ~CDrawDoubleBuffer()
+    {
+        if (m_pDC != nullptr)
+        {
+            m_pDC->BitBlt(m_rect.left, m_rect.top, m_rect.Width(), m_rect.Height(), &m_memDC, 0, 0, SRCCOPY);
+            m_memDC.SelectObject(m_pOldBit);
+            m_memBitmap.DeleteObject();
+            m_memDC.DeleteDC();
+        }
+    }
+
+    CDC* GetMemDC()
+    {
+        return &m_memDC;
+    }
+
+private:
+    CDC* m_pDC;
+    CDC m_memDC;
+    CBitmap m_memBitmap;
+    CBitmap* m_pOldBit;
+    CRect m_rect;
 };
 
 namespace DrawCommonHelper

@@ -37,6 +37,9 @@
     <Filter Include="Editor\EditorHelper">
       <UniqueIdentifier>{ace00d38-0151-434a-ba18-f614f5c5cdc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="对话框">
+      <UniqueIdentifier>{eb0678be-e503-4285-8363-e44cae9c2801}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TrafficMonitorSkinEditor2.h">
@@ -81,7 +84,19 @@
     <ClInclude Include="define.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ColorSettingListCtrl.h">
+      <Filter>对话框</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWndColorDlg.h">
+      <Filter>对话框</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayItem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="AboutDlg.h">
+      <Filter>对话框</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +131,19 @@
     <ClCompile Include="EditorHelper.cpp">
       <Filter>Editor\EditorHelper</Filter>
     </ClCompile>
+    <ClCompile Include="ColorSettingListCtrl.cpp">
+      <Filter>对话框</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWndColorDlg.cpp">
+      <Filter>对话框</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="AboutDlg.cpp">
+      <Filter>对话框</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

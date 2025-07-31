@@ -20,6 +20,8 @@ public:
     enum { IDD = IDD_TRAFFICMONITORSKINEDITOR2_DIALOG };
 #endif
 
+    const CSkinFile& GetSkinFile() const;
+
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
     CRect CalculateScrollViewRect(int cx, int cy);
@@ -30,6 +32,13 @@ protected:
     void UpdateLineNumberWidth(bool update = false);
     bool SaveInquiry();	//询问用户是否保存，用户点击了取消后返回false，否则返回true
 
+    /**
+     * @brief   更改一个xml节点的值，如果节点不存在则在parent_node_name下面插入新的节点
+     * @param   node_name 节点的名称
+     * @param   value 节点的值
+     * @param   parent_node_name 父节点的名称（用于当节点不存在时确定插入的位置）
+     */
+    void ModifyXmlElementValue(const char* node_name, const char* value, const char* parent_node_name);
 
 private:
     void LoadConfig();
@@ -93,4 +102,7 @@ protected:
     afx_msg LRESULT OnSplitterChanged(WPARAM wParam, LPARAM lParam);
 public:
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+    afx_msg void OnEditSkinColor();
+    afx_msg void OnEditSpecifyEachItemColor();
+    afx_msg void OnEditSkinFont();
 };

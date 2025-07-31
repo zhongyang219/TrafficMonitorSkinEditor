@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "IniHelper.h"
+#define DEF_CH L'\"'        //写入和读取ini文件字符串时，在字符串前后添加的字符
 
 CIniHelper::CIniHelper(const wstring& file_path)
 {
@@ -191,43 +192,6 @@ void CIniHelper::LoadFontData(const wchar_t* AppName, FontInfo& font, const Font
     font.italic = style[1];
     font.underline = style[2];
     font.strike_out = style[3];
-}
-
-void CIniHelper::LoadMainWndColors(const wchar_t* AppName, const wchar_t* KeyName, std::map<DisplayItem, COLORREF>& text_colors, COLORREF default_color)
-{
-    CString default_str;
-    default_str.Format(_T("%d"), default_color);
-    wstring str;
-    str = _GetString(AppName, KeyName, default_str);
-    std::vector<wstring> split_result;
-    CCommon::StringSplit(str, L',', split_result);
-    size_t index = 0;
-    for (int i = 0; i < TDI_MAX; i++)
-    {
-        DisplayItem display_item = static_cast<DisplayItem>(i);
-        if (index < split_result.size())
-        {
-            text_colors[display_item] = _wtoi(split_result[index].c_str());
-        }
-        else
-        {
-            text_colors[display_item] = default_color;
-        }
-        index++;
-    }
-}
-
-void CIniHelper::SaveMainWndColors(const wchar_t* AppName, const wchar_t* KeyName, const std::map<DisplayItem, COLORREF>& text_colors)
-{
-    CString str;
-    for (auto iter = text_colors.begin(); iter != text_colors.end(); ++iter)
-    {
-        CString tmp;
-        tmp.Format(_T("%d,"), iter->second);
-        str += tmp;
-    }
-    _WriteString(AppName, KeyName, wstring(str));
-
 }
 
 void CIniHelper::_WriteString(const wchar_t* AppName, const wchar_t* KeyName, const wstring& str)

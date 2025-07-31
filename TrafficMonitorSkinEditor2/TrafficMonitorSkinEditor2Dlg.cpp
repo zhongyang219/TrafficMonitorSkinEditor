@@ -12,6 +12,8 @@
 #include "xmlMatchedTagsHighlighter/xmlMatchedTagsHighlighter.h"
 #include "EditorHelper.h"
 #include "AboutDlg.h"
+#include "MainWndColorDlg.h"
+#include <strsafe.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -27,6 +29,11 @@ CTrafficMonitorSkinEditor2Dlg::CTrafficMonitorSkinEditor2Dlg(CWnd* pParent /*=nu
     : CDialog(IDD_TRAFFICMONITORSKINEDITOR2_DIALOG, pParent)
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+}
+
+const CSkinFile& CTrafficMonitorSkinEditor2Dlg::GetSkinFile() const
+{
+    return m_skin;
 }
 
 void CTrafficMonitorSkinEditor2Dlg::DoDataExchange(CDataExchange* pDX)
@@ -122,6 +129,42 @@ bool CTrafficMonitorSkinEditor2Dlg::SaveInquiry()
         }
     }
     return true;
+}
+
+void CTrafficMonitorSkinEditor2Dlg::ModifyXmlElementValue(const char* node_name, const char* value, const char* parent_node_name)
+{
+    //查找标签位置
+    char label_start[256]{};
+    StringCchPrintfA(label_start, 256, "<%s>", node_name);
+    char label_end[256]{};
+    StringCchPrintfA(label_end, 256, "</%s>", node_name);
+
+    int start = m_view->Find(label_start, 0);
+    int end = m_view->Find(label_end, 0);
+    if (start >= 0 && end >= 0)
+    {
+        int label_start_length = strlen(label_start);
+        //选中标签的内容
+        m_view->SetSel(start + label_start_length, end);
+        //替换为新的值
+        m_view->ReplaceSelection(value);
+    }
+    //没有找到标签，插入标签
+    else
+    {
+        char label_parent[256]{};
+        StringCchPrintfA(label_parent, 256, "<%s>", parent_node_name);
+        int insert_pos = m_view->Find(label_parent, 0);
+        if (insert_pos >= 0)
+        {
+            int label_parent_length = strlen(label_parent);
+            insert_pos = m_view->Find("\n", insert_pos + label_parent_length) + 1;
+            char buff[256]{};
+            StringCchPrintfA(buff, 256, "\t\t<%s>%s</%s>\r\n", node_name, value, node_name);
+            m_view->InserText(buff, insert_pos);
+        }
+    }
+
 }
 
 void CTrafficMonitorSkinEditor2Dlg::LoadConfig()
@@ -249,6 +292,9 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_COMMAND(ID_EDIT_INSERT_COLOR, &CTrafficMonitorSkinEditor2Dlg::OnEditInsertColor)
     ON_MESSAGE(WM_SPLITTER_CHANGED, &CTrafficMonitorSkinEditor2Dlg::OnSplitterChanged)
     ON_WM_GETMINMAXINFO()
+    ON_COMMAND(ID_EDIT_SKIN_COLOR, &CTrafficMonitorSkinEditor2Dlg::OnEditSkinColor)
+    ON_COMMAND(ID_EDIT_SPECIFY_EACH_ITEM_COLOR, &CTrafficMonitorSkinEditor2Dlg::OnEditSpecifyEachItemColor)
+    ON_COMMAND(ID_EDIT_SKIN_FONT, &CTrafficMonitorSkinEditor2Dlg::OnEditSkinFont)
 END_MESSAGE_MAP()
 
 
@@ -574,7 +620,7 @@ void CTrafficMonitorSkinEditor2Dlg::OnEditWrap()
 void CTrafficMonitorSkinEditor2Dlg::OnEditFont()
 {
     LOGFONT lf{ 0 };
-    _tcscpy_s(lf.lfFaceName, LF_FACESIZE, m_font_name.GetString());	//将lf中的元素字体名设为“微软雅黑”
+    StringCchCopy(lf.lfFaceName, LF_FACESIZE, m_font_name.GetString());
     lf.lfHeight = theApp.FontSizeToLfHeight(m_font_size);
     CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
     if (IDOK == fontDlg.DoModal())     // 显示字体对话框
@@ -612,6 +658,7 @@ void CTrafficMonitorSkinEditor2Dlg::OnInitMenu(CMenu* pMenu)
     pMenu->EnableMenuItem(ID_FILE_BROWSE, m_file_path.empty() ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_FILE_RELOAD, m_file_path.empty() ? MF_GRAYED : MF_ENABLED);
 
+    pMenu->CheckMenuItem(ID_EDIT_SPECIFY_EACH_ITEM_COLOR, MF_BYCOMMAND | (m_skin.GetSkinInfo().specify_each_item_color ? MF_CHECKED : MF_UNCHECKED));
     pMenu->CheckMenuItem(ID_EDIT_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 }
 
@@ -693,4 +740,101 @@ void CTrafficMonitorSkinEditor2Dlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     lpMMI->ptMinTrackSize.y = theApp.DPI(200);		//设置最小高度
 
     CDialog::OnGetMinMaxInfo(lpMMI);
+}
+
+void CTrafficMonitorSkinEditor2Dlg::OnEditSkinColor()
+{
+    std::string colors_text;
+    if (m_skin.GetSkinInfo().specify_each_item_color)
+    {
+        std::set<CommonDisplayItem> skin_all_items;
+        m_skin.GetSkinDisplayItems(skin_all_items);
+        std::map<CommonDisplayItem, COLORREF> colors;
+        //获取皮肤的文字颜色
+        int i{};
+        for (const auto& item : skin_all_items)
+        {
+            colors[item] = m_skin.GetSkinInfo().TextColor(i);
+            i++;
+        }
+
+        CMainWndColorDlg dlg(colors);
+        if (dlg.DoModal() == IDOK)
+        {
+            const auto& new_colors = dlg.GetColors();
+            for (const auto& new_color : new_colors)
+            {
+                colors_text += std::to_string(new_color.second);
+                colors_text.push_back(',');
+            }
+            if (!colors_text.empty())
+                colors_text.pop_back();
+        }
+    }
+    else
+    {
+        COLORREF color = m_skin.GetSkinInfo().TextColor(0);
+        CColorDialog dlg(color, 0, this);
+        if (dlg.DoModal() == IDOK)
+        {
+            colors_text = std::to_string(dlg.GetColor());
+        }
+    }
+
+    if (!colors_text.empty())
+    {
+        ModifyXmlElementValue("text_color", colors_text.c_str(), "skin");
+    }
+}
+
+void CTrafficMonitorSkinEditor2Dlg::OnEditSpecifyEachItemColor()
+{
+    bool specify_each_item_color = !m_skin.GetSkinInfo().specify_each_item_color;
+    ModifyXmlElementValue("specify_each_item_color", std::to_string(specify_each_item_color).c_str(), "skin");
+}
+
+void CTrafficMonitorSkinEditor2Dlg::OnEditSkinFont()
+{
+    LOGFONT lf{ 0 };
+    StringCchCopy(lf.lfFaceName, LF_FACESIZE, m_skin.GetSkinInfo().font_info.name.GetString());
+    lf.lfHeight = theApp.FontSizeToLfHeight(m_skin.GetSkinInfo().font_info.size);
+    CFontDialog dlg(&lf);
+    if (dlg.DoModal() == IDOK)     // 显示字体对话框
+    {
+        //获取字体信息
+        std::string font_name = CCommon::UnicodeToStr(dlg.GetFaceName(), true);
+        int font_size = dlg.GetSize() / 10;
+        int font_style{};
+        if (dlg.IsBold())
+            font_style |= 1;
+        if (dlg.IsItalic())
+            font_style |= (1 << 1);
+        if (dlg.IsUnderline())
+            font_style |= (1 << 2);
+        if (dlg.IsStrikeOut())
+            font_style |= (1 << 3);
+        //生成xml字符串
+        char font_str[256]{};
+        StringCchPrintfA(font_str, 256, "<font name=\"%s\" size=\"%d\" style=\"%d\"/>\r\n", font_name.c_str(), font_size, font_style);
+        //查找font标签
+        int start = m_view->Find("<font", 0);
+        int end = m_view->Find("\n", start + 5) + 1;
+        if (start >= 0 && end >= 0)
+        {
+            m_view->SetSel(start, end);
+            m_view->ReplaceSelection(font_str);
+        }
+        else
+        {
+            //没有找到font标签，插入font标签
+            std::string insert_str = "\t\t";
+            insert_str += font_str;
+            int insert_pos = m_view->Find("<skin>", 0);
+            if (insert_pos >= 0)
+            {
+                insert_pos = m_view->Find("\n", insert_pos + 6) + 1;
+                m_view->InserText(insert_str.c_str(), insert_pos);
+            }
+        }
+    }
 }

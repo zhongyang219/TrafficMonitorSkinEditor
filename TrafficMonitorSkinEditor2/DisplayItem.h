@@ -2,7 +2,6 @@
 #include <set>
 #include <map>
 #include <string>
-#include <CommonToolsGloble.h>
 
 //显示的项目
 enum DisplayItem
@@ -24,7 +23,7 @@ enum DisplayItem
 };
 
 //显示的项目
-struct CCOMMONTOOLS_EXPORT CommonDisplayItem
+struct CommonDisplayItem
 {
     bool is_plugin{};           //是否为插件项目
     DisplayItem item_type{};    //内建的显示项目
@@ -36,11 +35,14 @@ struct CCOMMONTOOLS_EXPORT CommonDisplayItem
 
     bool operator<(const CommonDisplayItem&) const;
     bool operator==(const CommonDisplayItem&) const;
+
+    //获取显示项目的名称
+    CString GetItemName() const;
+
 };
 
-#define DEF_CH L'\"'        //写入和读取ini文件字符串时，在字符串前后添加的字符
 #define NONE_STR L"@@@"     //用于指定一个无效字符串
-struct CCOMMONTOOLS_EXPORT DispStrings      //显示的文本
+struct DispStrings      //显示的文本
 {
 private:
     std::map<CommonDisplayItem, std::wstring> map_str;

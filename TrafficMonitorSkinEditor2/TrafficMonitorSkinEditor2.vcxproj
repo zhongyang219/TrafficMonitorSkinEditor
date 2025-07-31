@@ -200,13 +200,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="ColorSettingListCtrl.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="DisplayItem.h" />
     <ClInclude Include="DrawScrollView.h" />
     <ClInclude Include="EditorHelper.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MainWndColorDlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScintillaEditView.h" />
+    <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="SkinFile.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TinyXml2Helper.h" />
@@ -217,8 +221,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
+    <ClCompile Include="ColorSettingListCtrl.cpp" />
+    <ClCompile Include="DisplayItem.cpp" />
     <ClCompile Include="DrawScrollView.cpp" />
     <ClCompile Include="EditorHelper.cpp" />
+    <ClCompile Include="MainWndColorDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -226,6 +233,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ScintillaEditView.cpp" />
+    <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="SkinFile.cpp" />
     <ClCompile Include="TinyXml2Helper.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp">

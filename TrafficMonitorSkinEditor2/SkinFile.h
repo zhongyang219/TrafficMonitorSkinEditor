@@ -3,7 +3,7 @@
 #include "../CommonTools/Common.h"
 #include "tinyxml2/tinyxml2.h"
 #include <gdiplus.h>
-#include "../CommonTools/DisplayItem.h"
+#include "DisplayItem.h"
 #include "../CommonTools/CommonData.h"
 
 class CDrawCommon;
@@ -103,6 +103,11 @@ public:
 
     static std::string GetDisplayItemXmlNodeName(DisplayItem display_item);
     static std::wstring GetDefaultDisplayText(DisplayItem display_item);
+
+    //获取此皮肤上所有显示项目
+    void GetSkinDisplayItems(std::set<CommonDisplayItem>& skin_all_items) const;
+
+    const std::map<std::string, std::string>& GetPluginMap() const;
 
 private:
     void LoadFromXml(const std::wstring& file_path);     //从xml文件读取皮肤数据

@@ -31,9 +31,6 @@
     <Filter Include="HorizontalSplitter">
       <UniqueIdentifier>{0698d1c6-69e4-4ecc-9c6d-dfd7efea576d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DisplayItem">
-      <UniqueIdentifier>{e254be46-ae8a-4f76-b407-665ae9efd7d5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommonTools.cpp">
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="HorizontalSplitter.cpp">
       <Filter>HorizontalSplitter</Filter>
-    </ClCompile>
-    <ClCompile Include="DisplayItem.cpp">
-      <Filter>DisplayItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +111,6 @@
     </ClInclude>
     <ClInclude Include="HorizontalSplitter.h">
       <Filter>HorizontalSplitter</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplayItem.h">
-      <Filter>DisplayItem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

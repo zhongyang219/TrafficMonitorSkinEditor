@@ -53,8 +53,9 @@ public:
     void SetFontFace(const wchar_t* font_face);
     void SetFontSize(int font_size);
     void SetTabSize(int tab_size);
-    void SetSel(int start, int end, const std::wstring& edit_str);        //设置选中范围（位置以字符为单位）
-    void GetSel(int& start, int& end);      //获取选中范围（位置以字符为单位）
+    void SetSelW(int start, int end, const std::wstring& edit_str);        //设置选中范围（位置以字符为单位）
+    void GetSelW(int& start, int& end);      //获取选中范围（位置以字符为单位）
+    void SetSel(int start, int end);
     void SetBackgroundColor(COLORREF color);
     void SetReadOnly(bool read_only);
     bool IsReadOnly();

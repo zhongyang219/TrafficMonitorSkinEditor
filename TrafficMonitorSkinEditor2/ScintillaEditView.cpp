@@ -156,7 +156,7 @@ void CScintillaEditView::SetTabSize(int tab_size)
     SendMessage(SCI_SETTABWIDTH, tab_size);
 }
 
-void CScintillaEditView::SetSel(int start, int end, const std::wstring& edit_str)
+void CScintillaEditView::SetSelW(int start, int end, const std::wstring& edit_str)
 {
     int byte_start = CharactorPosToBytePos(start, edit_str.c_str(), edit_str.size());
     int byte_end = CharactorPosToBytePos(end, edit_str.c_str(), edit_str.size());
@@ -168,7 +168,7 @@ void CScintillaEditView::SetSel(int start, int end, const std::wstring& edit_str
     SendMessage(SCI_SETSEL, byte_start, byte_end);
 }
 
-void CScintillaEditView::GetSel(int& start, int& end)
+void CScintillaEditView::GetSelW(int& start, int& end)
 {
     int byte_start = SendMessage(SCI_GETANCHOR);
     int byte_end = SendMessage(SCI_GETCURRENTPOS);
@@ -179,6 +179,11 @@ void CScintillaEditView::GetSel(int& start, int& end)
     start = BytePosToCharactorPos(byte_start, str, size);
     end = BytePosToCharactorPos(byte_end, str, size);
     delete[] str;
+}
+
+void CScintillaEditView::SetSel(int start, int end)
+{
+    SendMessage(SCI_SETSEL, start, end);
 }
 
 void CScintillaEditView::SetBackgroundColor(COLORREF color)
