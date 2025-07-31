@@ -14,6 +14,7 @@
 #include "AboutDlg.h"
 #include "MainWndColorDlg.h"
 #include <strsafe.h>
+#include "EditPluginMapDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -295,6 +296,7 @@ BEGIN_MESSAGE_MAP(CTrafficMonitorSkinEditor2Dlg, CDialog)
     ON_COMMAND(ID_EDIT_SKIN_COLOR, &CTrafficMonitorSkinEditor2Dlg::OnEditSkinColor)
     ON_COMMAND(ID_EDIT_SPECIFY_EACH_ITEM_COLOR, &CTrafficMonitorSkinEditor2Dlg::OnEditSpecifyEachItemColor)
     ON_COMMAND(ID_EDIT_SKIN_FONT, &CTrafficMonitorSkinEditor2Dlg::OnEditSkinFont)
+    ON_COMMAND(ID_EDIT_PLUGIN_MAP, &CTrafficMonitorSkinEditor2Dlg::OnEditPluginMap)
 END_MESSAGE_MAP()
 
 
@@ -834,6 +836,48 @@ void CTrafficMonitorSkinEditor2Dlg::OnEditSkinFont()
             {
                 insert_pos = m_view->Find("\n", insert_pos + 6) + 1;
                 m_view->InserText(insert_str.c_str(), insert_pos);
+            }
+        }
+    }
+}
+
+void CTrafficMonitorSkinEditor2Dlg::OnEditPluginMap()
+{
+    CEditPluginMapDlg dlg(m_skin.GetPluginMap(), this);
+    if (dlg.DoModal())
+    {
+        auto plugin_map = dlg.GetPluginMap();
+        //生成xml字符串
+        std::string xml_str;
+        for (const auto& plugin_item : plugin_map)
+        {
+            char buff[256]{};
+            StringCchPrintfA(buff, 256, "\t\t<%s>%s</%s>\r\n", plugin_item.first.c_str(), plugin_item.second.c_str(), plugin_item.first.c_str());
+            xml_str += buff;
+        }
+        //查找plugin_map标签
+        int start = m_view->Find("<plugin_map>", 0);
+        if (start >= 0)
+            start = m_view->Find("\n", start + 12) + 1;
+        int end = m_view->Find("</plugin_map>", start);
+        if (end >= 0)
+            end = m_view->Find("\n", end, 0) + 1;
+        
+        if (start >= 0 && end >= 0)
+        {
+            m_view->SetSel(start, end);
+            m_view->ReplaceSelection(xml_str);
+        }
+        else
+        {
+            //没有找到plugin_map标签
+            xml_str = "\t<plugin_map>\r\n" + xml_str;
+            xml_str += "\t</plugin_map>\r\n";
+            int insert_pos = m_view->Find("</root>", 0);
+            if (insert_pos >= 0)
+            {
+                insert_pos = m_view->Find("\n", insert_pos, 0) + 1;
+                m_view->InserText(xml_str, insert_pos);
             }
         }
     }

@@ -31,6 +31,7 @@ void CMainWndColorDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CMainWndColorDlg, CDialog)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMainWndColorDlg::OnNMDblclkList1)
+    ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 
@@ -43,8 +44,13 @@ BOOL CMainWndColorDlg::OnInitDialog()
 
     SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), FALSE);		// 设置小图标
 
-    //初始化列表控件
+    //获取初始时窗口的大小
     CRect rect;
+    GetWindowRect(rect);
+    m_min_size.cx = rect.Width();
+    m_min_size.cy = rect.Height();
+
+    //初始化列表控件
     m_list_ctrl.GetClientRect(rect);
     m_list_ctrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
     int width0, width1;
@@ -95,4 +101,13 @@ void CMainWndColorDlg::OnNMDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     *pResult = 0;
+}
+
+void CMainWndColorDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+    //限制窗口最小大小
+    lpMMI->ptMinTrackSize.x = m_min_size.cx;        //设置最小宽度
+    lpMMI->ptMinTrackSize.y = m_min_size.cy;        //设置最小高度
+
+    CDialog::OnGetMinMaxInfo(lpMMI);
 }

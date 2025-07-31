@@ -51,12 +51,12 @@ private:
 
     // 实现
 protected:
-    HICON m_hIcon;
-    HACCEL m_hAccel;
+    HICON m_hIcon{};
+    HACCEL m_hAccel{};
     DrawScrollView* m_skin_view{};
     std::wstring m_file_path;
     CSkinFile m_skin;
-    CScintillaEditView* m_view;     //Scintilla编辑控件
+    CScintillaEditView* m_view{};     //Scintilla编辑控件
     CSize m_window_size{ -1, -1 };
     int m_splitter_pos{ -1 };       //分隔条的水平位置
 
@@ -105,4 +105,5 @@ public:
     afx_msg void OnEditSkinColor();
     afx_msg void OnEditSpecifyEachItemColor();
     afx_msg void OnEditSkinFont();
+    afx_msg void OnEditPluginMap();
 };

@@ -23,6 +23,7 @@ public:
 protected:
 	std::map<CommonDisplayItem, COLORREF> m_colors;
 	CColorSettingListCtrl m_list_ctrl;
+	CSize m_min_size;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -31,4 +32,5 @@ protected:
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnNMDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 };

@@ -99,6 +99,12 @@
     <ClInclude Include="SettingsHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="EditableListCtrl.h">
+      <Filter>对话框</Filter>
+    </ClInclude>
+    <ClInclude Include="EditPluginMapDlg.h">
+      <Filter>对话框</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrafficMonitorSkinEditor2.cpp">
@@ -145,6 +151,12 @@
     </ClCompile>
     <ClCompile Include="SettingsHelper.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EditableListCtrl.cpp">
+      <Filter>对话框</Filter>
+    </ClCompile>
+    <ClCompile Include="EditPluginMapDlg.cpp">
+      <Filter>对话框</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -204,7 +204,9 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="DisplayItem.h" />
     <ClInclude Include="DrawScrollView.h" />
+    <ClInclude Include="EditableListCtrl.h" />
     <ClInclude Include="EditorHelper.h" />
+    <ClInclude Include="EditPluginMapDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainWndColorDlg.h" />
     <ClInclude Include="pch.h" />
@@ -224,7 +226,9 @@
     <ClCompile Include="ColorSettingListCtrl.cpp" />
     <ClCompile Include="DisplayItem.cpp" />
     <ClCompile Include="DrawScrollView.cpp" />
+    <ClCompile Include="EditableListCtrl.cpp" />
     <ClCompile Include="EditorHelper.cpp" />
+    <ClCompile Include="EditPluginMapDlg.cpp" />
     <ClCompile Include="MainWndColorDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
